@@ -1,0 +1,11 @@
+<ul materialize="collapsible" class="collapsible" data-collapsible="accordion">
+  <li *ngFor="let link of links" class="row">
+    <a class="collapsible-header">{{link.label}}<i class="material-icons left">{{link.icon}}</i><i *ngIf="link.child.length" class="material-icons right">arrow_drop_down</i>
+    </a>
+    <ul class="collapsible-body">
+      <li *ngFor="let child of link.child" >
+        <a routerLink="{{child.url}}">{{child.label}}</a>
+      </li>
+    </ul>
+  </li>
+</ul>
