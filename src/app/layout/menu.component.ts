@@ -13,26 +13,26 @@ import { UserService } from '../users/user.service';
 export class MenuComponent {
   links = [
     {url: '/inicio', label: 'Início', icon: 'home', child: []},
-    {url: '/administracao', label: 'Administração', icon: 'group', child: [
-            {url: '/rubricas', label: 'Rubricas', icon: ''},
-            {url: '/usuarios', label: 'Usuários', icon: ''},
-            {url: '/cargos', label: 'Cargos', icon: ''}
+    {url: '#', label: 'Administração', icon: 'group', child: [
+            {url: '/rubricas', label: 'Rubricas', icon: 'assignment'},
+            {url: '/usuarios', label: 'Usuários', icon: 'people'},
+            {url: '/cargos', label: 'Cargos', icon: 'portrait'}
           ]
     },
-    {url: '/gerenciar', label: 'Gerenciar Contrato', icon: 'storage', child: [
-            {url: '/contratos', label: 'Contratos', icon: ''},
-            {url: '/percentuais', label: 'Percentuais', icon: ''},
-            {url: '/cargosContrato', label: 'Cargos do Contrato', icon: ''},
-            {url: '/convencoes', label: 'Convenções Coletivas', icon: ''},
-            {url: '/funcionarios', label: 'Funcionários', icon: ''},
-            {url: '/cargosFuncionarios', label: 'Cargos dos Funcionários', icon: ''},
-            {url: '/vigencias', label: 'Vigências dos Contratos', icon: ''}
+    {url: '#', label: 'Gerenciar Contrato', icon: 'storage', child: [
+            {url: '/contratos', label: 'Contratos', icon: 'description'},
+            {url: '/percentuais', label: 'Percentuais', icon: 'iso'},
+            {url: '/cargosContrato', label: 'Cargos do Contrato', icon: 'business_center'},
+            {url: '/convencoes', label: 'Convenções Coletivas', icon: 'trending_up'},
+            {url: '/funcionarios', label: 'Funcionários', icon: 'assignment_ind'},
+            {url: '/cargosFuncionarios', label: 'Cargos dos Funcionários', icon: 'folder_shared'},
+            {url: '/vigencias', label: 'Vigências dos Contratos', icon: 'format_list_numbered'}
           ]
     },
-    {url: '/resgate', label: 'Resgate', icon: 'attach_money', child: [
-                {url: '/ferias', label: 'Férias', icon: ''},
-                {url: '/decTer', label: 'Décimo Terceiro', icon: ''},
-                {url: '/rescisao', label: 'Rescisão', icon: ''}
+    {url: '#', label: 'Resgate', icon: 'attach_money', child: [
+                {url: '/ferias', label: 'Férias', icon: 'perm_contact_calendar'},
+                {url: '/decTer', label: 'Décimo Terceiro', icon: 'card_membership'},
+                {url: '/rescisao', label: 'Rescisão', icon: 'broken_image'}
             ]
     },
     {url: '/totalmensal', label: 'Total Mensal a Reter', icon: 'event', child: []},
