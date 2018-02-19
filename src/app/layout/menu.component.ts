@@ -13,13 +13,13 @@ import { UserService } from '../users/user.service';
 export class MenuComponent {
   links = [
     {url: '/inicio', label: 'Início', icon: 'home', child: []},
-    {url: '#', label: 'Administração', icon: 'group', child: [
+    {url: '/', label: 'Administração', icon: 'group', child: [
             {url: '/rubricas', label: 'Rubricas', icon: 'assignment'},
             {url: '/usuarios', label: 'Usuários', icon: 'people'},
             {url: '/cargos', label: 'Cargos', icon: 'portrait'}
           ]
     },
-    {url: '#', label: 'Gerenciar Contrato', icon: 'storage', child: [
+    {url: '/', label: 'Gerenciar Contrato', icon: 'storage', child: [
             {url: '/contratos', label: 'Contratos', icon: 'description'},
             {url: '/percentuais', label: 'Percentuais', icon: 'iso'},
             {url: '/cargosContrato', label: 'Cargos do Contrato', icon: 'business_center'},
@@ -29,7 +29,7 @@ export class MenuComponent {
             {url: '/vigencias', label: 'Vigências dos Contratos', icon: 'format_list_numbered'}
           ]
     },
-    {url: '#', label: 'Resgate', icon: 'attach_money', child: [
+    {url: '/', label: 'Resgate', icon: 'attach_money', child: [
                 {url: '/ferias', label: 'Férias', icon: 'perm_contact_calendar'},
                 {url: '/decTer', label: 'Décimo Terceiro', icon: 'card_membership'},
                 {url: '/rescisao', label: 'Rescisão', icon: 'broken_image'}

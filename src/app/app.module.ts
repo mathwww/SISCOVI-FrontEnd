@@ -19,6 +19,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {IndicadoresComponent} from './indicadores/indicadores.component';
 import {PageMenuComponent} from './_shared/page-menu/page-menu.component';
 import {RelatorioComponent} from './layout/relatorio/relatorio.component';
+import {TotalmensalModule} from './totalMensal/totalmensal.module';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import {RelatorioComponent} from './layout/relatorio/relatorio.component';
     FormsModule,
     MaterializeModule,
     TextMaskModule,
-    AppRoutingModule
+    AppRoutingModule,
+    TotalmensalModule
   ],
   providers: [
     ConfigService,
