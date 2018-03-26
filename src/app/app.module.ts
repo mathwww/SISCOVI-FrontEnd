@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {HttpModule} from '@angular/http';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterializeModule} from 'angular2-materialize';
 import {TextMaskModule} from 'angular2-text-mask';
 import {MaskDateDirective} from './_shared/mask-date.directive';
@@ -19,7 +19,22 @@ import {AppRoutingModule} from './app-routing.module';
 import {IndicadoresComponent} from './indicadores/indicadores.component';
 import {PageMenuComponent} from './_shared/page-menu/page-menu.component';
 import {RelatorioComponent} from './layout/relatorio/relatorio.component';
-import {TotalmensalModule} from './totalMensal/totalmensal.module';
+import {InicioComponent} from './inicio/inicio.component';
+import {RubricasComponent} from './rubricas/rubricas.component';
+import {RubricasService} from './rubricas/rubricas.service';
+import {TotalmensalComponent} from './totalMensal/totalmensal.component';
+import {ContratosService} from './contratos/contratos.service';
+import {ProfileGuard} from './users/profile.guard';
+import {PercentuaisEstaticosComponent} from './percentuais-estaticos/percentuais-estaticos.component';
+import {UsuariosComponent} from './usuarios/usuarios.component';
+import {CargoComponent} from './cargos/cargo.component';
+import {CargoService} from './cargos/cargo.service';
+import {ContratosComponent} from './contratos/contratos.component';
+import {CpfPipe} from './_shared/cpf.pipe';
+import {CnpjPipe} from './_shared/cnpj.pipe';
+import {PercentualService} from './percentuais/percentual.service';
+import {PercentuaisComponent} from './percentuais/percentuais.component';
+import {DatePipe} from './_shared/date.pipe';
 
 @NgModule({
   declarations: [
@@ -32,7 +47,18 @@ import {TotalmensalModule} from './totalMensal/totalmensal.module';
     MenuComponent,
     IndicadoresComponent,
     PageMenuComponent,
-    RelatorioComponent
+    RelatorioComponent,
+    InicioComponent,
+    RubricasComponent,
+    TotalmensalComponent,
+    PercentuaisEstaticosComponent,
+    UsuariosComponent,
+    CargoComponent,
+    ContratosComponent,
+    CpfPipe,
+    CnpjPipe,
+    DatePipe,
+    PercentuaisComponent
   ],
   imports: [
     BrowserModule,
@@ -41,12 +67,17 @@ import {TotalmensalModule} from './totalMensal/totalmensal.module';
     MaterializeModule,
     TextMaskModule,
     AppRoutingModule,
-    TotalmensalModule
+    ReactiveFormsModule
   ],
   providers: [
     ConfigService,
     UserService,
-    LoggedInGuard
+    LoggedInGuard,
+    ProfileGuard,
+    RubricasService,
+    ContratosService,
+    CargoService,
+    PercentualService
   ],
   bootstrap: [AppComponent]
 })

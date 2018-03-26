@@ -1,10 +1,76 @@
 <ul materialize="collapsible" class="collapsible" data-collapsible="accordion">
-  <li *ngFor="let link of links" class="row">
-    <a routerLink="{{link.url}}" class="collapsible-header">{{link.label}}<i class="material-icons left">{{link.icon}}</i><i *ngIf="link.child.length" class="material-icons right">arrow_drop_down</i>
+  <li class="row">
+    <a routerLink="/home" class="left-align">Início<i class="material-icons left">home</i></a>
+  </li>
+  <li class="row" *ngIf="admin">
+    <a class="collapsible-header left-align">Administração<i class="material-icons left">group</i><i class="material-icons right">arrow_drop_down</i>
     </a>
     <ul class="collapsible-body">
-      <li *ngFor="let child of link.child" >
-        <a routerLink="{{child.url}}"><i class="material-icons left">{{child.icon}}</i>{{child.label}}</a>
+      <li>
+        <a routerLink="/rubricas">Rubricas<i class="material-icons left">assignment</i></a>
+      </li>
+      <li>
+        <a routerLink="/usuarios">Usuários<i class="material-icons left">people</i></a>
+      </li>
+      <li>
+        <a routerLink="/cargos">Cargos<i class="material-icons left">portrait</i></a>
+      </li>
+      <li>
+        <a routerLink="/percentEst">Percentuais Estáticos<i class="material-icons left">local_atm</i></a>
+      </li>
+    </ul>
+  </li>
+  <li class="row">
+    <a class="collapsible-header left-align">Gerenciar Contrato(s)<i class="material-icons left">storage</i><i class="material-icons right">arrow_drop_down</i></a>
+    <ul class="collapsible-body">
+      <li>
+        <a routerLink="/contratos">Contratos<i class="material-icons left">description</i></a>
+      </li>
+      <li>
+        <a routerLink="/percentuais">Percentuais<i class="material-icons left">iso</i></a>
+      </li>
+      <li>
+        <a routerLink="/cargosContrato">Cargos do Contrato<i class="material-icons left">business_center</i></a>
+      </li>
+      <li>
+        <a routerLink="/convencoes">Convenções Coletivas<i class="material-icons left">trending_up</i></a>
+      </li>
+      <li>
+        <a routerLink="/funcionarios">Funcionários<i class="material-icons left">assignment_ind</i></a>
+      </li>
+      <li>
+        <a routerLink="/cargosFuncionarios">Cargos dos Funcionários<i class="material-icons left">folder_shared</i></a>
+      </li>
+      <li>
+        <a routerLink="/vigencias">Vigências dos Contratos<i class="material-icons left">format_list_numbered</i></a>
+      </li>
+    </ul>
+  </li>
+  <li class="row">
+    <a class="collapsible-header left-align">Resgate<i class="material-icons left">attach_money</i><i class="material-icons right">arrow_drop_down</i></a>
+    <ul class="collapsible-body">
+      <li>
+        <a routerLink="/ferias">Férias<i class="material-icons left">perm_contact_calendar</i></a>
+      </li>
+      <li>
+        <a routerLink="/decTer">Décimo Terceiro<i class="material-icons left">card_membership</i></a>
+      </li>
+      <li>
+        <a routerLink="/rescisao">Rescisão<i class="material-icons left">broken_image</i></a>
+      </li>
+    </ul>
+  </li>
+  <li class="row">
+    <a routerLink="/totalMensal" class="left-align">Total Mensal a Reter<i class="material-icons left">event</i></a>
+  </li>
+  <li class="row">
+    <a class="collapsible-header left-align">Saldo Conta Vinculada<i class="material-icons left">functions</i><i class="material-icons right">arrow_drop_down</i></a>
+    <ul class="collapsible-body">
+      <li>
+        <a>Saldo Individual<i class="material-icons left">grain</i></a>
+      </li>
+      <li>
+        <a>Saldo Total<i class="material-icons">group_work</i></a>
       </li>
     </ul>
   </li>

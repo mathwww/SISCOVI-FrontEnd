@@ -1,0 +1,23 @@
+<div class="container">
+  <h2>Cargos</h2>
+</div>
+<div class="container">
+  <table class="centered highlight">
+    <thead>
+      <tr>
+        <th>Nome do Cargo</th>
+        <th>Descrição</th>
+        <th>Atualizado Por...</th>
+        <th>Última Atualização</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cargo of cargos">
+        <td>{{cargo.nome}}</td>
+        <td>{{cargo.descricao}}</td>
+        <td>{{cargo.loginAtualizacao}}</td>
+        <td>{{cargo.dataAtualizacao}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

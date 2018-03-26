@@ -1,0 +1,19 @@
+<div class="container">
+  <h2>Rubricas</h2>
+  <table class="highlight centered">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Sigla</th>
+        <th>Descrição</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let rubrica of rubricas">
+        <td>{{ rubrica.nome }}</td>
+        <td>{{ rubrica.sigla }}</td>
+        <td>{{ rubrica.descricao }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

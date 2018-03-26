@@ -1,0 +1,38 @@
+<div class="container">
+  <h2 class="center-align">Total Mensal a Reter</h2>
+  <div class="section">
+    <div class="row ">
+      <div  class="input-field col s2 m6 l6 xl6">
+        <select name="contrato" materialize="material_select" [ngModel]="contratos" (change)="onChange($event.target.value)" required>
+          <option value="" disabled selected>Selecione</option>
+            <option *ngFor="let contrato of contratos" [value]="contrato.codigo">{{contrato.nomeDaEmpresa}} - Contrato nº: {{contrato.numeroDoContrato}}/{{contrato.anoDoContrato}}</option>
+        </select>
+        <label>Selecione um Contrato</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s2 m3 l3 xl3">
+        <select name="mes" materialize="material_select" required>
+          <option *ngFor="let mes of meses" [value]="mes.valor">{{ mes.mes }}</option>
+        </select>
+        <label >Selecione um mês</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s1 m2 l2 xl2">
+        <select name="ano" id="select-year" materialize="material_select" [materializeSelectOptions]="years" required>
+          <option [value]="currentYear" class="center-align">{{currentYear}}</option>
+          <option *ngFor="let year of years" class="center-align" [value]="year">{{year}}</option>
+        </select>
+        <label >Selecione um ano</label>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="center-align">
+      <button class="waves-effect waves-light btn-large blue-grey" type="submit" [disabled]="validate">Calcular</button>
+    </div>
+  </div>
+</div>
+

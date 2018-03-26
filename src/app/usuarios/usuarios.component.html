@@ -1,0 +1,25 @@
+<div class="container">
+  <h2>Usuários</h2>
+</div>
+<div class="container">
+    <table class="centered highlight">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Perfil</th>
+          <th>Login</th>
+          <th>Atualizado Por...</th>
+          <th>Última Atualização</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios">
+          <td>{{usuario.nome}}</td>
+          <td>{{usuario.perfil}}</td>
+          <td>{{usuario.login}}</td>
+          <td>{{usuario.loginAtualizacao}}</td>
+          <td>{{usuario.ultimaAtualizacao}}</td>
+        </tr>
+      </tbody>
+    </table>
+</div>

@@ -12,21 +12,21 @@ import {MaterializeAction} from 'angular2-materialize';
 export class ComumComponent {
   title: string = this.config.title;
   subtitle: string = this.config.subtitle;
-  // theParams = 'hide';
+  theParams = true;
   constructor(// private areaService: AreaService,
               // private statusService: StatusService,
               public config: ConfigService) {
     localStorage.removeItem('is_menu');
   }
-  /* sideNavActions = new EventEmitter<string|MaterializeAction>();
+  sideNavActions = new EventEmitter<string|MaterializeAction>();
   toggle () {
-    if (this.theParams === 'show') {
-      this.theParams = 'hide';
+    if (this.theParams) {
+      this.theParams = false;
       this.sideNavActions.emit({action: 'sideNav', params: ['hide']});
     }else {
-      this.theParams = 'show';
+      this.theParams = true;
       this.sideNavActions.emit({action: 'sideNav', params: ['show']});
     }
     console.log('A função foi chamada e o valor de toggle é: ' + this.theParams);
-  } */
+  }
 }
