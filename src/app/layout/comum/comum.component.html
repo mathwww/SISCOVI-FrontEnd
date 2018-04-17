@@ -20,7 +20,7 @@
            class="button-collapse show-on-large"
            materialize="sideNav"
            (click)="toggle()"
-           [materializeParams]="[{closeOnClick: false}]"
+           [materializeParams]="[{closeOnClick: true}]"
            *ngIf="config.user"
         >
           <i class="material-icons">menu</i>

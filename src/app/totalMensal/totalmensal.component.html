@@ -13,7 +13,7 @@
     <div class="row">
       <div class="input-field col s2 m3 l3 xl3">
         <select name="mes" materialize="material_select" required>
-          <option *ngFor="let mes of meses" [value]="mes.valor">{{ mes.mes }}</option>
+          <option *ngFor="let mes of meses" [value]="mes.valor" [selected]="mes.valor === currentMonth">{{ mes.mes }}</option>
         </select>
         <label >Selecione um mês</label>
       </div>
@@ -21,8 +21,7 @@
     <div class="row">
       <div class="input-field col s1 m2 l2 xl2">
         <select name="ano" id="select-year" materialize="material_select" [materializeSelectOptions]="years" required>
-          <option [value]="currentYear" class="center-align">{{currentYear}}</option>
-          <option *ngFor="let year of years" class="center-align" [value]="year">{{year}}</option>
+          <option *ngFor="let year of years" class="center-align" [value]="year" [selected]="year === currentYear">{{year}}</option>
         </select>
         <label >Selecione um ano</label>
       </div>

@@ -35,6 +35,16 @@ import {CnpjPipe} from './_shared/cnpj.pipe';
 import {PercentualService} from './percentuais/percentual.service';
 import {PercentuaisComponent} from './percentuais/percentuais.component';
 import {DatePipe} from './_shared/date.pipe';
+import {CargosDoContratoComponent} from './cargos/cargos.do.contrato.component';
+import {ConvencoesColetivasComponent} from './convencoes-coletivas/convencoes.coletivas.component';
+import {ConvencaoService} from './convencoes-coletivas/convencao.service';
+import {VigenciaDosContratosComponent} from './vigencia-dos-contratos/vigencia.dos.contratos.component';
+import {VigenciaService} from './vigencia-dos-contratos/vigencia.service';
+import {FuncionariosComponent} from './funcionarios/funcionarios.component';
+import {FuncionariosService} from './funcionarios/funcionarios.service';
+import {AfirmativePipe} from './_shared/afirmative.pipe';
+import {CargosDosFuncionariosComponent} from './cargos/cargos-dos-funcionarios/cargos.dos.funcionarios.component';
+import {CadastroContratoComponent} from './contratos/cadastro-contrato/cadastro.contrato.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +68,14 @@ import {DatePipe} from './_shared/date.pipe';
     CpfPipe,
     CnpjPipe,
     DatePipe,
-    PercentuaisComponent
+    AfirmativePipe,
+    PercentuaisComponent,
+    CargosDoContratoComponent,
+    ConvencoesColetivasComponent,
+    VigenciaDosContratosComponent,
+    FuncionariosComponent,
+    CargosDosFuncionariosComponent,
+    CadastroContratoComponent
   ],
   imports: [
     BrowserModule,
@@ -77,7 +94,10 @@ import {DatePipe} from './_shared/date.pipe';
     RubricasService,
     ContratosService,
     CargoService,
-    PercentualService
+    PercentualService,
+    ConvencaoService,
+    VigenciaService,
+    FuncionariosService
   ],
   bootstrap: [AppComponent]
 })

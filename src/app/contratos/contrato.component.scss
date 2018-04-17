@@ -1,6 +1,8 @@
 table.highlight tbody tr:hover {
-  background-color: #bdbdbd;
+  background-color: #9e9e9e;
+  cursor: context-menu;
 }
+
 /*table.highlight tbody td {
   min-width: 6em;
   padding: 2em;

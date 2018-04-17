@@ -32,11 +32,13 @@ export class TotalmensalComponent implements OnInit{
   myForm;
   codigoContrato: number;
   validate = true;
+  currentMonth: number;
   constructor(contServ: ContratosService) {
     if (contServ.contratos.length === 0) {
       contServ.getContratosDoUsuario().subscribe((res) => {
         contServ.contratos = res;
         this.contratos = res;
+        this.currentMonth = (new Date().getMonth()) + 1;
         this.currentYear = (new Date().getFullYear());
         this.anoDoContratoMaisAntigo = this.getAnoDoContratoMaisAntigo(this.contratos);
         this.anoDoContratoMaisRecente = this.getAnoDoContratoMaisRecente(this.contratos);

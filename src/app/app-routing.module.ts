@@ -13,6 +13,11 @@ import {UsuariosComponent} from './usuarios/usuarios.component';
 import {CargoComponent} from './cargos/cargo.component';
 import {ContratosComponent} from './contratos/contratos.component';
 import {PercentuaisComponent} from './percentuais/percentuais.component';
+import {CargosDoContratoComponent} from './cargos/cargos.do.contrato.component';
+import {ConvencoesColetivasComponent} from './convencoes-coletivas/convencoes.coletivas.component';
+import {VigenciaDosContratosComponent} from './vigencia-dos-contratos/vigencia.dos.contratos.component';
+import {FuncionariosComponent} from './funcionarios/funcionarios.component';
+import {CargosDosFuncionariosComponent} from './cargos/cargos-dos-funcionarios/cargos.dos.funcionarios.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'home'},
@@ -29,11 +34,11 @@ const routes: Routes = [
       {path: 'gerenciar', component: IndicadoresComponent, canActivate: [LoggedInGuard]},
       {path: 'contratos', component: ContratosComponent, canActivate: [LoggedInGuard]},
       {path: 'percentuais', component: PercentuaisComponent, canActivate: [LoggedInGuard]},
-      {path: 'cargosContrato', component: IndicadoresComponent, canActivate: [LoggedInGuard]},
-      {path: 'convencoes', component: IndicadoresComponent, canActivate: [LoggedInGuard]},
-      {path: 'funcionarios', component: IndicadoresComponent, canActivate: [LoggedInGuard]},
-      {path: 'cargosFuncionarios', component: IndicadoresComponent, canActivate: [LoggedInGuard]},
-      {path: 'vigencias', component: IndicadoresComponent, canActivate: [LoggedInGuard]},
+      {path: 'cargosContrato', component: CargosDoContratoComponent, canActivate: [LoggedInGuard]},
+      {path: 'convencoes', component: ConvencoesColetivasComponent, canActivate: [LoggedInGuard]},
+      {path: 'funcionarios', component: FuncionariosComponent, canActivate: [LoggedInGuard]},
+      {path: 'cargosFuncionarios', component: CargosDosFuncionariosComponent, canActivate: [LoggedInGuard]},
+      {path: 'vigencias', component: VigenciaDosContratosComponent, canActivate: [LoggedInGuard]},
       {path: 'home', component: InicioComponent, canActivate: [LoggedInGuard]},
       {path: 'ferias', component: InicioComponent, canActivate: [LoggedInGuard]},
       {path: 'decTer', component: InicioComponent, canActivate: [LoggedInGuard]},
