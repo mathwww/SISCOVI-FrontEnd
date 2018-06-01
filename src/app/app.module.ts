@@ -45,11 +45,20 @@ import {FuncionariosService} from './funcionarios/funcionarios.service';
 import {AfirmativePipe} from './_shared/afirmative.pipe';
 import {CargosDosFuncionariosComponent} from './cargos/cargos-dos-funcionarios/cargos.dos.funcionarios.component';
 import {CadastroContratoComponent} from './contratos/cadastro-contrato/cadastro.contrato.component';
+import {CadastroUsuarioComponent} from './usuarios/cadastro-usuario/cadastro-usuario.component';
+import {CadastroUsuarioService} from './usuarios/cadastro-usuario/cadastro-usuario.service';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
+import {CadastroPercentuaisComponent} from './percentuais/cadastro-percentuais/cadastro-percentuais.component';
+import {MaskPercentageDirective} from './_shared/mask-percentage.directive';
+import {CadastrarRubricaComponent} from './rubricas/cadastrar-rubrica/cadastrar-rubrica.component';
+import {CadastroCargosComponent} from './cargos/cadastro-cargos/cadastro-cargos.component';
+import {VisualizaCargoCadastroComponent} from './cargos/cadastro-cargos/visualiza-cargo-cadastro.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MaskDateDirective,
+    MaskPercentageDirective,
     LoginComponent,
     ComumComponent,
     FooterComponent,
@@ -75,7 +84,12 @@ import {CadastroContratoComponent} from './contratos/cadastro-contrato/cadastro.
     VigenciaDosContratosComponent,
     FuncionariosComponent,
     CargosDosFuncionariosComponent,
-    CadastroContratoComponent
+    CadastroContratoComponent,
+    CadastroUsuarioComponent,
+    CadastroPercentuaisComponent,
+    CadastrarRubricaComponent,
+    CadastroCargosComponent,
+    VisualizaCargoCadastroComponent
   ],
   imports: [
     BrowserModule,
@@ -84,7 +98,8 @@ import {CadastroContratoComponent} from './contratos/cadastro-contrato/cadastro.
     MaterializeModule,
     TextMaskModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CurrencyMaskModule,
   ],
   providers: [
     ConfigService,
@@ -97,7 +112,8 @@ import {CadastroContratoComponent} from './contratos/cadastro-contrato/cadastro.
     PercentualService,
     ConvencaoService,
     VigenciaService,
-    FuncionariosService
+    FuncionariosService,
+    CadastroUsuarioService
   ],
   bootstrap: [AppComponent]
 })

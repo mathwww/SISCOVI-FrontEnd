@@ -8,6 +8,7 @@ export class PercentualService {
   headers: Headers;
   http: Http;
   config: ConfigService;
+  disabled = true;
   constructor(http: Http, config: ConfigService) {
     this.headers = config.headers;
     this.http = http;

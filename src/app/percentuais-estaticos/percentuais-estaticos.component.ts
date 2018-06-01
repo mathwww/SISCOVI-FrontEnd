@@ -10,7 +10,7 @@ import {PercentualEstatico} from '../rubricas/percentual-estatico';
 export class PercentuaisEstaticosComponent {
   staticPercent: PercentualEstatico[] = [];
   constructor(rubricaSer: RubricasService) {
-    rubricaSer.getPercnetuaisEstaticos().subscribe(res => {
+    rubricaSer.getPercentuaisEstaticos().subscribe(res => {
       this.staticPercent = res;
       this.staticPercent.forEach( (percentual) => {
         if (percentual.dataFim === null) {

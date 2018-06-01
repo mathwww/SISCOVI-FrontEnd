@@ -1,5 +1,19 @@
 <div materialize class="container">
-  <h2>Percentuais</h2>
+  <h2 class="center">Percentuais</h2>
+  <div class="row">
+    <div class="col">
+      <button class="btn waves-effect" (click)="openModal()">Cadastrar Percentuais do Contrato</button>
+    </div>
+    <div id="modal1" class="modal bottom-sheet" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
+      <div class="modal-content">
+        <app-cadastro-percentuais *ngIf="render"></app-cadastro-percentuais>
+      </div>
+      <div class="modal-footer">
+        <button class="btn waves-effect left" (click)="closeModal()">Cancelar</button>
+        <button class="btn waves-effect right" [disabled]="rubricaService.disabled">Adicionar</button>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="container" *ngFor="let lista of listaPercentuais">
   <h5>Gestor: {{lista.gestor}}, Contrato: {{lista.contrato.nomeDaEmpresa}} - Contrato Nº {{lista.contrato.numeroDoContrato}}</h5>

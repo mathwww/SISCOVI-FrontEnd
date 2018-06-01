@@ -20,13 +20,15 @@
   <table class="centered responsive-table z-depth-1 hoverable highlight bordered">
     <thead>
       <tr>
+        <th></th>
         <th>Nome</th>
         <th>CPF</th>
         <th class="truncate">Funcionário Ativo</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let funcionario of funcionarios">
+      <tr *ngFor="let funcionario of funcionarios; let i=index">
+        <td>{{i + 1}}</td>
         <td>{{funcionario.nome}}</td>
         <td>{{funcionario.cpf | cpfPipe}}</td>
         <td>{{funcionario.ativo | afirimativePipe}}</td>

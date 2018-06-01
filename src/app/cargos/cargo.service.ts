@@ -6,8 +6,11 @@ import {Contrato} from '../contratos/contrato';
 @Injectable()
 export class CargoService {
   http: Http;
+  private _enabled = false;
   config: ConfigService;
   headers: Headers;
+  loading = false;
+  displayCargos = false;
   constructor(http: Http, config: ConfigService) {
     this.http = http;
     this.config = config;
@@ -30,5 +33,11 @@ export class CargoService {
   getCargosFuncionarios (codigo: number) {
     const url = this.config.myApi + '/funcionarios/getFuncioECargos=' + codigo;
     return this.http.get(url).map(res => res.json());
+  }
+  get enabled (): boolean {
+      return this._enabled;
+  }
+  set enabled (enabled: boolean) {
+      this._enabled = enabled;
   }
 }

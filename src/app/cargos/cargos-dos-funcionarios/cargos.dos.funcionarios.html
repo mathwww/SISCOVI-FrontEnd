@@ -25,13 +25,15 @@
         <table class="centered hoverable z-depth-1 highlight bordered">
           <thead>
             <tr>
+              <th></th>
               <th>Funcionário</th>
               <th>Data de Disponibilização</th>
               <th>Data de Desligamento</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let funcionario of lista.cargosFuncionarios">
+            <tr *ngFor="let funcionario of lista.cargosFuncionarios; let i=index">
+              <td>{{i + 1}}</td>
               <td>{{funcionario.funcionario.nome}}</td>
               <td>{{funcionario.dataDisponibilizacao | datePipe}}</td>
               <td>{{funcionario.dataDesligamento | datePipe}}</td>

@@ -1,0 +1,13 @@
+<div class="row" *ngFor="let cargo of cargos; let i = index">
+    <div class="row">
+        <h5 class=" center">Cargo {{i + 1}}</h5>
+    </div>
+    <div class="input-field">
+        <input id="nomeCargo" type="text" class="validate" [value]="cargo.nome">
+        <label for="nomeCargo">Nome do Cargo</label>
+    </div>
+    <div class="input-field">
+        <textarea materialize id="cargoDescricao" class="materialize-textarea" data-length="200" [value]="cargo.descricao"></textarea>
+        <label for="cargoDescricao">Descrição</label>
+    </div>
+</div>
