@@ -9,31 +9,41 @@
       <div class="row">
 
         <div class="input-field col">
-          <input placeholder="Nome Completo" id="nome_gestor" type="text" class="validate" required>
-          <label for="nome_gestor">Gestor</label>
+          <input placeholder="Nome Completo" id="nomeGestor" type="text" class="validate form-control" formControlName="nomeGestor" required>
+          <label for="nomeGestor">Gestor</label>
+            <div *ngIf="myForm2.get('nomeGestor').invalid && (myForm2.get('inicioVigencia').dirty || myForm2.get('nomeGestor').touched)">
+                <div *ngIf="myForm2.get('nomeGestor').getError('mensagem') && !myForm2.get('nomeGestor').errors.required">
+                    <div *ngFor="let msg of myForm2.get('nomeGestor').getError('mensagem')[0]">
+                        <span class="mensagem-erro">{{msg}}</span>
+                    </div>
+                </div>
+                <div *ngIf="myForm2.get('nomeGestor').getError('required')">
+                    <span class="mensagem-erro">Você deve Digitar um nome</span>
+                </div>
+            </div>
         </div>
         <div class="input-field col">
-          <input id="nome_empresa" placeholder="Nome da Empresa" type="text" class="validate" required>
+          <input id="nome_empresa" placeholder="Nome da Empresa" type="text" class="validate" formControlName="nomeEmpresa" required>
           <label for="nome_empresa">Nome da Empresa</label>
         </div>
         <div class="input-field col">
-          <input id="cnpj" placeholder="CNPJ" type="text" class="validate" required>
+          <input id="cnpj" placeholder="CNPJ" type="text" class="validate" formControlName="cnpj" appKzMask="99.999.999/9999-99" required>
           <label for="cnpj">CNPJ</label>
         </div>
         <div class="input-field col">
-          <input id="numero_contrato" placeholder="Número do Contrato" type="number" class="validate" required>
+          <input id="numero_contrato" placeholder="Número do Contrato" type="number" class="validate" formControlName="numeroContrato" required>
           <label for="numero_contrato">Número do Contrato</label>
         </div>
         <div class="input-field col">
-          <select materialize="material_select">
+          <select materialize="material_select" formControlName="ativo">
             <option disabled>Selecione uma Opção</option>
-            <option>SIM</option>
+            <option selected>SIM</option>
             <option>NÃO</option>
           </select>
           <label>Ativo</label>
         </div>
         <div class="input-field col s12">
-          <textarea id="textarea1" class="materialize-textarea" data-length="120"></textarea>
+          <textarea materialize id="textarea1" class="materialize-textarea" data-length="120" formControlName="objeto"></textarea>
           <label for="textarea1">Objeto</label>
         </div>
       </div>
@@ -73,12 +83,10 @@
             </div>
         </div>
       </div>
-    </form>
     <h5>Percentuais</h5>
-    <form autocomplete="off">
       <div class="row">
         <div class="input-field col l3">
-          <select materialize="material_select">
+          <select materialize="material_select" formControlName="percentualFerias">
             <option disabled>Selecione um percentual para Férias</option>
             <option value="1/12">8.33%</option>
             <option value="1/11">9.09%</option>
@@ -86,7 +94,7 @@
           <label>Percentual de Férias</label>
         </div>
         <div class="input-field col l4">
-          <select materialize="material_select">
+          <select materialize="material_select" formControlName="percentualDecimoTerceiro">
             <option disabled>Selecione um percentual para Décimo Terceiro</option>
             <option value="1/12">8.33%</option>
             <option value="1/11">9.09%</option>
@@ -94,14 +102,15 @@
           <label>Percentual de Décimo Terceiro</label>
         </div>
         <div class="input-field col l2">
-          <input placeholder="Percentual de Incidência" required>
+          <input placeholder="Submódulo 4.1"  id="percentual_incidencia" type="text" class="validate" formControlName="percentualIncidencia" appMaskPercentual required>
+            <label for="percentual_incidencia">Percentual de Incidência</label>
         </div>
       </div>
     </form>
     <form [formGroup]="myForm" autocomplete="off">
       <h5>Cargos</h5>
       <div formArrayName="cargos" class="row">
-        <div *ngFor="let cargo of myForm.controls.cargos.controls; let i = index">
+        <div *ngFor="let cargo of getFormArrayItems(); let i = index">
           <div [formGroupName]="i">
             <div class="row">
               <div class="col l12 panel-content darken-1">
@@ -109,7 +118,7 @@
                   <p class="white-text ">Cargo {{i + 1}}</p>
                 </div>
                 <div class=" valign-wrapper col offset-l11">
-                  <h6 class="botao-fechar" (click)="removeCargo(i)" *ngIf="myForm.controls.cargos.controls.length > 1"><a class="black-text"><i class="material-icons">close</i></a></h6>
+                  <h6 class="botao-fechar" (click)="removeCargo(i)" *ngIf="formArrayLenght() > 1"><a class="black-text"><i class="material-icons">close</i></a></h6>
                 </div>
               </div>
             </div>
@@ -138,7 +147,7 @@
               </div>
             </div>
             <div class="input-field col l12 form-group">
-              <textarea placeholder="Descrição" class="materialize-textarea" data-length="200" id="textarea2" formControlName="descricao"></textarea>
+              <textarea placeholder="Descrição" class="materialize-textarea" data-length="200" id="textarea2" formControlName="descricao" (input)="ehValido()"></textarea>
                 <label for="textarea2">Descrição do Cargo</label>
               <div class="divider"></div>
             </div>

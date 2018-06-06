@@ -1,13 +1,16 @@
-<div class="row" *ngFor="let cargo of cargos; let i = index">
-    <div class="row">
-        <h5 class=" center">Cargo {{i + 1}}</h5>
-    </div>
-    <div class="input-field">
-        <input id="nomeCargo" type="text" class="validate" [value]="cargo.nome">
-        <label for="nomeCargo">Nome do Cargo</label>
-    </div>
-    <div class="input-field">
-        <textarea materialize id="cargoDescricao" class="materialize-textarea" data-length="200" [value]="cargo.descricao"></textarea>
-        <label for="cargoDescricao">Descrição</label>
-    </div>
+<div class="row">
+    <table class="centered highlight z-depth-2 hoverable">
+        <thead>
+        <tr>
+            <th>Nome do Cargo</th>
+            <th>Descrição</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let cargo of cargos; let i = index">
+            <td (click)="editarCampo($event)" (blur)="editarNomeCargo($event, i)">{{cargo.nome}}</td>
+            <td (click)="editarCampo($event)" (blur)="editarDescricao($event, i)">{{cargo.descricao}}</td>
+        </tr>
+        </tbody>
+    </table>
 </div>

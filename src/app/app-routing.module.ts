@@ -19,6 +19,7 @@ import {VigenciaDosContratosComponent} from './vigencia-dos-contratos/vigencia.d
 import {FuncionariosComponent} from './funcionarios/funcionarios.component';
 import {CargosDosFuncionariosComponent} from './cargos/cargos-dos-funcionarios/cargos.dos.funcionarios.component';
 import {CadastrarRubricaComponent} from './rubricas/cadastrar-rubrica/cadastrar-rubrica.component';
+import {AjusteContratoComponent} from './contratos/ajustes-contratuais/ajuste-contrato.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'home'},
@@ -39,7 +40,7 @@ const routes: Routes = [
       {path: 'cargosContrato', component: CargosDoContratoComponent, canActivate: [LoggedInGuard]},
       {path: 'convencoes', component: ConvencoesColetivasComponent, canActivate: [LoggedInGuard]},
       {path: 'funcionarios', component: FuncionariosComponent, canActivate: [LoggedInGuard]},
-      {path: 'cargosFuncionarios', component: CargosDosFuncionariosComponent, canActivate: [LoggedInGuard]},
+      {path: 'funcoes-dos-terceirizados', component: CargosDosFuncionariosComponent, canActivate: [LoggedInGuard]},
       {path: 'vigencias', component: VigenciaDosContratosComponent, canActivate: [LoggedInGuard]},
       {path: 'home', component: InicioComponent, canActivate: [LoggedInGuard]},
       {path: 'ferias', component: InicioComponent, canActivate: [LoggedInGuard]},
@@ -47,7 +48,8 @@ const routes: Routes = [
       {path: 'rescisao', component: InicioComponent, canActivate: [LoggedInGuard]},
       {path: 'totalMensal', component: TotalmensalComponent, canActivate: [LoggedInGuard]},
       {path: 'saldoConta', component: InicioComponent, canActivate: [LoggedInGuard]},
-      {path: 'percentEst', component: PercentuaisEstaticosComponent, canActivate: [LoggedInGuard, ProfileGuard]}
+      {path: 'percentEst', component: PercentuaisEstaticosComponent, canActivate: [LoggedInGuard, ProfileGuard]},
+      {path: 'ajustes-contratuais', component: AjusteContratoComponent, canActivate: [LoggedInGuard]},
     ]}
 ];
 @NgModule({

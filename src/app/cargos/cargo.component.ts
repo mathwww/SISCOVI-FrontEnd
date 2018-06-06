@@ -26,6 +26,21 @@ export class CargoComponent {
   closeModal() {
       this.render = false;
       this.cargoService.enabled = false;
+      this.cargoService.displayCargos = false;
       this.modalActions.emit({action: 'modal', params: ['close']});
+  }
+  cadastrarCargos() {
+      this.cargoService.cadastrarCargos().subscribe(res => {
+          console.log(res);
+          if (res === 'Cadastro realizado com sucesso !') {
+              this.cargoService.getAllCargos().subscribe(res2 => {
+                  this.cargos.slice();
+                  this.cargos = res2;
+                  this.closeModal();
+              });
+          }else {
+              console.log(res);
+          }
+      });
   }
 }

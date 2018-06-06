@@ -8,7 +8,7 @@
         </div>
           <div class="modal-footer">
               <button class="btn waves-effect left" (click)="closeModal()">Cancelar</button>
-              <button class="btn waves waves-effect right" [disabled]="!cargoService.enabled">Cadastrar Cargos</button>
+              <button class="btn waves waves-effect right" [disabled]="!cargoService.enabled" (click)="cadastrarCargos()">Cadastrar Cargos</button>
           </div>
       </div>
   </div>

@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers} from '@angular/http';
+import {Http, Headers, RequestOptions} from '@angular/http';
 import {ConfigService} from '../_shared/config.service';
 import {Contrato} from '../contratos/contrato';
+import {Cargo} from './cargo';
 
 @Injectable()
 export class CargoService {
@@ -11,6 +12,7 @@ export class CargoService {
   headers: Headers;
   loading = false;
   displayCargos = false;
+  cargos: Cargo[];
   constructor(http: Http, config: ConfigService) {
     this.http = http;
     this.config = config;
@@ -40,4 +42,17 @@ export class CargoService {
   set enabled (enabled: boolean) {
       this._enabled = enabled;
   }
+  cadastrarCargos() {
+      const headers = new Headers({'Content-type': 'application/json'});
+      const options = new RequestOptions({headers: headers});
+      const data = new ListaCargos();
+      data.cargos = this.cargos;
+      data.currentUser = this.config.user.username;
+      const url = this.config.myApi + '/cargo/cadastrarCargos';
+      return this.http.post(url, data, options).map(res => res.json());
+  }
+}
+export class ListaCargos {
+    currentUser: string;
+    cargos: Cargo[];
 }

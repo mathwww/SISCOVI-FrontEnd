@@ -7,6 +7,7 @@ import {Contrato} from './contrato';
 export class ContratosService {
   private headers: Headers;
   contratos: Contrato[] = [];
+  formValido = false;
   constructor(private config: ConfigService, private  http: Http) {}
 
   getContratosDoUsuario() {

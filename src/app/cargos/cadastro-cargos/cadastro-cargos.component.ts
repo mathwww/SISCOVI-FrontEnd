@@ -18,6 +18,7 @@ export class CadastroCargosComponent implements OnInit {
     cargoService: CargoService;
     constructor(private formBuilder: FormBuilder, cargoService: CargoService) {
         this.cargoService = cargoService;
+        cargoService.cargos = this.listaCargos;
     }
     ngOnInit() {
         this.cargosForm = this.formBuilder.group({
@@ -71,10 +72,12 @@ export class CadastroCargosComponent implements OnInit {
                    }
                 });
                 this.listaCargos.splice(0, 1);
+                this.cargoService.cargos = this.listaCargos;
             };
             fileReader.readAsBinaryString(this.file);
         }
         this.cargoService.displayCargos = true;
+        this.cargoService.enabled = true;
     }
     uploadFile(event) {
         this.cargoService.displayCargos = false;

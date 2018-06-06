@@ -63,6 +63,7 @@ export class RubricasService {
       cadastroRubrica.rubrica = rubrica;
       cadastroRubrica.currentUser = this.config.user.username;
       const data = cadastroRubrica;
+      console.log(data);
       return this.http.put(url, data).map(res => res.json());
   }
 }

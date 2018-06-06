@@ -1,4 +1,4 @@
-import {AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, DoCheck, Input, OnChanges} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnChanges, Output} from '@angular/core';
 import {Cargo} from '../cargo';
 import {CargoService} from '../cargo.service';
 
@@ -9,10 +9,26 @@ import {CargoService} from '../cargo.service';
 export class VisualizaCargoCadastroComponent implements OnChanges {
     @Input()
     cargos: Cargo[];
-    constructor(private cargoService: CargoService, private cdr: ChangeDetectorRef) {}
+    constructor(private cargoService: CargoService, private cdr: ChangeDetectorRef) {
+        this.cargoService.cargos = this.cargos;
+    }
     ngOnChanges() {
         setTimeout(() => {
             this.cargoService.loading = false;
         });
+    }
+    editarCampo(event) {
+        event.target.contentEditable = true;
+        event.target.focus();
+    }
+    editarNomeCargo(event: any, i: number): void {
+        event.target.contentEditable = false;
+        this.cargos[i].nome = event.target.textContent;
+        this.cargoService.cargos = this.cargos;
+    }
+    editarDescricao(event: any, i: number): void {
+        event.target.contentEditable = false;
+        this.cargos[i].descricao = event.target.textContent;
+        this.cargoService.cargos = this.cargos;
     }
 }

@@ -53,12 +53,15 @@ import {MaskPercentageDirective} from './_shared/mask-percentage.directive';
 import {CadastrarRubricaComponent} from './rubricas/cadastrar-rubrica/cadastrar-rubrica.component';
 import {CadastroCargosComponent} from './cargos/cadastro-cargos/cadastro-cargos.component';
 import {VisualizaCargoCadastroComponent} from './cargos/cadastro-cargos/visualiza-cargo-cadastro.component';
+import {AjusteContratoComponent} from './contratos/ajustes-contratuais/ajuste-contrato.component';
+import {KzMaskDirective} from './_shared/kz-mask.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     MaskDateDirective,
     MaskPercentageDirective,
+    KzMaskDirective,
     LoginComponent,
     ComumComponent,
     FooterComponent,
@@ -89,7 +92,8 @@ import {VisualizaCargoCadastroComponent} from './cargos/cadastro-cargos/visualiz
     CadastroPercentuaisComponent,
     CadastrarRubricaComponent,
     CadastroCargosComponent,
-    VisualizaCargoCadastroComponent
+    VisualizaCargoCadastroComponent,
+    AjusteContratoComponent,
   ],
   imports: [
     BrowserModule,

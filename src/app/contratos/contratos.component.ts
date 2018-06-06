@@ -2,7 +2,6 @@ import {Component, EventEmitter} from '@angular/core';
 import {ContratosService} from './contratos.service';
 import {Contrato} from './contrato';
 import {MaterializeAction} from 'angular2-materialize';
-import {CadastroContratoComponent} from "./cadastro-contrato/cadastro.contrato.component";
 
 @Component({
   selector: 'app-contrato',
@@ -14,7 +13,9 @@ export class ContratosComponent {
   modalActions = new EventEmitter<string | MaterializeAction>();
   private loadComponent = false;
   render = true;
+  contServ: ContratosService;
   constructor(contServ: ContratosService) {
+      this.contServ = contServ;
     if (contServ.contratos.length === 0) {
       contServ.getContratosDoUsuario().subscribe( res => {
         contServ.contratos = res;
