@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row">
+        <div class="input-field col s10 center">
+            <select class="black-text" name="contrato" materialize="material_select" [ngModel]="contratos" (change)="onChange($event.target.value)" required>
+                <option disabled>Selecione</option>
+                <option class="black-text" *ngFor="let contrato of contratos" [value]="contrato.codigo">{{contrato.nomeDaEmpresa}} - Contrato nº: {{contrato.numeroDoContrato}}</option>
+            </select>
+            <label style="font-size: 0.85vw">Selecione um Contrato</label>
+        </div>
+    </div>
+</div>
+<div class="container" *ngIf="!calculos && codContrato">
+    <div class="row">
+        <div class="col s12 grey lighten-4" style="margin-top: 1em">
+            <br>
+            <h5 class="center-align">Não há cálculos realizados ainda ! <i class="small material-icons">mood_bad</i></h5>
+        </div>
+    </div>
+</div>
+<div class="container" *ngIf="calculos && codContrato">
+
+</div>

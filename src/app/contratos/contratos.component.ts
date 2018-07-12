@@ -36,4 +36,5 @@ export class ContratosComponent {
     this.render = false;
     this.modalActions.emit({action: 'modal', params: ['close']});
   }
+  cadastrarContrato() {}
 }

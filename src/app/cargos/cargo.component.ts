@@ -2,6 +2,7 @@ import {Component, EventEmitter} from '@angular/core';
 import {CargoService} from './cargo.service';
 import {Cargo} from './cargo';
 import {MaterializeAction} from 'angular2-materialize';
+import {PagerService} from '../_shared/pager.service';
 
 @Component({
   selector: 'app-cargos',
@@ -13,10 +14,14 @@ export class CargoComponent {
   modalActions = new EventEmitter<string|MaterializeAction>();
   render = false;
   cargoService: CargoService;
-  constructor(cargoService: CargoService) {
+  indice = 1;
+  pager: any;
+  pagedItems: Cargo[];
+  constructor(cargoService: CargoService, private pagerService: PagerService) {
       this.cargoService = cargoService;
     cargoService.getAllCargos().subscribe(res => {
       this.cargos = res;
+        this.setPage(1);
     });
   }
   openModal() {
@@ -43,4 +48,10 @@ export class CargoComponent {
           }
       });
   }
+    setPage(page: number) {
+        // get pager object from service
+        this.pager = this.pagerService.getPager(this.cargos.length, page, 30);
+        // get current page of items
+        this.pagedItems = this.cargos.slice(this.pager.startIndex, this.pager.endIndex + 1);
+    }
 }

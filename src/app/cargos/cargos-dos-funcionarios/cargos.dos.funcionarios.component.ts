@@ -22,11 +22,10 @@ export class CargosDosFuncionariosComponent {
       this.contratos = res;
     });
   }
-  onChange(value: number) {
+  onChange (value: number) {
     this.valid = true;
     this.cargServ.getCargosFuncionarios(value).subscribe(res => {
       this.listaCargosFuncionarios = res;
-      console.log(this.listaCargosFuncionarios);
     });
   }
 }

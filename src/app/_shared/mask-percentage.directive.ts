@@ -17,13 +17,15 @@ export class MaskPercentageDirective {
             this.element.setSelectionRange(this.element.value.length - 1, this.element.value.length - 1 );
         }
         if (event.key === 'Backspace' || event.key === 'Delete') {
-            if (!(this.digitado === null)) {
+            if ((this.digitado)) {
                 this.digitado = (this.digitado - (this.digitado % 10)) / 10;
                 if (this.digitado === 0) {
                     this.element.value = '0,00%';
                 }else {
                     this.element.value = (String(this.digitado / 100) + '%').replace('.', ',');
                 }
+            }else {
+                this.element.value = '0,00%';
             }
             this.element.setSelectionRange(this.element.value.length - 1, this.element.value.length - 1 );
         }else {
@@ -49,18 +51,18 @@ export class MaskPercentageDirective {
     onClick (event) {
         this.element.focus();
         if (this.digitado == null || this.digitado === 0) {
-            event.target.value = '0,00%';
+            this.element.value = '0,00%';
         }else {
-            event.target.value = String(this.digitado / 100) + '%';
+            this.element.value = String(this.digitado / 100).replace('.', ',') + '%';
         }
         this.element.setSelectionRange(this.element.value.length - 1, this.element.value.length - 1 );
     }
     @HostListener('blur', ['$event'])
     onBlur(event) {
         if (this.digitado == null || this.digitado === 0) {
-            event.target.value = '0,00%';
+            this.element.value = '0,00%';
         }else {
-            event.target.value = String(this.digitado / 100) + '%';
+            this.element.value = String(this.digitado / 100).replace('.', ',') + '%';
         }
     }
 }

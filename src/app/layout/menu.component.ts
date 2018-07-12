@@ -18,7 +18,7 @@ export class MenuComponent {
     private userService: UserService,
     private router: Router
   ) {
-    if (this.config.user.perfil.cod === 1 && this.config.user.perfil.sigla === 'ADMINISTRADOR') {
+    if (this.config.user.perfil.sigla === 'ADMINISTRADOR') {
       this.admin = true;
     }
   }

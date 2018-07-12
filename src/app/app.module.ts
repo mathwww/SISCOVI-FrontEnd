@@ -22,7 +22,6 @@ import {RelatorioComponent} from './layout/relatorio/relatorio.component';
 import {InicioComponent} from './inicio/inicio.component';
 import {RubricasComponent} from './rubricas/rubricas.component';
 import {RubricasService} from './rubricas/rubricas.service';
-import {TotalmensalComponent} from './totalMensal/totalmensal.component';
 import {ContratosService} from './contratos/contratos.service';
 import {ProfileGuard} from './users/profile.guard';
 import {PercentuaisEstaticosComponent} from './percentuais-estaticos/percentuais-estaticos.component';
@@ -55,6 +54,15 @@ import {CadastroCargosComponent} from './cargos/cadastro-cargos/cadastro-cargos.
 import {VisualizaCargoCadastroComponent} from './cargos/cadastro-cargos/visualiza-cargo-cadastro.component';
 import {AjusteContratoComponent} from './contratos/ajustes-contratuais/ajuste-contrato.component';
 import {KzMaskDirective} from './_shared/kz-mask.directive';
+import {TitlecaseMaskDirective} from './_shared/titlecase-mask.directive';
+import {PagerService} from './_shared/pager.service';
+import {CadastrarAjustesComponent} from './contratos/ajustes-contratuais/cadastrar-ajustes/cadastrar-ajustes.component';
+import {HistoricoGestoresComponent} from './historico/historico-gestores.component';
+import {HistoricoService} from './historico/historico.service';
+import {TotalMensalComponent} from './totalMensal/total-mensal.component';
+import {TotalMensalCalculoComponent} from './totalMensal/total-mensal-calculo/total-mensal-calculo.component';
+import {TotalMensalRetComponent} from './totalMensal/total-mensal-ret/total-mensal-ret.component';
+import {TotalMensalService} from './totalMensal/total-mensal.service';
 
 @NgModule({
   declarations: [
@@ -72,7 +80,6 @@ import {KzMaskDirective} from './_shared/kz-mask.directive';
     RelatorioComponent,
     InicioComponent,
     RubricasComponent,
-    TotalmensalComponent,
     PercentuaisEstaticosComponent,
     UsuariosComponent,
     CargoComponent,
@@ -80,6 +87,7 @@ import {KzMaskDirective} from './_shared/kz-mask.directive';
     CpfPipe,
     CnpjPipe,
     DatePipe,
+    TitlecaseMaskDirective,
     AfirmativePipe,
     PercentuaisComponent,
     CargosDoContratoComponent,
@@ -94,6 +102,11 @@ import {KzMaskDirective} from './_shared/kz-mask.directive';
     CadastroCargosComponent,
     VisualizaCargoCadastroComponent,
     AjusteContratoComponent,
+    CadastrarAjustesComponent,
+    HistoricoGestoresComponent,
+    TotalMensalComponent,
+    TotalMensalCalculoComponent,
+    TotalMensalRetComponent,
   ],
   imports: [
     BrowserModule,
@@ -117,7 +130,10 @@ import {KzMaskDirective} from './_shared/kz-mask.directive';
     ConvencaoService,
     VigenciaService,
     FuncionariosService,
-    CadastroUsuarioService
+    CadastroUsuarioService,
+    PagerService,
+    HistoricoService,
+    TotalMensalService,
   ],
   bootstrap: [AppComponent]
 })

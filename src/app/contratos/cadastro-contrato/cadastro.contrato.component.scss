@@ -73,3 +73,15 @@ h6{
   border-bottom: 1px solid red;
   box-shadow: 0 1px 0 0 red;
 }
+.input-field input[type=text].invalid {
+  border-bottom: 1px solid red;
+  box-shadow: 0 1px 0 0 red;
+}
+.input-field input[type=text].valid.ng-invalid {
+  border-bottom: 1px solid red;
+  box-shadow: 0 1px 0 0 red;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+  color: red;
+}

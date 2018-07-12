@@ -6,7 +6,7 @@ import {ListaConvencoes} from './lista.convencoes';
 
 @Component({
   selector: 'app-convencao-coletiva',
-  templateUrl: 'convencoes.coletivas.html',
+  templateUrl: 'convencoes-coletivas.component.html',
   styleUrls: ['convencoes.coletivas.component.scss']
 })
 export class ConvencoesColetivasComponent {

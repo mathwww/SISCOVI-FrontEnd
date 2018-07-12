@@ -81,7 +81,7 @@ export class UserService {
   }
   getUsuarios() {
     const url = this.config.myApi + '/usuario/getUsuarios';
-    if (this.config.user.perfil.cod === 1 && this.config.user.perfil.sigla === 'ADMINISTRADOR') {
+    if (this.config.user.perfil.sigla === 'ADMINISTRADOR') {
       return this.http.get(url, {headers: this.headers}).map(res => res.json());
     }else {
       return null;
@@ -93,5 +93,9 @@ export class UserService {
     this.loggedIn = !!token;
     this.getCurrent();
     return this.loggedIn;
+  }
+  getGestores() {
+      const url = this.config.myApi + '/usuario/getGestores';
+      return this.http.get(url, {headers: this.headers}).map(res => res.json());
   }
 }

@@ -1,0 +1,34 @@
+<div class="section center-align centered center">
+    <div class="row">
+      <div class="input-field col s7 offset-s1">
+        <select class="black-text" name="contrato" materialize="material_select" [ngModel]="contratos" (change)="onChange($event.target.value)" required>
+          <option disabled>Selecione</option>
+            <option class="black-text" *ngFor="let contrato of contratos" [value]="contrato.codigo">{{contrato.nomeDaEmpresa}} - Contrato nº: {{contrato.numeroDoContrato}}</option>
+        </select>
+        <label style="font-size: 0.85vw">Selecione um Contrato</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s2 offset-s1">
+        <select name="mes" materialize="material_select" required>
+          <option *ngFor="let mes of meses" [value]="mes.valor" [selected]="mes.valor === currentMonth">{{ mes.mes }}</option>
+        </select>
+        <label style="font-size: 0.85vw">Selecione um mês</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s2 offset-s1">
+        <select name="ano" id="select-year" materialize="material_select" [materializeSelectOptions]="years" required>
+          <option *ngFor="let year of years" class="center-align" [value]="year" [selected]="year === currentYear">{{year}}</option>
+        </select>
+        <label style="font-size: 0.85vw">Selecione um ano</label>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="center-align">
+      <button class="waves-effect waves-light btn-large blue-grey darken-3" type="submit" [disabled]="validate">Calcular</button>
+    </div>
+  </div>
+

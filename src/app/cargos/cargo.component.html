@@ -1,7 +1,14 @@
 <div class="container">
   <h2 class="center">Cargos</h2>
   <div class="row">
-      <button class="btn waves-effect" (click)="openModal()">Cadastrar Novo Cargo</button>
+      <div class="row">
+          <div class="input-field col s6 right">
+              <i class="material-icons prefix">search</i>
+              <input placeholder="Digite um nome" id="search_name" type="text" class="validate">
+              <label for="search_name">Busca</label>
+          </div>
+          <button class="btn waves-effect" (click)="openModal()">Cadastrar Novo Cargo</button>
+      </div>
       <div id="modal1" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
         <div class="modal-content">
             <app-cadastro-cargos *ngIf="render"></app-cadastro-cargos>
@@ -12,10 +19,11 @@
           </div>
       </div>
   </div>
-    <div class="row">
+    <div class="row" *ngIf="pagedItems">
         <table class="centered highlight z-depth-2 hoverable">
             <thead>
             <tr>
+                <th>#</th>
                 <th>Nome do Cargo</th>
                 <th>Descrição</th>
                 <th>Atualizado Por...</th>
@@ -23,7 +31,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let cargo of cargos">
+            <tr *ngFor="let cargo of pagedItems; let i=index">
+                <td>{{(i + 1) + ((pager.currentPage - 1) * 30)}}</td>
                 <td>{{cargo.nome}}</td>
                 <td>{{cargo.descricao}}</td>
                 <td>{{cargo.loginAtualizacao}}</td>
@@ -31,5 +40,24 @@
             </tr>
             </tbody>
         </table>
+        <div class="center">
+            <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+                <li [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a (click)="setPage(1)">Primeira</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === 1}" class="waves-effect">
+                    <a (click)="setPage(pager.currentPage - 1)">Anterior</a>
+                </li>
+                <li class="waves-effect" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                    <a (click)="setPage(page)">{{page}}</a>
+                </li>
+                <li class="waves-effect" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a (click)="setPage(pager.currentPage + 1)">Próxima</a>
+                </li>
+                <li class="waves-effect" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a (click)="setPage(pager.totalPages)">Última</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>

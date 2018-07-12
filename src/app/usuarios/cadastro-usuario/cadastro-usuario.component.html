@@ -29,7 +29,7 @@
                 <div class="input-field col">
                     <select materialize="material_select" [materializeSelectOptions]="perfil" formControlName="sigla" (change)="verifyForm()">
                         <option disabled>Selecione um Perfil</option>
-                        <option *ngFor="let per of perfil" [value]="per">{{per | titlecase}}</option>
+                        <option *ngFor="let per of perfil" [value]="per">{{per}}</option>
                     </select>
                     <label>Perfil do Usuário</label>
                 </div>

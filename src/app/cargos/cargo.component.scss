@@ -18,3 +18,9 @@ div#modal1.modal.open {
   width: 175ch !important;
   max-height: 90ch;
 }
+.pagination li .active {
+  background-color: #263238 !important;
+}
+li.waves-effect.active {
+  background-color: #263238;
+}

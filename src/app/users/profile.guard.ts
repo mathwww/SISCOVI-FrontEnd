@@ -5,7 +5,7 @@ import {ConfigService} from '../_shared/config.service';
 export class ProfileGuard implements CanActivate {
   constructor(private config: ConfigService, private router: Router) {}
   canActivate() {
-    if (this.config.user.perfil.cod === 1 && this.config.user.perfil.sigla === 'ADMINISTRADOR') {
+    if (this.config.user.perfil.sigla === 'ADMINISTRADOR') {
       return true;
     }else {
       this.router.navigate(['home']);

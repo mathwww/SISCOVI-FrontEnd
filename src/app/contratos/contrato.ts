@@ -3,13 +3,13 @@ export class Contrato {
   public codigo: number;
   public dataInicio: Date;
   public nomeDaEmpresa: string;
-  public numeroDoContrato: number;
+  public numeroDoContrato: string;
   public anoDoContrato: number;
   public dataFim: Date;
   public objeto: string;
   public seAtivo: string;
 
-  constructor(nomeDaEmpresa: string, cnpj: string, codigo: number, numeroDoContrato: number,
+  constructor(nomeDaEmpresa: string, cnpj: string, codigo: number, numeroDoContrato: string,
               anoDoContrato: number, dataInicio: Date, dataFim: Date, objeto: string, seAtivo: string) {
     this.nomeDaEmpresa = nomeDaEmpresa;
     this.cnpj = cnpj;

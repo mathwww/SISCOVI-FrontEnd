@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {ContratosService} from '../contratos/contratos.service';
-import {Contrato} from '../contratos/contrato';
+import {ContratosService} from '../../contratos/contratos.service';
+import {Contrato} from '../../contratos/contrato';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {validate} from 'codelyzer/walkerFactory/walkerFn';
 
 @Component({
-  templateUrl: './totalmensal.component.html',
-  selector: 'app-total-mensal',
-  styleUrls: ['./totalmensal.component.scss']
+  templateUrl: './total-mensal-calculo.component.html',
+  selector: 'app-total-mensal-calculo',
+  styleUrls: ['./total-mensal-calculo.component.scss']
 })
-export class TotalmensalComponent implements OnInit{
+export class TotalMensalCalculoComponent implements OnInit {
   contratos: Contrato[] = [];
   meses = [
       {valor: 1, mes: 'Janeiro'},

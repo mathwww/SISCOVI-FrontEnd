@@ -1,17 +1,21 @@
 import {Cargo} from '../../cargos/cargo';
 
 export class FormularioCadastroContrato {
-    nome: string;
-    empresa: string;
+    nomeGestor: string;
+    nomeEmpresa: string;
     cnpj: string;
     numeroContrato: number;
+    ativo: string;
     inicioVigencia: string;
+    nomePrimeiroSubstituto: string;
+    nomeSegundoSubstituto: string;
     fimVigencia: string;
-    dataAssinatura: string;
-    diaConvencao: number;
-    mes: number;
+    objeto: string;
+    assinatura: string;
+    // diaConvencao: number;
+    // mes: number;
     percentualFerias: number;
-    percentualDecTer: number;
+    percentualDecimoTerceiro: number;
     percentualIncidencia: number;
     cargos: Cargo[];
 }
