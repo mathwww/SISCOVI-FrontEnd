@@ -6,5 +6,13 @@ import {Component} from '@angular/core';
     styleUrls: ['./total-mensal.component.scss']
 })
 export class TotalMensalComponent {
+    view = true;
     constructor() {}
+
+    toggleCalculo() {
+        this.view = true;
+    }
+    toggleRet() {
+        this.view = false;
+    }
 }
