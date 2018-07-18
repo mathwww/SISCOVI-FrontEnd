@@ -16,14 +16,10 @@ export class ContratosComponent {
   contServ: ContratosService;
   constructor(contServ: ContratosService) {
       this.contServ = contServ;
-    if (contServ.contratos.length === 0) {
       contServ.getContratosDoUsuario().subscribe( res => {
         contServ.contratos = res;
         this.contratos = res;
       });
-    } else {
-      this.contratos = contServ.contratos;
-    }
   }
   loadMyChildComponent() {
     this.loadComponent = true;

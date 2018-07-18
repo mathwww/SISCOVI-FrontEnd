@@ -3,13 +3,13 @@
 </div>
 <div class="container calculo">
     <div class="row">
-        <ul materialize="collapsible" data-collapsible="accordion" class="collapsible popout">
+        <ul materialize="collapsible" data-collapsible="accordion" class="collapsible popout" [materializeActions]="actions1">
             <li>
                 <div class="collapsible-header active" (click)="toggleCalculo()"><h3 class="center-align">Calcular</h3></div>
                     <div class="collapsible-body">
                         <div class="row">
                             <div class="col s12">
-                                 <app-total-mensal-calculo *ngIf="view"></app-total-mensal-calculo>
+                                 <app-total-mensal-calculo *ngIf="view" (close)="onCalculated($event)"></app-total-mensal-calculo>
                             </div>
                         </div>
                  </div>
@@ -17,7 +17,7 @@
             <li>
                 <div class="collapsible-header" (click)="toggleRet()"><h3 class="center-align">Valores Retidos</h3></div>
                 <div class="collapsible-body">
-                    <app-total-mensal-ret *ngIf="!view"></app-total-mensal-ret>
+                    <app-total-mensal-ret *ngIf="!view" [contratoSelecionado]="contSel"></app-total-mensal-ret>
                 </div>
             </li>
         </ul>

@@ -10,8 +10,12 @@ export class TotalMensalService {
         this.configService = config;
        this.http = http;
     }
-    public getValoresCalculados(codigo: number) {
-        const url = this.configService.myApi + '/total-mensal-a-reter/getValoresRetidos=' + codigo;
+    public getValoresCalculados(codigoContrato: number, codigoUsuario: number) {
+        const url = this.configService.myApi + '/total-mensal-a-reter/getValoresRetidos/' + codigoContrato + '/' + codigoUsuario;
+        return this.http.get(url).map(res => res.json());
+    }
+    public calcularTotalMensal(codigoContrato: number, mes: number, ano: number) {
+        const url = this.configService.myApi + '/total-mensal-a-reter/calculaTotalMensal=' + this.configService.user.id + '/codigo=' + codigoContrato + '/mes=' + mes + '/ano=' + ano;
         return this.http.get(url).map(res => res.json());
     }
 }

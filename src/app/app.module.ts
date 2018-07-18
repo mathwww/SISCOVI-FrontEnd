@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {HttpModule} from '@angular/http';
@@ -134,6 +134,7 @@ import {TotalMensalService} from './totalMensal/total-mensal.service';
     PagerService,
     HistoricoService,
     TotalMensalService,
+    {provide: LOCALE_ID, useValue: 'pt'},
   ],
   bootstrap: [AppComponent]
 })

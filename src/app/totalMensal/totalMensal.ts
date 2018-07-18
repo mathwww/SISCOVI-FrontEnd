@@ -1,26 +1,24 @@
 export class TotalMensal {
-    private _cod: number;
-    private _codTerceirizado: number;
-    private _codFuncaoTerceirizado: number;
+    private _funcao: string;
     private _ferias: number;
     private _tercoConstitucional: number;
     private _decimoTerceiro: number;
+    private _incidencia: number;
     private _multaFGTS: number;
     private _total: number;
-    private _dataReferencia: Date;
-    private _loginAtualizacao: String;
-    private _dataAtualizacao: Date;
-
-    get cod(): number {
-        return this._cod;
+    constructor(funcao: string, ferias: number, tercoConstitucional: number, decimoTerceiro: number, incidencia: number, multaFGTS: number, total: number) {
+        this._funcao = funcao;
+        this._ferias = ferias;
+        this._tercoConstitucional = tercoConstitucional;
+        this._decimoTerceiro = decimoTerceiro;
+        this._incidencia = incidencia;
+        this._multaFGTS = multaFGTS;
+        this._total = total;
     }
 
-    get codTerceirizado(): number {
-        return this._codTerceirizado;
-    }
 
-    get codFuncaoTerceirizado(): number {
-        return this._codFuncaoTerceirizado;
+    get funcao(): string {
+        return this._funcao;
     }
 
     get ferias(): number {
@@ -35,23 +33,15 @@ export class TotalMensal {
         return this._decimoTerceiro;
     }
 
+    get incidencia(): number {
+        return this._incidencia;
+    }
+
     get multaFGTS(): number {
         return this._multaFGTS;
     }
 
     get total(): number {
         return this._total;
-    }
-
-    get dataReferencia(): Date {
-        return this._dataReferencia;
-    }
-
-    get loginAtualizacao(): String {
-        return this._loginAtualizacao;
-    }
-
-    get dataAtualizacao(): Date {
-        return this._dataAtualizacao;
     }
 }
