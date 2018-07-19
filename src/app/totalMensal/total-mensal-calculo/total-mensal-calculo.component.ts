@@ -138,4 +138,5 @@ export class TotalMensalCalculoComponent {
           this.close.emit(this.myForm.get('contrato').value);
       }
   }
+  apagarCalculo() { }
 }

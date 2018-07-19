@@ -1,5 +1,4 @@
-import {TotalMensal} from '../totalMensal';
-import {AfterViewChecked, Component, Input, OnChanges} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {TotalMensalService} from '../total-mensal.service';
 import {Contrato} from '../../contratos/contrato';
 import {ContratosService} from '../../contratos/contratos.service';
@@ -10,7 +9,7 @@ import {ListaTotalMensalData} from '../lista-total-mensal-data';
     selector: 'app-total-mensal-ret',
     templateUrl: './total-mensal-ret.component.html'
 })
-export class TotalMensalRetComponent {
+export class TotalMensalRetComponent implements OnInit {
     calculos: ListaTotalMensalData[];
     contratos: Contrato[];
     tmService: TotalMensalService;
@@ -18,21 +17,51 @@ export class TotalMensalRetComponent {
     private config: ConfigService;
     codContrato: number;
     @Input() contratoSelecionado: number;
-    constructor(tmService: TotalMensalService, contratoService: ContratosService, config: ConfigService) {
+    constructor(tmService: TotalMensalService, contratoService: ContratosService, config: ConfigService, private changeDetector: ChangeDetectorRef) {
         this.contratoService = contratoService;
         this.config = config;
         this.contratoService.getContratosDoUsuario().subscribe(res => {
             this.contratos = res;
         });
         this.tmService = tmService;
-        this.tmService.getValoresCalculados(this.codContrato, this.config.user.id).subscribe(res => {
-            this.calculos = res;
-        });
+
+        if (this.contratoSelecionado) {
+            this.tmService.getValoresCalculados(this.contratoSelecionado, this.config.user.id).subscribe(res => {
+                if (this.calculos) {
+                   this.calculos =  this.calculos.splice(0);
+                }
+                this.calculos = res;
+                this.changeDetector.detectChanges();
+            });
+        }
     }
     onChange(value: number) {
        this.codContrato = value;
        this.tmService.getValoresCalculados(this.codContrato, this.config.user.id).subscribe(res => {
-            this.calculos = res;
-        });
+           if (this.calculos) {
+               this.calculos = this.calculos.splice(0);
+           }
+           this.calculos = res;
+           this.changeDetector.detectChanges();
+       });
+    }
+    onLoad() {
+        if (this.codContrato && this.contratoSelecionado) {
+            this.tmService.getValoresCalculados(this.codContrato, this.config.user.id).subscribe(res => {
+                if (this.calculos) {
+                   this.calculos = this.calculos.splice(0);
+                }
+                this.calculos = res;
+                this.changeDetector.detectChanges();
+            });
+        }
+    }
+    ngOnInit () {
+        if (this.contratoSelecionado) {
+            this.codContrato = this.contratoSelecionado;
+            this.tmService.getValoresCalculados(this.contratoSelecionado, this.config.user.id).subscribe(res => {
+               this.calculos = res;
+            });
+        }
     }
 }

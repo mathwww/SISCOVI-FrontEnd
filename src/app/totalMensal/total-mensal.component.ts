@@ -1,5 +1,6 @@
-import {Component, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
 import {MaterializeAction} from 'angular2-materialize';
+import {TotalMensalRetComponent} from './total-mensal-ret/total-mensal-ret.component';
 
 @Component({
     selector: 'app-total-mensal',
@@ -14,6 +15,7 @@ export class TotalMensalComponent {
 
     toggleCalculo() {
         this.view = true;
+        this.contSel = null;
     }
     toggleRet() {
         this.view = false;
@@ -24,4 +26,5 @@ export class TotalMensalComponent {
         this.actions1.emit({action: 'collapsible', params: ['open', 1]});
         this.actions1.emit({action: 'collapsible', params: ['close', 0]});
     }
+
 }

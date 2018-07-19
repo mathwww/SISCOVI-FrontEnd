@@ -15,12 +15,11 @@
                  </div>
             </li>
             <li>
-                <div class="collapsible-header" (click)="toggleRet()"><h3 class="center-align">Valores Retidos</h3></div>
+                <div class="collapsible-header" (click)="toggleRet()" ><h3 class="center-align">Valores Retidos</h3></div>
                 <div class="collapsible-body">
                     <app-total-mensal-ret *ngIf="!view" [contratoSelecionado]="contSel"></app-total-mensal-ret>
                 </div>
             </li>
         </ul>
     </div>
-
 </div>
