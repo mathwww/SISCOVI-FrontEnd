@@ -63,6 +63,7 @@ import {TotalMensalComponent} from './totalMensal/total-mensal.component';
 import {TotalMensalCalculoComponent} from './totalMensal/total-mensal-calculo/total-mensal-calculo.component';
 import {TotalMensalRetComponent} from './totalMensal/total-mensal-ret/total-mensal-ret.component';
 import {TotalMensalService} from './totalMensal/total-mensal.service';
+import {FeriasComponent} from './ferias/ferias.component';
 
 @NgModule({
   declarations: [
@@ -107,6 +108,7 @@ import {TotalMensalService} from './totalMensal/total-mensal.service';
     TotalMensalComponent,
     TotalMensalCalculoComponent,
     TotalMensalRetComponent,
+    FeriasComponent,
   ],
   imports: [
     BrowserModule,

@@ -22,6 +22,7 @@ import {CadastrarRubricaComponent} from './rubricas/cadastrar-rubrica/cadastrar-
 import {AjusteContratoComponent} from './contratos/ajustes-contratuais/ajuste-contrato.component';
 import {HistoricoGestoresComponent} from './historico/historico-gestores.component';
 import {TotalMensalComponent} from './totalMensal/total-mensal.component';
+import {FeriasComponent} from "./ferias/ferias.component";
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'home'},
@@ -45,7 +46,7 @@ const routes: Routes = [
       {path: 'funcoes-dos-terceirizados', component: CargosDosFuncionariosComponent, canActivate: [LoggedInGuard]},
       {path: 'vigencias', component: VigenciaDosContratosComponent, canActivate: [LoggedInGuard]},
       {path: 'home', component: InicioComponent, canActivate: [LoggedInGuard]},
-      {path: 'ferias', component: InicioComponent, canActivate: [LoggedInGuard]},
+      {path: 'ferias', component: FeriasComponent, canActivate: [LoggedInGuard]},
       {path: 'decTer', component: InicioComponent, canActivate: [LoggedInGuard]},
       {path: 'rescisao', component: InicioComponent, canActivate: [LoggedInGuard]},
       {path: 'totalMensal', component: TotalMensalComponent, canActivate: [LoggedInGuard]},
