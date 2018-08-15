@@ -64,6 +64,9 @@ import {TotalMensalCalculoComponent} from './totalMensal/total-mensal-calculo/to
 import {TotalMensalRetComponent} from './totalMensal/total-mensal-ret/total-mensal-ret.component';
 import {TotalMensalService} from './totalMensal/total-mensal.service';
 import {FeriasComponent} from './ferias/ferias.component';
+import {DecimoTerceiroComponent} from "./decimo_terceiro/decimo-terceiro.component";
+import {RescisaoComponent} from "./rescisao/rescisao.component";
+import {CalculoFeriasComponent} from "./ferias/calculo-ferias/calculo-ferias.component";
 
 @NgModule({
   declarations: [
@@ -109,6 +112,9 @@ import {FeriasComponent} from './ferias/ferias.component';
     TotalMensalCalculoComponent,
     TotalMensalRetComponent,
     FeriasComponent,
+    DecimoTerceiroComponent,
+    RescisaoComponent,
+    CalculoFeriasComponent
   ],
   imports: [
     BrowserModule,
