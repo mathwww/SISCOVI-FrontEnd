@@ -1,4 +1,6 @@
 import {Component} from '@angular/core';
+import {TerceirizadoFeriasMovimentacao} from './TerceirizadoFeriasMovimentacao';
+import {FeriasService} from './ferias.service';
 
 
 @Component({

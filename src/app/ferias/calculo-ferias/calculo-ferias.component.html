@@ -1,14 +1,14 @@
 <br>
 <div class="row">
     <div class="input-field col l7 offset-l2">
-        <select id="selecao_contrato"materialize="material_select" [materializeSelectOptions]="contratos">
+        <select id="selecao_contrato"materialize="material_select" [materializeSelectOptions]="contratos" (change)="defineCodigoContrato($event.target.value)">
             <option disabled>Selecione um Contrato</option>
             <option *ngFor="let contrato of contratos" [value]="contrato.codigo">{{contrato.nomeDaEmpresa}} - Contrato nº: {{contrato.numeroDoContrato}}</option>
         </select>
         <label for="selecao_contrato">Contrato<span class="red-text"> *</span></label>
     </div>
     <div class="input-field col l4 offset-l2">
-        <select id="selecao_tipo_restituicao" materialize="material_select">
+        <select id="selecao_tipo_restituicao" materialize="material_select" (change)="defineTipoMovimentacao($event.target.value)">
             <option disabled selected>Selecione o tipo de restituição</option>
             <option value="RESGATE">Resgate</option>
             <option value="MOVIMENTACAO">Movimentação</option>
@@ -16,7 +16,7 @@
         <label for="selecao_tipo_restituicao">Tipo de Restituição<span class="red-text"> *</span></label>
     </div>
 </div>
-<table class="highlight centered responsive-table hoverable">
+<table class="highlight centered responsive-table hoverable" *ngIf="terceirizados && (tipoRestituicao == 'MOVIMENTACAO')">
     <thead>
         <tr>
             <th>Código</th>
@@ -31,7 +31,9 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
+        <tr *ngFor="let terceirizado of terceirizados">
+            <td>{{terceirizado.codigoTerceirizadoContrato}}</td>
+            <td>{{terceirizado.nomeTerceirizado}}</td>
             <td></td>
         </tr>
     </tbody>
