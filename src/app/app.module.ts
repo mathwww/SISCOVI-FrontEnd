@@ -67,6 +67,7 @@ import {FeriasComponent} from './ferias/ferias.component';
 import {DecimoTerceiroComponent} from "./decimo_terceiro/decimo-terceiro.component";
 import {RescisaoComponent} from "./rescisao/rescisao.component";
 import {CalculoFeriasComponent} from "./ferias/calculo-ferias/calculo-ferias.component";
+import {FeriasService} from "./ferias/ferias.service";
 
 @NgModule({
   declarations: [
@@ -142,6 +143,7 @@ import {CalculoFeriasComponent} from "./ferias/calculo-ferias/calculo-ferias.com
     PagerService,
     HistoricoService,
     TotalMensalService,
+    FeriasService,
     {provide: LOCALE_ID, useValue: 'pt'},
   ],
   bootstrap: [AppComponent]

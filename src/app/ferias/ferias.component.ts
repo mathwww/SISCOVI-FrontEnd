@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {TerceirizadoFeriasMovimentacao} from './TerceirizadoFeriasMovimentacao';
+import {TerceirizadoFeriasMovimentacao} from './terceirizado-ferias-movimentacao';
 import {FeriasService} from './ferias.service';
 
 
