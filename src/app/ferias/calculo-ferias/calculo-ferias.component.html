@@ -89,7 +89,7 @@
                         <div [formGroupName]="i">
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input type="text" class="validate" formControlName="valorMovimentado"  currencyMask [options]="{prefix: 'R$', thousands: '.', decimal: ',', allowNegative: 'false'}" required>
+                                    <input type="text" class="validate" formControlName="valorMovimentado" (click)="verificaValidadeForm()"  currencyMask [options]="{prefix: 'R$', thousands: '.', decimal: ',', allowNegative: 'false'}" required>
                                 </div>
                             </div>
                         </div>
@@ -110,11 +110,16 @@
 
 <div id="modal1" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
     <div class="modal-content">
-        <h4 class="center">Atenção !</h4>
+        <h4 class="center">Atenção</h4>
+        <br>
         <h5 class=" center">No mínimo uma pessoa deve ser selecionada para se realizar o cálculo !</h5>
     </div>
     <div class="modal-footer">
-        <button class="modal-close waves-effect waves-green btn-flat center center-align centered" (click)="closeModal1()">Ok</button>
+        <div class="col center-align center">
+            <div class="center">
+                <button class="btn waves-effect center button-center"  (click)="closeModal1()">Ok</button>
+            </div>
+        </div>
     </div>
 </div>
 <div id="modal2" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions2">
@@ -124,5 +129,16 @@
     </div>
     <div class="modal-footer">
         <button class="modal-close waves-effect waves-green btn-flat center center-align centered" (click)="closeModal2()">Ok</button>
+    </div>
+</div>
+<div id="modal3" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions3">
+    <div class="modal-content">
+        <h4 class="center">Cálculo</h4>
+        <h5 class=" center">Preencha os campos adequadamente</h5>
+    </div>
+    <div class="modal-footer">
+        <div class="center-align">
+            <button class="modal-close waves-effect waves-green btn-flat left" (click)="closeModal2()">Ok</button>
+        </div>
     </div>
 </div>

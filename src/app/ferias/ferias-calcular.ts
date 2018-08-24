@@ -1,7 +1,7 @@
 export class FeriasCalcular {
     private _codTerceirizadoContrato: number;
     private _tipoRestituicao: string;
-    private _piasVendidos: number;
+    private _diasVendidos: number;
     private _inicioFerias: Date;
     private _fimFerias: Date;
     private _inicioPeriodoAquisitivo: Date;
@@ -11,7 +11,7 @@ export class FeriasCalcular {
 
     constructor(codTerceirizadoContrato: number,
                 tipoRestituicao: string,
-                piasVendidos: number,
+                diasVendidos: number,
                 inicioFerias: Date,
                 fimFerias: Date,
                 inicioPeriodoAquisitivo: Date,
@@ -20,7 +20,7 @@ export class FeriasCalcular {
                 proporcional: string) {
         this._codTerceirizadoContrato = codTerceirizadoContrato;
         this._tipoRestituicao = tipoRestituicao;
-        this._piasVendidos = piasVendidos;
+        this._diasVendidos = diasVendidos;
         this._inicioFerias = inicioFerias;
         this._fimFerias = fimFerias;
         this._inicioPeriodoAquisitivo = inicioPeriodoAquisitivo;
@@ -37,8 +37,8 @@ export class FeriasCalcular {
         return this._tipoRestituicao;
     }
 
-    get piasVendidos(): number {
-        return this._piasVendidos;
+    get diasVendidos(): number {
+        return this._diasVendidos;
     }
 
     get inicioFerias(): Date {
