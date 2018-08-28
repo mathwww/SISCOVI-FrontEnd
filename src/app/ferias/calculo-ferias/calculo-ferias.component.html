@@ -32,6 +32,7 @@
                     <th>Início do Ususfruto</th>
                     <th>Fim do Usufruto</th>
                     <th>Dias Vendidos</th>
+                    <th *ngIf="vmsm">Valor Máximo a Ser Movimentado</th>
                     <th class="grey-text">Valor Movimentado</th>
                 </tr>
             </thead>
@@ -85,11 +86,12 @@
                             </div>
                         </div>
                     </td>
+                  <td *ngIf="vmsm">{{terceirizado.valorRestituicaoFerias.valorFerias + terceirizado.valorRestituicaoFerias.valorIncidenciaTercoConstitucional}}</td>
                     <td>
                         <div [formGroupName]="i">
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input type="text" class="validate" formControlName="valorMovimentado" (click)="verificaValidadeForm()"  currencyMask [options]="{prefix: 'R$', thousands: '.', decimal: ',', allowNegative: 'false'}" required>
+                                    <input type="text" class="validate" formControlName="valorMovimentado"  currencyMask [options]="{prefix: 'R$', thousands: '.', decimal: ',', allowNegative: 'false'}" required>
                                 </div>
                             </div>
                         </div>

@@ -1,13 +1,13 @@
 export class FeriasCalcular {
-    private _codTerceirizadoContrato: number;
-    private _tipoRestituicao: string;
-    private _diasVendidos: number;
-    private _inicioFerias: Date;
-    private _fimFerias: Date;
-    private _inicioPeriodoAquisitivo: Date;
-    private _fimPeriodoAquisitivo: Date;
-    private _valorMovimentado: number;
-    private _proporcional: string;
+    private codTerceirizadoContrato: number;
+    private tipoRestituicao: string;
+    private diasVendidos: number;
+    private inicioFerias: Date;
+    private fimFerias: Date;
+    private inicioPeriodoAquisitivo: Date;
+    private fimPeriodoAquisitivo: Date;
+    private valorMovimentado: number;
+    private proporcional: string;
 
     constructor(codTerceirizadoContrato: number,
                 tipoRestituicao: string,
@@ -18,51 +18,55 @@ export class FeriasCalcular {
                 fimPeriodoAquisitivo: Date,
                 valorMovimentado: number,
                 proporcional: string) {
-        this._codTerceirizadoContrato = codTerceirizadoContrato;
-        this._tipoRestituicao = tipoRestituicao;
-        this._diasVendidos = diasVendidos;
-        this._inicioFerias = inicioFerias;
-        this._fimFerias = fimFerias;
-        this._inicioPeriodoAquisitivo = inicioPeriodoAquisitivo;
-        this._fimPeriodoAquisitivo = fimPeriodoAquisitivo;
-        this._valorMovimentado = valorMovimentado;
-        this._proporcional = proporcional;
+        this.codTerceirizadoContrato = codTerceirizadoContrato;
+        this.tipoRestituicao = tipoRestituicao;
+        this.diasVendidos = diasVendidos;
+        this.inicioFerias = inicioFerias;
+        this.fimFerias = fimFerias;
+        this.inicioPeriodoAquisitivo = inicioPeriodoAquisitivo;
+        this.fimPeriodoAquisitivo = fimPeriodoAquisitivo;
+        this.valorMovimentado = valorMovimentado;
+        this.proporcional = proporcional;
     }
 
-    get codTerceirizadoContrato(): number {
-        return this._codTerceirizadoContrato;
+    getCodTerceirizadoContrato(): number {
+        return this.codTerceirizadoContrato;
     }
 
-    get tipoRestituicao(): string {
-        return this._tipoRestituicao;
+    getTipoRestituicao(): string {
+        return this.tipoRestituicao;
+    }
+    getDiasVendidos(): number {
+        return this.diasVendidos;
     }
 
-    get diasVendidos(): number {
-        return this._diasVendidos;
+    getInicioFerias(): Date {
+        return this.inicioFerias;
     }
 
-    get inicioFerias(): Date {
-        return this._inicioFerias;
+    getFimFerias(): Date {
+        return this.fimFerias;
     }
 
-    get fimFerias(): Date {
-        return this._fimFerias;
+    getInicioPeriodoAquisitivo(): Date {
+        return this.inicioPeriodoAquisitivo;
     }
 
-    get inicioPeriodoAquisitivo(): Date {
-        return this._inicioPeriodoAquisitivo;
+    getFimPeriodoAquisitivo(): Date {
+        return this.fimPeriodoAquisitivo;
     }
 
-    get fimPeriodoAquisitivo(): Date {
-        return this._fimPeriodoAquisitivo;
+    getValorMovimentado(): number {
+        return this.valorMovimentado;
     }
 
-    get valorMovimentado(): number {
-        return this._valorMovimentado;
+    getProporcional(): string {
+        return this.proporcional;
     }
-
-    get proporcional(): string {
-        return this._proporcional;
+    setInicioFerias(inicioFerias: Date) {
+        this.inicioFerias = inicioFerias;
     }
-
+    setFimFerias(fimFerias: Date) {
+        this.fimFerias = fimFerias;
+    }
 }
