@@ -3,4 +3,6 @@ export class ValorRestituicaoFerias {
     valorTercoConstitucional: number;
     valorIncidenciaFerias: number;
     valorIncidenciaTercoConstitucional: number;
+    inicioPeriodoAquisitivo: Date;
+    fimPeriodoAquisitivo: Date;
 }

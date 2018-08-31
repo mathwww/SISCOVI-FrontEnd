@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {ConfigService} from '../_shared/config.service';
 import {FeriasCalcular} from './ferias-calcular';
+import {Observable} from 'rxjs/Observable';
 
 
 @Injectable()
@@ -40,5 +41,10 @@ export class FeriasService {
             const mes = Number(a[1]) - 1;
             const ano = Number(a[2]);
             return new Date(ano, mes, dia);
+    }
+    private handleError(error: any) {
+        let errMsg: string;
+        errMsg = error.message ? error.message : error.toString();
+        return Observable.throw(error);
     }
 }

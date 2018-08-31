@@ -8,6 +8,7 @@ export class FeriasCalcular {
     private fimPeriodoAquisitivo: Date;
     private valorMovimentado: number;
     private proporcional: string;
+    private nomeTerceirizado: string;
 
     constructor(codTerceirizadoContrato: number,
                 tipoRestituicao: string,
@@ -68,5 +69,11 @@ export class FeriasCalcular {
     }
     setFimFerias(fimFerias: Date) {
         this.fimFerias = fimFerias;
+    }
+    setNomeTerceirizado(nomeTerceirizado: string) {
+        this.nomeTerceirizado = nomeTerceirizado;
+    }
+    getNomeTercerizado() {
+        return this.nomeTerceirizado;
     }
 }

@@ -32,7 +32,7 @@
                     <th>Início do Ususfruto</th>
                     <th>Fim do Usufruto</th>
                     <th>Dias Vendidos</th>
-                    <th *ngIf="vmsm">Valor Máximo a Ser Movimentado</th>
+                    <th *ngIf="vmsm">Valor Disponível</th>
                     <th class="grey-text">Valor Movimentado</th>
                 </tr>
             </thead>
@@ -63,7 +63,7 @@
                         <div [formGroupName]="i">
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input type="text" class="validate" placeholder="Ex: 01/01/2000" appMaskDate formControlName="inicioFerias" required>
+                                    <input type="text" class="validate" placeholder="Ex: 01/01/2000" appMaskDate formControlName="inicioFerias" maxlength="10" required>
                                 </div>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                         <div [formGroupName]="i">
                             <div class="row">
                                 <div class="input-field col s12 ">
-                                    <input type="text" class="validate" placeholder="Ex: 01/01/2000" appMaskDate formControlName="fimFerias" required>
+                                    <input type="text" class="validate" placeholder="Ex: 01/01/2000" appMaskDate formControlName="fimFerias" maxlength="10" required>
                                 </div>
                             </div>
                         </div>
@@ -81,17 +81,19 @@
                         <div [formGroupName]="i">
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input type="number" placeholder="Exemplo: 0" class="validate" formControlName="diasVendidos" required>
+                                    <input type="number" placeholder="Exemplo: 0" class="validate" formControlName="diasVendidos" min="0" max="10" required>
                                 </div>
                             </div>
                         </div>
                     </td>
-                  <td *ngIf="vmsm">{{terceirizado.valorRestituicaoFerias.valorFerias + terceirizado.valorRestituicaoFerias.valorIncidenciaTercoConstitucional}}</td>
+                  <td *ngIf="vmsm && terceirizado.valorRestituicaoFerias">
+                      {{terceirizado.valorRestituicaoFerias.valorFerias + terceirizado.valorRestituicaoFerias.valorTercoConstitucional | currency:'BRL':true:'1.2-2'}}</td>
                     <td>
                         <div [formGroupName]="i">
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input type="text" class="validate" formControlName="valorMovimentado"  currencyMask [options]="{prefix: 'R$', thousands: '.', decimal: ',', allowNegative: 'false'}" required>
+                                    <input type="text" class="validate" formControlName="valorMovimentado" (keyup)="verificaFormulario()" currencyMask
+                                           [options]="{prefix: 'R$', thousands: '.', decimal: ',', allowNegative: 'false'}" required>
                                 </div>
                             </div>
                         </div>
@@ -124,23 +126,31 @@
         </div>
     </div>
 </div>
-<div id="modal2" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions2">
-    <div class="modal-content">
-        <h4 class="center">Atenção</h4>
-        <h5 class=" center">Preencha os campos adequadamente</h5>
-    </div>
-    <div class="modal-footer">
-        <button class="modal-close waves-effect waves-green btn-flat center center-align centered" (click)="closeModal2()">Ok</button>
+<div class="container">
+    <div id="modal2" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions2">
+        <div class="modal-content">
+            <h4 class="center">Atenção</h4>
+            <h5 class=" center">Preencha os campos adequadamente</h5>
+        </div>
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col center-align">
+                    <button class="modal-close waves-effect waves-green btn-flat center button-center" (click)="closeModal2()">Ok</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div id="modal3" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions3">
     <div class="modal-content">
-        <h4 class="center">Cálculo</h4>
-        <h5 class=" center">Preencha os campos adequadamente</h5>
+        <h4 class="center">Atenção</h4>
+        <h5>Deseja Confirmar o cálculo realizado ?</h5>
+        <p>Obs.: Esta ação não poderá ser desfeita futuramente *</p>
     </div>
     <div class="modal-footer">
         <div class="center-align">
-            <button class="modal-close waves-effect waves-green btn-flat left" (click)="closeModal2()">Ok</button>
+            <button class="modal-close waves-effect waves-green btn-flat right" (click)="closeModal3()">Confirmar</button>
+            <button class="modal-close waves-effect waves-green btn-flat left" (click)="closeModal3()">Cancelar</button>
         </div>
     </div>
 </div>

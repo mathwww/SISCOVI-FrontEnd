@@ -1,4 +1,4 @@
-import {Component, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, OnInit} from '@angular/core';
 import {ContratosService} from '../../contratos/contratos.service';
 import {Contrato} from '../../contratos/contrato';
 import {TerceirizadoFeriasMovimentacao} from '../terceirizado-ferias-movimentacao';
@@ -6,13 +6,16 @@ import {FeriasService} from '../ferias.service';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {FeriasCalcular} from '../ferias-calcular';
 import {MaterializeAction} from 'angular2-materialize';
+import {Observable} from 'rxjs/Observable';
+import {map} from 'rxjs/operators';
+import 'rxjs/add/observable/of';
 
 @Component({
     selector: 'app-calculo-ferias-component',
     templateUrl: './calculo-ferias.component.html',
     styleUrls: ['./calculo-ferias.component.scss']
 })
-export class CalculoFeriasComponent {
+export class CalculoFeriasComponent  {
     protected contratos: Contrato[];
     protected terceirizados: TerceirizadoFeriasMovimentacao[];
     codigoContrato: number;
@@ -26,6 +29,7 @@ export class CalculoFeriasComponent {
     modalActions2 = new EventEmitter<string | MaterializeAction>();
     modalActions3 = new EventEmitter<string | MaterializeAction>();
     vmsm: boolean;
+
     constructor(private contratoService: ContratosService, private feriasService: FeriasService, fb: FormBuilder) {
         this.fb = fb;
         this.contratoService.getContratosDoUsuario().subscribe(res => {
@@ -93,7 +97,14 @@ export class CalculoFeriasComponent {
                        this.feriasForm.get('calcularTerceirizados').get('' + i).get('fimPeriodoAquisitivo').value,
                        this.feriasForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').value,
                        this.feriasForm.get('calcularTerceirizados').get('' + i).get('proporcional').value);
-                   this.feriasCalcular.push(objeto);
+                   const index = this.feriasCalcular.findIndex(x => x.getCodTerceirizadoContrato() === objeto.getCodTerceirizadoContrato());
+                   objeto.setNomeTerceirizado(this.terceirizados[i].nomeTerceirizado);
+                   if (index) {
+                       this.feriasCalcular.splice(index, 1);
+                       this.feriasCalcular.push(objeto);
+                   } else {
+                       this.feriasCalcular.push(objeto);
+                   }
                }else {
                    this.feriasForm.get('calcularTerceirizados').get('' + i).get('inicioFerias').markAsTouched();
                    this.feriasForm.get('calcularTerceirizados').get('' + i).get('inicioFerias').markAsDirty();
@@ -120,7 +131,7 @@ export class CalculoFeriasComponent {
                 this.feriasForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').markAsDirty();
             } */
         }
-        if (this.feriasCalcular && aux) {
+        if ((this.feriasCalcular.length > 0) && aux) {
            console.log(this.feriasCalcular);
            this.openModal3();
         }
@@ -157,8 +168,8 @@ export class CalculoFeriasComponent {
         }
         return (mensagem.length > 0) ? {'mensagem': [mensagem]} : null;
     }
-    public valorMovimentadoValidator(control: AbstractControl): {[key: string]: any} | null {
-        const mensagem = [];
+    public valorMovimentadoValidator(control: AbstractControl) {
+        const mensagem: string[] = [];
         if (control.value <= 0) {
             mensagem.push('O valor a ser movimentado deve ser maior que zero !');
         }
@@ -169,7 +180,7 @@ export class CalculoFeriasComponent {
             dia = Number(control.parent.get('fimFerias').value.split('/')[0]);
             mes = Number(control.parent.get('fimFerias').value.split('/')[1]) - 1;
             ano = Number(control.parent.get('fimFerias').value.split('/')[2]);
-            const fimUsufruto: Date = new Date(control.value);
+            const fimUsufruto: Date = new Date(ano, mes, dia);
             dia = Number(control.parent.get('inicioFerias').value.split('/')[0]);
             mes = Number(control.parent.get('inicioFerias').value.split('/')[1]) - 1;
             ano = Number(control.parent.get('inicioFerias').value.split('/')[2]);
@@ -185,15 +196,21 @@ export class CalculoFeriasComponent {
                        control.parent.get('fimPeriodoAquisitivo').value,
                        0,
                        control.parent.get('proporcional').value);
-                   this.feriasService.getValoresFeriasTerceirizado(feriasTemp).subscribe( res => {
-                     this.terceirizados.forEach( terceirizado => {
-                         if (terceirizado.codigoTerceirizadoContrato === control.parent.get('codTerceirizadoContrato').value) {
-                            terceirizado.valorRestituicaoFerias = res;
-                            control.parent.get('valoMáximoASerMovimentado').setValue(terceirizado.valorRestituicaoFerias.valorFerias + terceirizado.valorRestituicaoFerias.valorTercoConstitucional);
-                            this.vmsm = true;
-                         }
-                     });
-                   });
+                   const index = this.terceirizados.findIndex( x => x.codigoTerceirizadoContrato === Number(control.parent.get('codTerceirizadoContrato').value) );
+                       this.feriasService.getValoresFeriasTerceirizado(feriasTemp).subscribe(res => {
+                           if (!res.error) {
+                               this.terceirizados.forEach(terceirizado => {
+                                   if (terceirizado.codigoTerceirizadoContrato === control.parent.get('codTerceirizadoContrato').value) {
+                                       terceirizado.valorRestituicaoFerias = res;
+                                       control.parent.get('valoMáximoASerMovimentado').setValue(terceirizado.valorRestituicaoFerias.valorFerias + terceirizado.valorRestituicaoFerias.valorTercoConstitucional);
+                                       this.vmsm = true;
+                                   }
+                               });
+                           } else {
+                               const error: string = res.error;
+                               mensagem.push(error);
+                           }
+                       });
                }
            }
             if (control.value && this.vmsm) {
@@ -202,7 +219,10 @@ export class CalculoFeriasComponent {
                 }
             }
         }
-        return (mensagem.length > 0) ? {'mensagem': [mensagem]} : null;
+            // return (mensagem.length > 0) ? {'mensagem': [mensagem]} : null;
+        return Observable.of((mensagem.length > 0 ) ? mensagem : null).pipe(
+            map(result => (mensagem.length > 0) ? {'mensagem': mensagem} : null)
+        );
     }
     public fimUsufrutoValidator(control: AbstractControl): {[key: string]: any} | null {
         const mensagem = [];
@@ -241,17 +261,19 @@ export class CalculoFeriasComponent {
             mes = Number(control.value.split('/')[1]) - 1;
             ano = Number(control.value.split('/')[2]);
             const inicioUsufruto: Date = new Date(ano, mes, dia);
-            const fimPeriodoAquisitivo: Date = new Date(control.parent.get('fimPeriodoAquisitivo').value );
-            const inicioPeriodoAquisitivo: Date = control.parent.get('inicioPeriodoAquisitivo').value;
+            let val: Number[] = control.parent.get('fimPeriodoAquisitivo').value.split('-');
+            const fimPeriodoAquisitivo: Date = new Date(Number(val[0]), Number(val[1]) - 1, Number(val[2]));
+            val = control.parent.get('inicioPeriodoAquisitivo').value.split('-');
+            const inicioPeriodoAquisitivo: Date = new Date(Number(val[0]), Number(val[1]) - 1, Number(val[2]));
             if (control.parent.get('existeCalculoAnterior').value === true) {
-                if (inicioUsufruto < fimPeriodoAquisitivo) {
+                if (inicioUsufruto <= fimPeriodoAquisitivo) {
                     mensagem.push('A Data do início do usufruto deve ser maior que o fim de período aquisitivo !');
                 }
-                if (inicioUsufruto < inicioPeriodoAquisitivo) {
+                if (inicioUsufruto <= inicioPeriodoAquisitivo) {
                    mensagem.push('A Data de início do usufruto deve ser maior que a data de início do período aquisitivo !');
                 }
             } else {
-                if (inicioUsufruto < inicioPeriodoAquisitivo) {
+                if (inicioUsufruto <= inicioPeriodoAquisitivo) {
                     mensagem.push('A Data de início do usufruto deve ser maior que a data de início do período aquisitivo !');
                 }
             }
@@ -273,7 +295,7 @@ export class CalculoFeriasComponent {
     openModal3() {
         this.modalActions3.emit({action: 'modal', params: ['open']});
     }
-    closeModal() {
+    closeModal3() {
         this.modalActions3.emit({action: 'modal', params: ['close']});
     }
     protected encapsulaDatas(value: any, operacao: boolean): Date {
@@ -286,5 +308,8 @@ export class CalculoFeriasComponent {
         }else {
             return value as Date;
         }
+    }
+    verificaFormulario() {
+        console.log(this.feriasForm.get('calcularTerceirizados').get('0').get('valorMovimentado'));
     }
 }
