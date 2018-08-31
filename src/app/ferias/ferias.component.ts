@@ -8,4 +8,6 @@ import {FeriasService} from './ferias.service';
     templateUrl: './ferias.component.html',
     styleUrls: ['./ferias.component.scss']
 })
-export class FeriasComponent {}
+export class FeriasComponent {
+    calculosPendentes() { }
+}

@@ -107,7 +107,7 @@
 <div class="container">
     <div class="row" *ngIf="terceirizados && tipoRestituicao">
         <div class="center-align">
-            <button class="btn waves-effect" (click)="verificaDadosFormulario()" type="submit">Calcular</button>
+            <button class="btn waves-effect center" (click)="verificaDadosFormulario()" type="submit">Calcular</button>
         </div>
     </div>
 </div>
@@ -121,7 +121,7 @@
     <div class="modal-footer">
         <div class="col center-align center">
             <div class="center">
-                <button class="btn waves-effect center button-center"  (click)="closeModal1()">Ok</button>
+                <button class="btn waves-effect center"  (click)="closeModal1()">Ok</button>
             </div>
         </div>
     </div>
@@ -133,25 +133,30 @@
             <h5 class=" center">Preencha os campos adequadamente</h5>
         </div>
         <div class="modal-footer">
-            <div class="row">
-                <div class="col center-align">
-                    <button class="modal-close waves-effect waves-green btn-flat center button-center" (click)="closeModal2()">Ok</button>
-                </div>
-            </div>
+            <button class="btn waves-effect center" (click)="closeModal2()">Ok</button>
         </div>
     </div>
 </div>
 <div id="modal3" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions3">
     <div class="modal-content">
         <h4 class="center">Atenção</h4>
-        <h5>Deseja Confirmar o cálculo realizado ?</h5>
+        <h5 class="center">Deseja Confirmar o cálculo realizado ?</h5>
         <p>Obs.: Esta ação não poderá ser desfeita futuramente *</p>
     </div>
     <div class="modal-footer">
         <div class="center-align">
-            <button class="modal-close waves-effect waves-green btn-flat right" (click)="closeModal3()">Confirmar</button>
-            <button class="modal-close waves-effect waves-green btn-flat left" (click)="closeModal3()">Cancelar</button>
+            <button class="btn waves-effect right" (click)="efetuarCalculo()">Confirmar</button>
+            <button class="btn waves-effect left" (click)="closeModal3()">Cancelar</button>
         </div>
     </div>
-
+</div>
+<div id="modal4" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions4">
+    <div class="modal-content">
+        <h4 class="center">Cálculo realizado com sucesso !</h4>
+    </div>
+    <div class="modal-footer">
+        <div class="center-align">
+            <button class="btn waves-effect center" (click)="closeModal4()">Ok</button>
+        </div>
+    </div>
 </div>

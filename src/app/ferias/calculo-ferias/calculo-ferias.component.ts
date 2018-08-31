@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ContratosService} from '../../contratos/contratos.service';
 import {Contrato} from '../../contratos/contrato';
 import {TerceirizadoFeriasMovimentacao} from '../terceirizado-ferias-movimentacao';
@@ -28,8 +28,9 @@ export class CalculoFeriasComponent  {
     modalActions = new EventEmitter<string | MaterializeAction>();
     modalActions2 = new EventEmitter<string | MaterializeAction>();
     modalActions3 = new EventEmitter<string | MaterializeAction>();
+    modalActions4 = new EventEmitter<string | MaterializeAction>();
     vmsm: boolean;
-
+    @Output() navegaParaViewDeCalculos = new EventEmitter();
     constructor(private contratoService: ContratosService, private feriasService: FeriasService, fb: FormBuilder) {
         this.fb = fb;
         this.contratoService.getContratosDoUsuario().subscribe(res => {
@@ -97,6 +98,10 @@ export class CalculoFeriasComponent  {
                        this.feriasForm.get('calcularTerceirizados').get('' + i).get('fimPeriodoAquisitivo').value,
                        this.feriasForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').value,
                        this.feriasForm.get('calcularTerceirizados').get('' + i).get('proporcional').value);
+                   if (this.terceirizados[i].valorRestituicaoFerias) {
+                      objeto.setInicioPeriodoAquisitivo(this.terceirizados[i].valorRestituicaoFerias.inicioPeriodoAquisitivo);
+                      objeto.setFimPeriodoAquisitivo(this.terceirizados[i].valorRestituicaoFerias.fimPeriodoAquisitivo);
+                   }
                    const index = this.feriasCalcular.findIndex(x => x.getCodTerceirizadoContrato() === objeto.getCodTerceirizadoContrato());
                    objeto.setNomeTerceirizado(this.terceirizados[i].nomeTerceirizado);
                    if (index) {
@@ -132,7 +137,6 @@ export class CalculoFeriasComponent  {
             } */
         }
         if ((this.feriasCalcular.length > 0) && aux) {
-           console.log(this.feriasCalcular);
            this.openModal3();
         }
     }
@@ -291,12 +295,20 @@ export class CalculoFeriasComponent  {
     }
     closeModal2() {
         this.modalActions2.emit({action: 'modal', params: ['close']});
+        this.feriasForm.get('calcularTerceirizados').get('0' ).get('inicioFerias');
     }
     openModal3() {
         this.modalActions3.emit({action: 'modal', params: ['open']});
     }
     closeModal3() {
         this.modalActions3.emit({action: 'modal', params: ['close']});
+    }
+    openModal4() {
+        this.modalActions4.emit({action: 'modal', params: ['open']});
+    }
+    closeModal4() {
+        this.modalActions4.emit({action: 'modal', params: ['close']});
+        this.navegaParaViewDeCalculos.emit();
     }
     protected encapsulaDatas(value: any, operacao: boolean): Date {
         if (operacao) {
@@ -311,5 +323,13 @@ export class CalculoFeriasComponent  {
     }
     verificaFormulario() {
         console.log(this.feriasForm.get('calcularTerceirizados').get('0').get('valorMovimentado'));
+    }
+    efetuarCalculo(): void {
+        this.feriasService.calculaFeriasTerceirizados(this.feriasCalcular).subscribe(res => {
+            if (res.status === 200) {
+               this.closeModal3();
+               this.openModal4();
+            }
+        });
     }
 }

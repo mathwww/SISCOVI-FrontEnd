@@ -13,8 +13,28 @@ export class FeriasService {
         return this.http.get(url).map(res => res.json());
     }
     calculaFeriasTerceirizados(feriasCalcular: FeriasCalcular[]) {
-        const url = this.config.myApi + '/ferias/calculaFeriasTerceirizados';
-        const data = feriasCalcular;
+        const url = this.config.myApi + '/ferias/calcularFeriasTerceirizados';
+        const data = [];
+        feriasCalcular.forEach(ferias => {
+            const inicioFerias = this.encapsulaDatas(ferias.getInicioFerias());
+            const fimFerias = this.encapsulaDatas(ferias.getFimFerias());
+            let tipoRestituicao = '';
+            if (ferias.getTipoRestituicao() === 'MOVIMENTACAO') {
+                tipoRestituicao = 'MOVIMENTAÇÃO';
+            }
+            const val = {
+                'codTerceirizadoContrato': ferias.getCodTerceirizadoContrato(),
+                'tipoRestituicao': tipoRestituicao,
+                'diasVendidos': ferias.getDiasVendidos(),
+                'inicioFerias': inicioFerias.toISOString().split('T')[0],
+                'fimFerias': fimFerias.toISOString().split('T')[0],
+                'inicioPeriodoAquisitivo': ferias.getInicioPeriodoAquisitivo(),
+                'fimPeriodoAquisitivo': ferias.getFimPeriodoAquisitivo(),
+                'valorMovimentado': ferias.getValorMovimentado(),
+                'proporcional': ferias.getProporcional()
+            };
+            data.push(val);
+        });
         const headers = new Headers({'Content-type': 'application/json'});
         return this.http.post(url, data, headers).map(res => res.json());
     }

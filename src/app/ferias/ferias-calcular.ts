@@ -64,16 +64,22 @@ export class FeriasCalcular {
     getProporcional(): string {
         return this.proporcional;
     }
-    setInicioFerias(inicioFerias: Date) {
+    setInicioFerias(inicioFerias: Date): void {
         this.inicioFerias = inicioFerias;
     }
     setFimFerias(fimFerias: Date) {
         this.fimFerias = fimFerias;
     }
-    setNomeTerceirizado(nomeTerceirizado: string) {
+    setNomeTerceirizado(nomeTerceirizado: string): void {
         this.nomeTerceirizado = nomeTerceirizado;
     }
-    getNomeTercerizado() {
+    getNomeTercerizado(): string {
         return this.nomeTerceirizado;
+    }
+    setInicioPeriodoAquisitivo(inicioPeriodoAquisitivo: Date): void {
+       this.inicioPeriodoAquisitivo = inicioPeriodoAquisitivo;
+    }
+    setFimPeriodoAquisitivo(fimPeriodoAquisitivo: Date): void {
+        this.fimPeriodoAquisitivo = fimPeriodoAquisitivo;
     }
 }
