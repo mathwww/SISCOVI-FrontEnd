@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {MaterializeDirective} from 'angular2-materialize';
 import {TerceirizadoFeriasMovimentacao} from './terceirizado-ferias-movimentacao';
 import {FeriasService} from './ferias.service';
 
@@ -9,5 +10,41 @@ import {FeriasService} from './ferias.service';
     styleUrls: ['./ferias.component.scss']
 })
 export class FeriasComponent {
-    calculosPendentes() { }
+    contentAvailable: Content = Content.Calculos;
+    tabSelectionParams = ['select_tab', 'test2'];
+    calculosPendentes() {
+        this.setPendentesActive();
+    }
+    testeCalculo(): boolean {
+        if (this.contentAvailable === Content.Calculos) {
+            return true;
+        }
+        return false;
+    }
+    testePendentes(): boolean {
+        if (this.contentAvailable === Content.Pendentes) {
+            return true;
+        }
+        return false;
+    }
+    testeRetencoes() {
+        if (this.contentAvailable === Content.Retencoes) {
+            return true;
+        }
+        return false;
+    }
+    setRetencoesActive(): void {
+        this.contentAvailable = Content.Retencoes;
+        this.tabSelectionParams = ['select_tab', 'test1'];
+    }
+    setCalcularActive(): void {
+        this.contentAvailable = Content.Calculos;
+        this.tabSelectionParams = ['select_tab', 'test2'];
+    }
+    setPendentesActive(): void {
+        this.contentAvailable = Content.Pendentes;
+        this.tabSelectionParams = ['select_tab', 'test3'];
+    }
 }
+
+enum Content {Calculos, Retencoes, Pendentes}

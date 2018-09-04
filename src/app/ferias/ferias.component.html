@@ -3,15 +3,15 @@
     <div class="row">
         <br>
         <div class="col s12">
-            <ul class="tabs tabs-fixed-width" materialize="tabs">
-                <li class="tab col s3 text-grey text-darken-1"><a href="#test1">Retenções</a></li>
-                <li class="tab col s3 text-grey text-darken-1"><a class="active" href="#test2">Calcular</a></li>
-                <li class="tab col s3 text-grey text-darken-1"><a href="#test3">Cálculos Pendentes de Aprovação</a></li>
+            <ul class="tabs tabs-fixed-width" materialize="tabs" [materializeParams]="tabSelectionParams">
+                <li class="tab col s3 text-grey text-darken-1" ><a (click)="setRetencoesActive()">Retenções</a></li>
+                <li class="tab col s3 text-grey text-darken-1"><a class="active" (click)="setCalcularActive()" >Calcular</a></li>
+                <li class="tab col s3 text-grey text-darken-1"><a  (click)="setPendentesActive()">Cálculos Pendentes de Aprovação</a></li>
                 <div class="indicator blue lighten-3" style="z-index: 1;"></div>
             </ul>
         </div>
-        <div id="test1" class="col s12">Test 1</div>
-        <div id="test2" class="col s12"><app-calculo-ferias-component (navegaParaViewDeCalculos)="calculosPendentes()"></app-calculo-ferias-component></div>
-        <div id="test3" class="col s12">Test 3</div>
+        <div id="test1" class="col s12"><app-relatorio-retencoes-ferias-component *ngIf="testeRetencoes()"></app-relatorio-retencoes-ferias-component></div>
+        <div id="test2" class="col s12"><app-calculo-ferias-component *ngIf="testeCalculo()" (navegaParaViewDeCalculos)="calculosPendentes()"></app-calculo-ferias-component></div>
+        <div id="test3" class="col s12"><app-ferias-calculos-pendentes *ngIf="testePendentes()"></app-ferias-calculos-pendentes></div>
     </div>
 </div>

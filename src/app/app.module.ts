@@ -68,6 +68,8 @@ import {DecimoTerceiroComponent} from './decimo_terceiro/decimo-terceiro.compone
 import {RescisaoComponent} from './rescisao/rescisao.component';
 import {CalculoFeriasComponent} from './ferias/calculo-ferias/calculo-ferias.component';
 import {FeriasService} from './ferias/ferias.service';
+import {FeriasCalculosPendentesComponent} from './ferias/ferias-pendentes/ferias-calculos-pendentes.component';
+import {RelatorioRetencoesFeriasComponent} from './ferias/relatorio-retencoes-ferias/relatorio-retencoes-ferias.component';
 
 @NgModule({
   declarations: [
@@ -115,7 +117,9 @@ import {FeriasService} from './ferias/ferias.service';
     FeriasComponent,
     DecimoTerceiroComponent,
     RescisaoComponent,
-    CalculoFeriasComponent
+    CalculoFeriasComponent,
+    FeriasCalculosPendentesComponent,
+    RelatorioRetencoesFeriasComponent
   ],
   imports: [
     BrowserModule,

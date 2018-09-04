@@ -170,6 +170,24 @@ export class CalculoFeriasComponent  {
         if (control.value < 0) {
            mensagem.push('O valor de dias vendidos não pode ser menor que zero !');
         }
+        if (control.parent) {
+            let dia = 0;
+            let mes = 0;
+            let ano = 0;
+            dia = Number(control.value.split('/')[0]);
+            mes = Number(control.value.split('/')[1]) - 1;
+            ano = Number(control.value.split('/')[2]);
+            const fimUsufruto: Date = new Date(ano, mes, dia);
+            dia = Number(control.parent.get('inicioFerias').value.split('/')[0]);
+            mes = Number(control.parent.get('inicioFerias').value.split('/')[1]) - 1;
+            ano = Number(control.parent.get('inicioFerias').value.split('/')[2]);
+            const inicioUsufruto: Date = new Date(ano, mes, dia);
+            const diff = Math.abs(fimUsufruto.getTime() - inicioUsufruto.getTime());
+            const diffDay = Math.round(diff / (1000 * 3600 * 24));
+            if ((diffDay + control.value) > 30) {
+                mensagem.push('O período de férias e dias vendidos não pode ser maior que trinta dias !');
+            }
+        }
         return (mensagem.length > 0) ? {'mensagem': [mensagem]} : null;
     }
     public valorMovimentadoValidator(control: AbstractControl) {
@@ -326,7 +344,7 @@ export class CalculoFeriasComponent  {
     }
     efetuarCalculo(): void {
         this.feriasService.calculaFeriasTerceirizados(this.feriasCalcular).subscribe(res => {
-            if (res.status === 200) {
+            if (res.success) {
                this.closeModal3();
                this.openModal4();
             }
