@@ -1,8 +1,4 @@
 import {Component} from '@angular/core';
-import {MaterializeDirective} from 'angular2-materialize';
-import {TerceirizadoFeriasMovimentacao} from './terceirizado-ferias-movimentacao';
-import {FeriasService} from './ferias.service';
-
 
 @Component({
     selector: 'app-ferias-component',
@@ -12,7 +8,13 @@ import {FeriasService} from './ferias.service';
 export class FeriasComponent {
     contentAvailable: Content = Content.Calculos;
     tabSelectionParams = ['select_tab', 'test2'];
-    calculosPendentes() {
+    codigoContrato: number;
+
+    constructor() {    }
+
+    calculosPendentes(codigoContrato: number) {
+        this.codigoContrato = codigoContrato;
+        this.tabSelectionParams = ['select_tab', 'test3'];
         this.setPendentesActive();
     }
     testeCalculo(): boolean {

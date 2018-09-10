@@ -1,14 +1,19 @@
 export class FeriasCalcular {
-    private codTerceirizadoContrato: number;
-    private tipoRestituicao: string;
-    private diasVendidos: number;
-    private inicioFerias: Date;
-    private fimFerias: Date;
-    private inicioPeriodoAquisitivo: Date;
-    private fimPeriodoAquisitivo: Date;
-    private valorMovimentado: number;
-    private proporcional: string;
-    private nomeTerceirizado: string;
+    codTerceirizadoContrato: number;
+    tipoRestituicao: string;
+    diasVendidos: number;
+    inicioFerias: Date;
+    fimFerias: Date;
+    inicioPeriodoAquisitivo: Date;
+    fimPeriodoAquisitivo: Date;
+    valorMovimentado: number;
+    proporcional: string;
+    nomeTerceirizado: string;
+    pValorMovimentado: number;
+    pTotalFerias: number;
+    pTotalTercoConstitucional: number;
+    pTotalIncidenciaFerias: number;
+    pTotalIncidenciaTerco: number;
 
     constructor(codTerceirizadoContrato: number,
                 tipoRestituicao: string,
@@ -18,7 +23,12 @@ export class FeriasCalcular {
                 inicioPeriodoAquisitivo: Date,
                 fimPeriodoAquisitivo: Date,
                 valorMovimentado: number,
-                proporcional: string) {
+                proporcional: string,
+                pValorMovimentado: number,
+                pTotalFerias: number,
+                pTotalTercoConstitucional: number,
+                pTotalIncidenciaFerias: number,
+                pTotalIncidenciaTerco: number) {
         this.codTerceirizadoContrato = codTerceirizadoContrato;
         this.tipoRestituicao = tipoRestituicao;
         this.diasVendidos = diasVendidos;
@@ -28,58 +38,84 @@ export class FeriasCalcular {
         this.fimPeriodoAquisitivo = fimPeriodoAquisitivo;
         this.valorMovimentado = valorMovimentado;
         this.proporcional = proporcional;
+        this.pValorMovimentado = pValorMovimentado;
+        this.pTotalFerias = pTotalFerias;
+        this.pTotalTercoConstitucional = pTotalTercoConstitucional;
+        this.pTotalIncidenciaFerias = pTotalIncidenciaFerias;
+        this.pTotalIncidenciaTerco = pTotalIncidenciaTerco;
     }
 
-    getCodTerceirizadoContrato(): number {
+   public  getCodTerceirizadoContrato(): number {
         return this.codTerceirizadoContrato;
     }
 
-    getTipoRestituicao(): string {
+    public getTipoRestituicao(): string {
         return this.tipoRestituicao;
     }
-    getDiasVendidos(): number {
+    public getDiasVendidos(): number {
         return this.diasVendidos;
     }
 
-    getInicioFerias(): Date {
+    public getInicioFerias(): Date {
         return this.inicioFerias;
     }
 
-    getFimFerias(): Date {
+    public getFimFerias(): Date {
         return this.fimFerias;
     }
 
-    getInicioPeriodoAquisitivo(): Date {
+    public getInicioPeriodoAquisitivo(): Date {
         return this.inicioPeriodoAquisitivo;
     }
 
-    getFimPeriodoAquisitivo(): Date {
+    public getFimPeriodoAquisitivo(): Date {
         return this.fimPeriodoAquisitivo;
     }
 
-    getValorMovimentado(): number {
+    public getValorMovimentado(): number {
         return this.valorMovimentado;
     }
 
-    getProporcional(): string {
+    public getProporcional(): string {
         return this.proporcional;
     }
-    setInicioFerias(inicioFerias: Date): void {
+    public setInicioFerias(inicioFerias: Date): void {
         this.inicioFerias = inicioFerias;
     }
-    setFimFerias(fimFerias: Date) {
+    public setFimFerias(fimFerias: Date) {
         this.fimFerias = fimFerias;
     }
-    setNomeTerceirizado(nomeTerceirizado: string): void {
+    public setNomeTerceirizado(nomeTerceirizado: string): void {
         this.nomeTerceirizado = nomeTerceirizado;
     }
-    getNomeTercerizado(): string {
+    public getNomeTercerizado(): string {
         return this.nomeTerceirizado;
     }
-    setInicioPeriodoAquisitivo(inicioPeriodoAquisitivo: Date): void {
+    public setInicioPeriodoAquisitivo(inicioPeriodoAquisitivo: Date): void {
        this.inicioPeriodoAquisitivo = inicioPeriodoAquisitivo;
     }
-    setFimPeriodoAquisitivo(fimPeriodoAquisitivo: Date): void {
+    public setFimPeriodoAquisitivo(fimPeriodoAquisitivo: Date): void {
         this.fimPeriodoAquisitivo = fimPeriodoAquisitivo;
     }
+
+    public getPTotalTercoConstitucional(): number {
+        return this.pTotalTercoConstitucional;
+    }
+
+    public getPTotalIncidenciaFerias(): number {
+        return this.pTotalIncidenciaFerias;
+    }
+
+    public getPTotalFerias(): number {
+        return this.pTotalFerias;
+    }
+
+    public getPValorMovimentado(): number {
+        return this.pValorMovimentado;
+    }
+
+    public getPTotalIncidenciaTerco(): number {
+        return this.pTotalIncidenciaTerco;
+    }
 }
+

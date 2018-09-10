@@ -15,14 +15,15 @@ import 'rxjs/add/observable/of';
     templateUrl: './calculo-ferias.component.html',
     styleUrls: ['./calculo-ferias.component.scss']
 })
-export class CalculoFeriasComponent  {
+export class CalculoFeriasComponent {
     protected contratos: Contrato[];
     protected terceirizados: TerceirizadoFeriasMovimentacao[];
     codigoContrato: number;
     tipoRestituicao: string;
     feriasForm: FormGroup;
+    feriasResgate: FormGroup;
     fb: FormBuilder;
-    isSelected =  false;
+    isSelected = false;
     selected = false;
     feriasCalcular: FeriasCalcular[] = [];
     modalActions = new EventEmitter<string | MaterializeAction>();
@@ -30,13 +31,17 @@ export class CalculoFeriasComponent  {
     modalActions3 = new EventEmitter<string | MaterializeAction>();
     modalActions4 = new EventEmitter<string | MaterializeAction>();
     vmsm: boolean;
+    formExist = false;
+    form2Exist = false;
     @Output() navegaParaViewDeCalculos = new EventEmitter();
+
     constructor(private contratoService: ContratosService, private feriasService: FeriasService, fb: FormBuilder) {
         this.fb = fb;
         this.contratoService.getContratosDoUsuario().subscribe(res => {
             this.contratos = res;
         });
     }
+
     defineCodigoContrato(codigoContrato: number): void {
         this.codigoContrato = codigoContrato;
         if (this.codigoContrato && this.tipoRestituicao) {
@@ -46,15 +51,64 @@ export class CalculoFeriasComponent  {
             });
         }
     }
+
     defineTipoMovimentacao(tipoMovimentacao: string): void {
         this.tipoRestituicao = tipoMovimentacao;
         if (this.codigoContrato && this.tipoRestituicao) {
             this.feriasService.getFuncionariosFerias(this.codigoContrato, this.tipoRestituicao).subscribe(res => {
                 this.terceirizados = res;
-                this.formInit();
+                if (!this.formExist && this.contratos && this.tipoRestituicao === 'MOVIMENTACAO') {
+                    this.formInit();
+                    this.formExist = true;
+                }
+                if (!this.form2Exist && this.contratos && this.tipoRestituicao === 'RESGATE') {
+                    this.formInitResgate();
+                    this.form2Exist = true;
+                }
             });
         }
     }
+
+    formInitResgate(): void {
+        this.feriasResgate = this.fb.group({
+            calcularTerceirizados: this.fb.array([])
+        });
+        const control2 = <FormArray>this.feriasResgate.controls.calcularTerceirizados;
+        this.terceirizados.forEach(item => {
+            const addCtrl = this.fb.group({
+                codTerceirizadoContrato: new FormControl(item.codigoTerceirizadoContrato),
+                inicioPeriodoAquisitivo: new FormControl(item.inicioPeriodoAquisitivo),
+                fimPeriodoAquisitivo: new FormControl(item.fimPeriodoAquisitivo),
+                proporcional: new FormControl('N'),
+                selected: new FormControl(this.isSelected),
+                existeCalculoAnterior: new FormControl(item.existeCalculoAnterior),
+                tipoRestituicao: new FormControl(this.tipoRestituicao),
+                diasVendidos: new FormControl(0),
+                inicioFerias: new FormControl(''),
+                fimFerias: new FormControl(''),
+            });
+            control2.push(addCtrl);
+        });
+        for (let i = 0; i < this.terceirizados.length; i++) {
+            this.feriasResgate.get('calcularTerceirizados').get('' + i).get('codTerceirizadoContrato').setValidators(Validators.required);
+            this.feriasResgate.get('calcularTerceirizados').get('' + i).get('inicioPeriodoAquisitivo').setValidators(Validators.required);
+            this.feriasResgate.get('calcularTerceirizados').get('' + i).get('fimPeriodoAquisitivo').setValidators(Validators.required);
+            this.feriasResgate.get('calcularTerceirizados').get('' + i).get('proporcional').setValidators(Validators.required);
+            this.feriasResgate.get('calcularTerceirizados').get('' + i).get('tipoRestituicao').setValidators(Validators.required);
+            this.feriasResgate.get('calcularTerceirizados').get('' + i).get('diasVendidos').setValidators([this.diasVendidosValidator, Validators.required]);
+            this.feriasResgate.get('calcularTerceirizados').get('' + i).get('inicioFerias').setValidators([Validators.required,
+                this.myDateValidator,
+                this.inicioUsufrutoValidator,
+                Validators.minLength(10),
+                Validators.maxLength(10)]);
+            this.feriasResgate.get('calcularTerceirizados').get('' + i).get('fimFerias').setValidators([Validators.required,
+                this.myDateValidator,
+                this.fimUsufrutoValidator,
+                Validators.minLength(10),
+                Validators.maxLength(10)]);
+        }
+    }
+
     formInit(): void {
         this.feriasForm = this.fb.group({
             calcularTerceirizados: this.fb.array([])
@@ -62,22 +116,43 @@ export class CalculoFeriasComponent  {
         const control = <FormArray>this.feriasForm.controls.calcularTerceirizados;
         this.terceirizados.forEach(item => {
             const addCtrl = this.fb.group({
-                codTerceirizadoContrato: new FormControl(item.codigoTerceirizadoContrato, [Validators.required]),
-                inicioPeriodoAquisitivo: new FormControl(item.inicioPeriodoAquisitivo, [Validators.required]),
-                fimPeriodoAquisitivo: new FormControl(item.fimPeriodoAquisitivo, [Validators.required]),
-                valorMovimentado: new FormControl('', [Validators.required], this.valorMovimentadoValidator.bind(this)),
-                proporcional: new FormControl('N', [Validators.required]),
+                codTerceirizadoContrato: new FormControl(item.codigoTerceirizadoContrato),
+                inicioPeriodoAquisitivo: new FormControl(item.inicioPeriodoAquisitivo),
+                fimPeriodoAquisitivo: new FormControl(item.fimPeriodoAquisitivo),
+                valorMovimentado: new FormControl(''),
+                proporcional: new FormControl('N'),
                 selected: new FormControl(this.isSelected),
                 existeCalculoAnterior: new FormControl(item.existeCalculoAnterior),
-                tipoRestituicao: new FormControl(this.tipoRestituicao, [Validators.required]),
-                diasVendidos: new FormControl(0, [Validators.required, this.diasVendidosValidator]),
-                inicioFerias: new FormControl('', [Validators.required, this.myDateValidator, this.inicioUsufrutoValidator, Validators.minLength(10), Validators.maxLength(10)]),
-                fimFerias: new FormControl('', [Validators.required, this.myDateValidator, this.fimUsufrutoValidator, Validators.minLength(10), Validators.maxLength(10)]),
-                valoMáximoASerMovimentado: new FormControl(),
+                tipoRestituicao: new FormControl(this.tipoRestituicao),
+                diasVendidos: new FormControl(0),
+                inicioFerias: new FormControl(''),
+                fimFerias: new FormControl(''),
+                valoMaximoASerMovimentado: new FormControl(),
             });
             control.push(addCtrl);
         });
+        for (let i = 0; i < this.terceirizados.length; i++) {
+            this.feriasForm.get('calcularTerceirizados').get('' + i).get('codTerceirizadoContrato').setValidators(Validators.required);
+            this.feriasForm.get('calcularTerceirizados').get('' + i).get('inicioPeriodoAquisitivo').setValidators(Validators.required);
+            this.feriasForm.get('calcularTerceirizados').get('' + i).get('fimPeriodoAquisitivo').setValidators(Validators.required);
+            this.feriasForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').setValidators(Validators.required);
+            this.feriasForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').setAsyncValidators(this.valorMovimentadoValidator.bind(this));
+            this.feriasForm.get('calcularTerceirizados').get('' + i).get('proporcional').setValidators(Validators.required);
+            this.feriasForm.get('calcularTerceirizados').get('' + i).get('tipoRestituicao').setValidators(Validators.required);
+            this.feriasForm.get('calcularTerceirizados').get('' + i).get('diasVendidos').setValidators([this.diasVendidosValidator, Validators.required]);
+            this.feriasForm.get('calcularTerceirizados').get('' + i).get('inicioFerias').setValidators([Validators.required,
+                this.myDateValidator,
+                this.inicioUsufrutoValidator,
+                Validators.minLength(10),
+                Validators.maxLength(10)]);
+            this.feriasForm.get('calcularTerceirizados').get('' + i).get('fimFerias').setValidators([Validators.required,
+                this.myDateValidator,
+                this.fimUsufrutoValidator,
+                Validators.minLength(10),
+                Validators.maxLength(10)]);
+        }
     }
+
     /* confirma() {
         console.log(this.feriasForm);
         console.log(this.feriasForm.get('calcularTerceirizados').get('0').get('valorMovimentado').dirty);
@@ -97,17 +172,22 @@ export class CalculoFeriasComponent  {
                        this.feriasForm.get('calcularTerceirizados').get('' + i).get('inicioPeriodoAquisitivo').value,
                        this.feriasForm.get('calcularTerceirizados').get('' + i).get('fimPeriodoAquisitivo').value,
                        this.feriasForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').value,
-                       this.feriasForm.get('calcularTerceirizados').get('' + i).get('proporcional').value);
+                       this.feriasForm.get('calcularTerceirizados').get('' + i).get('proporcional').value, 0, 0, 0, 0, 0);
                    if (this.terceirizados[i].valorRestituicaoFerias) {
                       objeto.setInicioPeriodoAquisitivo(this.terceirizados[i].valorRestituicaoFerias.inicioPeriodoAquisitivo);
                       objeto.setFimPeriodoAquisitivo(this.terceirizados[i].valorRestituicaoFerias.fimPeriodoAquisitivo);
                    }
-                   const index = this.feriasCalcular.findIndex(x => x.getCodTerceirizadoContrato() === objeto.getCodTerceirizadoContrato());
+                   let index = -1;
+                   for (let j = 0; j < this.feriasCalcular.length; j++) {
+                       if (this.feriasCalcular[j].codTerceirizadoContrato === this.feriasForm.get('calcularTerceirizados').get('' + i).get('codTerceirizadoContrato').value) {
+                           index = j;
+                       }
+                   }
                    objeto.setNomeTerceirizado(this.terceirizados[i].nomeTerceirizado);
-                   if (index) {
-                       this.feriasCalcular.splice(index, 1);
+                   if (index === -1) {
                        this.feriasCalcular.push(objeto);
                    } else {
+                       this.feriasCalcular.splice(index, 1);
                        this.feriasCalcular.push(objeto);
                    }
                }else {
@@ -119,6 +199,7 @@ export class CalculoFeriasComponent  {
                    this.feriasForm.get('calcularTerceirizados').get('' + i).get('diasVendidos').markAsDirty();
                    this.feriasForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').markAsTouched();
                    this.feriasForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').markAsDirty();
+                   aux = null;
                    this.openModal2();
                }
             }
@@ -137,6 +218,7 @@ export class CalculoFeriasComponent  {
             } */
         }
         if ((this.feriasCalcular.length > 0) && aux) {
+            console.log(this.feriasCalcular);
            this.openModal3();
         }
     }
@@ -167,25 +249,27 @@ export class CalculoFeriasComponent  {
     }
     public diasVendidosValidator(control: AbstractControl): {[key: string]: any} | null {
         const mensagem = [];
-        if (control.value < 0) {
-           mensagem.push('O valor de dias vendidos não pode ser menor que zero !');
+        if (control.value) {
+                if (control.value < 0) {
+                    mensagem.push('O valor de dias vendidos não pode ser menor que zero !');
+                }
         }
         if (control.parent) {
             let dia = 0;
             let mes = 0;
             let ano = 0;
-            dia = Number(control.value.split('/')[0]);
-            mes = Number(control.value.split('/')[1]) - 1;
-            ano = Number(control.value.split('/')[2]);
+            dia = Number(control.parent.get('fimFerias').value.split('/')[0]);
+            mes = Number(control.parent.get('fimFerias').value.split('/')[1]) - 1;
+            ano = Number(control.parent.get('fimFerias').value.split('/')[2]);
             const fimUsufruto: Date = new Date(ano, mes, dia);
             dia = Number(control.parent.get('inicioFerias').value.split('/')[0]);
             mes = Number(control.parent.get('inicioFerias').value.split('/')[1]) - 1;
             ano = Number(control.parent.get('inicioFerias').value.split('/')[2]);
             const inicioUsufruto: Date = new Date(ano, mes, dia);
             const diff = Math.abs(fimUsufruto.getTime() - inicioUsufruto.getTime());
-            const diffDay = Math.round(diff / (1000 * 3600 * 24));
-            if ((diffDay + control.value) > 30) {
-                mensagem.push('O período de férias e dias vendidos não pode ser maior que trinta dias !');
+            const diffDay: number = Math.round(diff / (1000 * 3600 * 24)) + 1;
+            if ((diffDay + Number(control.value)) !== 30) {
+                mensagem.push('A quantidade de dias vendidos com o período de usufruto de férias não pode ser maior que trinta dias !');
             }
         }
         return (mensagem.length > 0) ? {'mensagem': [mensagem]} : null;
@@ -217,14 +301,14 @@ export class CalculoFeriasComponent  {
                        control.parent.get('inicioPeriodoAquisitivo').value,
                        control.parent.get('fimPeriodoAquisitivo').value,
                        0,
-                       control.parent.get('proporcional').value);
+                       control.parent.get('proporcional').value , 0 , 0 , 0 , 0, 0);
                    const index = this.terceirizados.findIndex( x => x.codigoTerceirizadoContrato === Number(control.parent.get('codTerceirizadoContrato').value) );
                        this.feriasService.getValoresFeriasTerceirizado(feriasTemp).subscribe(res => {
                            if (!res.error) {
                                this.terceirizados.forEach(terceirizado => {
                                    if (terceirizado.codigoTerceirizadoContrato === control.parent.get('codTerceirizadoContrato').value) {
                                        terceirizado.valorRestituicaoFerias = res;
-                                       control.parent.get('valoMáximoASerMovimentado').setValue(terceirizado.valorRestituicaoFerias.valorFerias + terceirizado.valorRestituicaoFerias.valorTercoConstitucional);
+                                       control.parent.get('valoMaximoASerMovimentado').setValue(terceirizado.valorRestituicaoFerias.valorFerias + terceirizado.valorRestituicaoFerias.valorTercoConstitucional);
                                        this.vmsm = true;
                                    }
                                });
@@ -236,7 +320,7 @@ export class CalculoFeriasComponent  {
                }
            }
             if (control.value && this.vmsm) {
-                if (control.value > (control.parent.get('valoMáximoASerMovimentado').value)) {
+                if (control.value > (control.parent.get('valoMaximoASerMovimentado').value)) {
                     mensagem.push('O valor a ser movimentado não pode ser maior que o valor máximo a ser movimentado !');
                 }
             }
@@ -261,11 +345,11 @@ export class CalculoFeriasComponent  {
                 mes = Number(control.parent.get('inicioFerias').value.split('/')[1]) - 1;
                 ano = Number(control.parent.get('inicioFerias').value.split('/')[2]);
                 const inicioUsufruto: Date = new Date(ano, mes, dia);
-                if (fimUsufruto < inicioUsufruto) {
+                if (fimUsufruto <= inicioUsufruto) {
                     mensagem.push('A Data Fim do Usufruto deve ser maior que a Data de Início do Usufruto !');
                 }
                 const diff = Math.abs(fimUsufruto.getTime() - inicioUsufruto.getTime());
-                const diffDay = Math.round(diff / (1000 * 3600 * 24));
+                const diffDay = Math.round(diff / (1000 * 3600 * 24)) + 1;
                 if (diffDay > 30) {
                     mensagem.push('O período de férias não pode ser maior que 30 dias !');
                 }
@@ -326,7 +410,7 @@ export class CalculoFeriasComponent  {
     }
     closeModal4() {
         this.modalActions4.emit({action: 'modal', params: ['close']});
-        this.navegaParaViewDeCalculos.emit();
+        this.navegaParaViewDeCalculos.emit(this.codigoContrato);
     }
     protected encapsulaDatas(value: any, operacao: boolean): Date {
         if (operacao) {
@@ -339,9 +423,6 @@ export class CalculoFeriasComponent  {
             return value as Date;
         }
     }
-    verificaFormulario() {
-        console.log(this.feriasForm.get('calcularTerceirizados').get('0').get('valorMovimentado'));
-    }
     efetuarCalculo(): void {
         this.feriasService.calculaFeriasTerceirizados(this.feriasCalcular).subscribe(res => {
             if (res.success) {
@@ -349,5 +430,68 @@ export class CalculoFeriasComponent  {
                this.openModal4();
             }
         });
+    }
+    verificaDadosFormularioResgate() {
+        let aux = 0;
+        for (let i = 0; i < this.terceirizados.length; i++) {
+            if (this.feriasResgate.get('calcularTerceirizados').get('' + i).get('selected').value) {
+                aux++;
+                if (this.feriasResgate.get('calcularTerceirizados').get('' + i).status === 'VALID') {
+                    const objeto = new FeriasCalcular(this.feriasResgate.get('calcularTerceirizados').get('' + i).get('codTerceirizadoContrato').value,
+                        this.feriasResgate.get('calcularTerceirizados').get('' + i).get('tipoRestituicao').value,
+                        this.feriasResgate.get('calcularTerceirizados').get('' + i).get('diasVendidos').value,
+                        this.feriasResgate.get('calcularTerceirizados').get('' + i).get('inicioFerias').value,
+                        this.feriasResgate.get('calcularTerceirizados').get('' + i).get('fimFerias').value,
+                        this.feriasResgate.get('calcularTerceirizados').get('' + i).get('inicioPeriodoAquisitivo').value,
+                        this.feriasResgate.get('calcularTerceirizados').get('' + i).get('fimPeriodoAquisitivo').value,
+                        0,
+                        this.feriasResgate.get('calcularTerceirizados').get('' + i).get('proporcional').value, 0, 0, 0, 0, 0);
+                    if (this.terceirizados[i].valorRestituicaoFerias) {
+                        objeto.setInicioPeriodoAquisitivo(this.terceirizados[i].valorRestituicaoFerias.inicioPeriodoAquisitivo);
+                        objeto.setFimPeriodoAquisitivo(this.terceirizados[i].valorRestituicaoFerias.fimPeriodoAquisitivo);
+                    }
+                    let index = -1;
+                    for (let j = 0; j < this.feriasCalcular.length; j++) {
+                        if (this.feriasCalcular[j].codTerceirizadoContrato === this.feriasResgate.get('calcularTerceirizados').get('' + i).get('codTerceirizadoContrato').value) {
+                            index = j;
+                        }
+                    }
+                    objeto.setNomeTerceirizado(this.terceirizados[i].nomeTerceirizado);
+                    if (index === -1) {
+                        this.feriasCalcular.push(objeto);
+                    } else {
+                        this.feriasCalcular.splice(index, 1);
+                        this.feriasCalcular.push(objeto);
+                    }
+                }else {
+                    this.feriasResgate.get('calcularTerceirizados').get('' + i).get('inicioFerias').markAsTouched();
+                    this.feriasResgate.get('calcularTerceirizados').get('' + i).get('inicioFerias').markAsDirty();
+                    this.feriasResgate.get('calcularTerceirizados').get('' + i).get('fimFerias').markAsTouched();
+                    this.feriasResgate.get('calcularTerceirizados').get('' + i).get('fimFerias').markAsDirty();
+                    this.feriasResgate.get('calcularTerceirizados').get('' + i).get('diasVendidos').markAsTouched();
+                    this.feriasResgate.get('calcularTerceirizados').get('' + i).get('diasVendidos').markAsDirty();
+                    this.feriasResgate.get('calcularTerceirizados').get('' + i).get('valorMovimentado').markAsTouched();
+                    this.feriasResgate.get('calcularTerceirizados').get('' + i).get('valorMovimentado').markAsDirty();
+                    aux = null;
+                    this.openModal2();
+                }
+            }
+        }
+        if (aux === 0) {
+            this.openModal1();
+            /* for (let i = 0; i < this.terceirizados.length; i++) {
+                this.feriasResgate.get('calcularTerceirizados').get('' + i).get('inicioFerias').markAsTouched();
+                this.feriasResgate.get('calcularTerceirizados').get('' + i).get('inicioFerias').markAsDirty();
+                this.feriasResgate.get('calcularTerceirizados').get('' + i).get('fimFerias').markAsTouched();
+                this.feriasResgate.get('calcularTerceirizados').get('' + i).get('fimFerias').markAsDirty();
+                this.feriasResgate.get('calcularTerceirizados').get('' + i).get('diasVendidos').markAsTouched();
+                this.feriasResgate.get('calcularTerceirizados').get('' + i).get('diasVendidos').markAsDirty();
+                this.feriasResgate.get('calcularTerceirizados').get('' + i).get('valorMovimentado').markAsTouched();
+                this.feriasResgate.get('calcularTerceirizados').get('' + i).get('valorMovimentado').markAsDirty();
+            } */
+        }
+        if ((this.feriasCalcular.length > 0) && aux) {
+            this.openModal3();
+        }
     }
 }

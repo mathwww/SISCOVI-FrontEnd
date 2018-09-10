@@ -55,6 +55,10 @@ export class FeriasService {
         };
         return this.http.post(url, data).map(res => res.json());
     }
+    getCalculosPendentes(codigoContrato: number) {
+        const url = this.config.myApi + '/ferias' + '/getCalculosPendentes=' + codigoContrato;
+        return this.http.get(url).map(res => res.json());
+    }
     protected encapsulaDatas(value: any): Date {
             const a = value.split('/');
             const dia = Number(a[0]);

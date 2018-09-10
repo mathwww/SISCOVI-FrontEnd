@@ -4,14 +4,13 @@
         <br>
         <div class="col s12">
             <ul class="tabs tabs-fixed-width" materialize="tabs" [materializeParams]="tabSelectionParams">
-                <li class="tab col s3 text-grey text-darken-1" ><a (click)="setRetencoesActive()">Retenções</a></li>
-                <li class="tab col s3 text-grey text-darken-1"><a class="active" (click)="setCalcularActive()" >Calcular</a></li>
-                <li class="tab col s3 text-grey text-darken-1"><a  (click)="setPendentesActive()">Cálculos Pendentes de Aprovação</a></li>
-                <div class="indicator blue lighten-3" style="z-index: 1;"></div>
+                <li class="tab col s3 text-grey text-darken-1" ><a [class.active]="testeRetencoes()"(click)="setRetencoesActive()">Restituições</a></li>
+                <li class="tab col s3 text-grey text-darken-1"><a [class.active]="testeCalculo()" (click)="setCalcularActive()" >Calcular</a></li>
+                <li class="tab col s3 text-grey text-darken-1"><a [class.active]="testePendentes()" (click)="setPendentesActive()">Cálculos Pendentes de Aprovação</a></li>
             </ul>
         </div>
-        <div id="test1" class="col s12"><app-relatorio-retencoes-ferias-component *ngIf="testeRetencoes()"></app-relatorio-retencoes-ferias-component></div>
-        <div id="test2" class="col s12"><app-calculo-ferias-component *ngIf="testeCalculo()" (navegaParaViewDeCalculos)="calculosPendentes()"></app-calculo-ferias-component></div>
-        <div id="test3" class="col s12"><app-ferias-calculos-pendentes *ngIf="testePendentes()"></app-ferias-calculos-pendentes></div>
+        <div id="test1" class="col s12" active="testeRetencoes()"><app-relatorio-retencoes-ferias-component *ngIf="testeRetencoes()"></app-relatorio-retencoes-ferias-component></div>
+        <div id="test2" class="col s12" active="testeCalculo()"><app-calculo-ferias-component *ngIf="testeCalculo()" (navegaParaViewDeCalculos)="calculosPendentes($event)"></app-calculo-ferias-component></div>
+        <div id="test3" class="col s12" active="testePendentes()"><app-ferias-calculos-pendentes *ngIf="testePendentes()" [codigoContrato]="codigoContrato"></app-ferias-calculos-pendentes></div>
     </div>
 </div>
