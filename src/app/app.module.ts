@@ -70,6 +70,8 @@ import {CalculoFeriasComponent} from './ferias/calculo-ferias/calculo-ferias.com
 import {FeriasService} from './ferias/ferias.service';
 import {FeriasCalculosPendentesComponent} from './ferias/ferias-pendentes/ferias-calculos-pendentes.component';
 import {RelatorioRetencoesFeriasComponent} from './ferias/relatorio-retencoes-ferias/relatorio-retencoes-ferias.component';
+import {ResgateFeriasComponent} from './ferias/calculo-ferias/resgate-ferias.component';
+import {MovimentacaoFeriasComponent} from './ferias/calculo-ferias/movimentacao-ferias.component';
 
 @NgModule({
   declarations: [
@@ -119,7 +121,9 @@ import {RelatorioRetencoesFeriasComponent} from './ferias/relatorio-retencoes-fe
     RescisaoComponent,
     CalculoFeriasComponent,
     FeriasCalculosPendentesComponent,
-    RelatorioRetencoesFeriasComponent
+    RelatorioRetencoesFeriasComponent,
+    ResgateFeriasComponent,
+    MovimentacaoFeriasComponent
   ],
   imports: [
     BrowserModule,
