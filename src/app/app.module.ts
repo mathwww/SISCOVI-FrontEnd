@@ -72,6 +72,7 @@ import {FeriasCalculosPendentesComponent} from './ferias/ferias-pendentes/ferias
 import {RelatorioRetencoesFeriasComponent} from './ferias/relatorio-retencoes-ferias/relatorio-retencoes-ferias.component';
 import {ResgateFeriasComponent} from './ferias/calculo-ferias/resgate-ferias.component';
 import {MovimentacaoFeriasComponent} from './ferias/calculo-ferias/movimentacao-ferias.component';
+import {DiasConcedidosDirective} from "./_shared/dias-concedidos.directive";
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import {MovimentacaoFeriasComponent} from './ferias/calculo-ferias/movimentacao-
     MaskDateDirective,
     MaskPercentageDirective,
     KzMaskDirective,
+    DiasConcedidosDirective,
     LoginComponent,
     ComumComponent,
     FooterComponent,
