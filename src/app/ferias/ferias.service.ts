@@ -21,6 +21,8 @@ export class FeriasService {
             let tipoRestituicao = '';
             if (ferias.getTipoRestituicao() === 'MOVIMENTACAO') {
                 tipoRestituicao = 'MOVIMENTAÇÃO';
+            }else if (ferias.getTipoRestituicao() === 'RESGATE') {
+                tipoRestituicao = ferias.getTipoRestituicao();
             }
             const val = {
                 'codTerceirizadoContrato': ferias.getCodTerceirizadoContrato(),
@@ -31,7 +33,11 @@ export class FeriasService {
                 'inicioPeriodoAquisitivo': ferias.getInicioPeriodoAquisitivo(),
                 'fimPeriodoAquisitivo': ferias.getFimPeriodoAquisitivo(),
                 'valorMovimentado': ferias.getValorMovimentado(),
-                'proporcional': ferias.getProporcional()
+                'proporcional': ferias.getProporcional(),
+                'pTotalFerias': ferias.pTotalFerias,
+                'pTotalTercoConstitucional': ferias.pTotalTercoConstitucional,
+                'pTotalIncidenciaFerias': ferias.pTotalIncidenciaFerias,
+                'pTotalIncidenciaTerco': ferias.pTotalIncidenciaTerco
             };
             data.push(val);
         });

@@ -26,8 +26,9 @@ export class MovimentacaoFeriasComponent implements  OnInit {
     modalActions3 = new EventEmitter<string | MaterializeAction>();
     modalActions4 = new EventEmitter<string | MaterializeAction>();
     vmsm = false;
+    protected diasConcedidos: number[] = [];
     @Output() navegaParaViewDeCalculos = new EventEmitter();
-    constructor(private fb: FormBuilder, private feriasService: FeriasService) {}
+    constructor(private fb: FormBuilder, private feriasService: FeriasService) { }
     ngOnInit() {
         this.formInit();
     }
@@ -245,14 +246,11 @@ export class MovimentacaoFeriasComponent implements  OnInit {
             const inicioPeriodoAquisitivo: Date = new Date(Number(val[0]), Number(val[1]) - 1, Number(val[2]));
             if (control.parent.get('existeCalculoAnterior').value === true) {
                 if (inicioUsufruto <= fimPeriodoAquisitivo) {
-                    mensagem.push('A Data do início do usufruto deve ser maior que o fim de período aquisitivo !');
-                }
-                if (inicioUsufruto <= inicioPeriodoAquisitivo) {
-                    mensagem.push('A Data de início do usufruto deve ser maior que a data de início do período aquisitivo !');
+                    mensagem.push('A Data de início do usufruto deve ser maior que a data fim do período aquisitivo !');
                 }
             } else {
                 if (inicioUsufruto <= inicioPeriodoAquisitivo) {
-                    mensagem.push('A Data de início do usufruto deve ser maior que a data de início do período aquisitivo !');
+                    mensagem.push('A Data de início do usufruto deve ser maior que a data de  início do período aquisitivo !');
                 }
             }
             if (control.touched || control.dirty) {
@@ -367,11 +365,18 @@ export class MovimentacaoFeriasComponent implements  OnInit {
             this.openModal1();
         }
         if ((this.feriasCalcular.length > 0) && aux) {
-            console.log(this.feriasCalcular);
+            this.diasConcedidos = [];
+            for (let i = 0; i < this.feriasCalcular.length; i++) {
+               this.getDiasConcedidos(this.feriasCalcular[i].inicioFerias, this.feriasCalcular[i].fimFerias, this.feriasCalcular[i].diasVendidos, i);
+               this.terceirizados.forEach(terceirizado => {
+                   this.feriasCalcular[i].inicioPeriodoAquisitivo = terceirizado.valorRestituicaoFerias.inicioPeriodoAquisitivo;
+                   this.feriasCalcular[i].fimPeriodoAquisitivo = terceirizado.valorRestituicaoFerias.fimPeriodoAquisitivo;
+               });
+            }
             this.openModal3();
         }
     }
-    getDiasConcedidos(inicioFerias, fimFerias, diasVendidos) {
+    getDiasConcedidos(inicioFerias, fimFerias, diasVendidos, indice) {
         let dia = inicioFerias.split('/')[0];
         let mes = inicioFerias.split('/')[1] - 1;
         let ano = inicioFerias.split('/')[2];
@@ -382,6 +387,7 @@ export class MovimentacaoFeriasComponent implements  OnInit {
         const finalDate = new Date(ano, mes, dia);
         const diffTime  = Math.abs(finalDate.getTime() - initDate.getTime());
         const diffDay = Math.round(diffTime / (1000 * 3600 * 24)) + 1;
-        return diffDay + diasVendidos;
+        this.diasConcedidos[indice] = diffDay + diasVendidos;
+        console.log(this.diasConcedidos);
     }
 }

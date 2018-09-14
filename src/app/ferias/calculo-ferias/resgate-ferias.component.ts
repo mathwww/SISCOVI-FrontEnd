@@ -5,6 +5,7 @@ import {Contrato} from '../../contratos/contrato';
 import {TerceirizadoFeriasMovimentacao} from '../terceirizado-ferias-movimentacao';
 import {FeriasCalcular} from '../ferias-calcular';
 import {MaterializeAction} from 'angular2-materialize';
+import {expressionChangedAfterItHasBeenCheckedError} from "@angular/core/src/view/errors";
 
 @Component({
     selector: 'app-resgate-ferias-component',
@@ -19,6 +20,7 @@ export class ResgateFeriasComponent implements OnInit {
     feriasResgate: FormGroup;
     isSelected = false;
     selected = false;
+    protected diasConcedidos: number[] = [];
     feriasCalcular: FeriasCalcular[] = [];
     modalActions = new EventEmitter<string | MaterializeAction>();
     modalActions2 = new EventEmitter<string | MaterializeAction>();
@@ -117,6 +119,9 @@ export class ResgateFeriasComponent implements OnInit {
             if ((diffDay + Number(control.value)) !== 30) {
                 mensagem.push('A quantidade de dias vendidos com o período de usufruto de férias não pode ser maior que trinta dias !');
             }
+            if (control.touched || control.dirty) {
+                control.parent.updateValueAndValidity();
+            }
         }
         return (mensagem.length > 0) ? {'mensagem': [mensagem]} : null;
     }
@@ -144,6 +149,14 @@ export class ResgateFeriasComponent implements OnInit {
                     mensagem.push('O período de férias não pode ser maior que 30 dias !');
                 }
             }
+            if ((control.touched || control.dirty) && (control.value.length === 10)) {
+                if ((control.parent.get('inicioFerias').touched || control.parent.get('inicioFerias').dirty) && control.parent.get('inicioFerias').valid) {
+                    control.parent.get('diasVendidos').updateValueAndValidity();
+                }
+                if (control.valid && control.parent.get('inicioFerias')) {
+                    control.parent.get('diasVendidos').updateValueAndValidity();
+                }
+            }
         }
         return (mensagem.length > 0) ? {'mensagem': [mensagem]} : null;
     }
@@ -163,14 +176,19 @@ export class ResgateFeriasComponent implements OnInit {
             const inicioPeriodoAquisitivo: Date = new Date(Number(val[0]), Number(val[1]) - 1, Number(val[2]));
             if (control.parent.get('existeCalculoAnterior').value === true) {
                 if (inicioUsufruto <= fimPeriodoAquisitivo) {
-                    mensagem.push('A Data do início do usufruto deve ser maior que o fim de período aquisitivo !');
-                }
-                if (inicioUsufruto <= inicioPeriodoAquisitivo) {
-                    mensagem.push('A Data de início do usufruto deve ser maior que a data de início do período aquisitivo !');
+                    mensagem.push('A Data de início do usufruto deve ser maior que a data fim do período aquisitivo !');
                 }
             } else {
                 if (inicioUsufruto <= inicioPeriodoAquisitivo) {
-                    mensagem.push('A Data de início do usufruto deve ser maior que a data de início do período aquisitivo !');
+                    mensagem.push('A Data de início do usufruto deve ser maior que a data de  início do período aquisitivo !');
+                }
+            }
+            if (control.touched || control.dirty) {
+                if (control.parent.get('fimFerias').touched || control.parent.get('fimFerias').dirty) {
+                    control.parent.get('diasVendidos').updateValueAndValidity();
+                }
+                if (control.valid && control.parent.get('fimFerias')) {
+                    control.parent.get('diasVendidos').updateValueAndValidity();
                 }
             }
         }
@@ -190,6 +208,7 @@ export class ResgateFeriasComponent implements OnInit {
         this.feriasResgate.get('calcularTerceirizados').get('0' ).get('inicioFerias');
     }
     openModal3() {
+        console.log('Primeira chamada');
         this.modalActions3.emit({action: 'modal', params: ['open']});
     }
     closeModal3() {
@@ -279,7 +298,42 @@ export class ResgateFeriasComponent implements OnInit {
             } */
         }
         if ((this.feriasCalcular.length > 0) && aux) {
-            this.openModal3();
+            this.diasConcedidos = [];
+            for (let i = 0; i < this.feriasCalcular.length; i++) {
+                this.getDiasConcedidos(this.feriasCalcular[i].inicioFerias, this.feriasCalcular[i].fimFerias, this.feriasCalcular[i].diasVendidos, i);
+                this.feriasService.getValoresFeriasTerceirizado(this.feriasCalcular[i]).subscribe(res => {
+                    if (!res.error) {
+                        this.terceirizados.forEach(terceirizado => {
+                            if (terceirizado.codigoTerceirizadoContrato === this.feriasCalcular[i].codTerceirizadoContrato) {
+                                terceirizado.valorRestituicaoFerias = res;
+                                this.feriasCalcular[i].pTotalFerias = terceirizado.valorRestituicaoFerias.valorFerias;
+                                this.feriasCalcular[i].pTotalTercoConstitucional = terceirizado.valorRestituicaoFerias.valorTercoConstitucional;
+                                this.feriasCalcular[i].pTotalIncidenciaFerias = terceirizado.valorRestituicaoFerias.valorIncidenciaFerias;
+                                this.feriasCalcular[i].pTotalIncidenciaTerco = terceirizado.valorRestituicaoFerias.valorIncidenciaTercoConstitucional;
+                                this.feriasCalcular[i].inicioPeriodoAquisitivo = terceirizado.valorRestituicaoFerias.inicioPeriodoAquisitivo;
+                                this.feriasCalcular[i].fimPeriodoAquisitivo = terceirizado.valorRestituicaoFerias.fimPeriodoAquisitivo;
+                                if (i === (this.feriasCalcular.length - 1)) {
+                                    this.openModal3();
+                                }
+                            }
+                        });
+                    }
+                });
+            }
         }
+    }
+    getDiasConcedidos(inicioFerias, fimFerias, diasVendidos, indice) {
+        let dia = inicioFerias.split('/')[0];
+        let mes = inicioFerias.split('/')[1] - 1;
+        let ano = inicioFerias.split('/')[2];
+        const initDate = new Date(ano, mes , dia);
+        dia = fimFerias.split('/')[0];
+        mes = fimFerias.split('/')[1] - 1;
+        ano = fimFerias.split('/')[2];
+        const finalDate = new Date(ano, mes, dia);
+        const diffTime  = Math.abs(finalDate.getTime() - initDate.getTime());
+        const diffDay = Math.round(diffTime / (1000 * 3600 * 24)) + 1;
+        this.diasConcedidos[indice] = diffDay + diasVendidos;
+        console.log(this.diasConcedidos);
     }
 }

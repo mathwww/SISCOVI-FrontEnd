@@ -164,22 +164,22 @@
         <h4 class="center">Atenção</h4>
         <h5 class="center">Deseja Confirmar o cálculo realizado ?</h5>
         <p>Obs.: Esta ação não poderá ser desfeita futuramente *</p>
-        <table *ngIf="feriasCalcular">
+        <table *ngIf="feriasCalcular"  class="highlight centered responsive-table hoverable">
             <thead>
                 <tr>
                     <th>Terceirizado</th>
                     <th>Início de Férias</th>
                     <th>Fim de Férias</th>
-                    <th>Dias Vendidos</th>
+                    <th>Dias Concedidos</th>
                     <th>Valor a Movimentar</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let ferias of feriasCalcular">
+                <tr *ngFor="let ferias of feriasCalcular; let l = index">
                     <td>{{ferias.nomeTerceirizado}}</td>
                     <td>{{ferias.inicioFerias}}</td>
                     <td>{{ferias.fimFerias}}</td>
-                    <td>{{ferias.diasVendidos}}</td>
+                    <td>{{diasConcedidos[l]}}</td>
                     <td>{{ferias.valorMovimentado | currency:'BRL':true:'1.2-2'}}</td>
                 </tr>
             </tbody>
