@@ -35,6 +35,12 @@ export class FeriasComponent {
         }
         return false;
     }
+    testeExecutados() {
+        if (this.contentAvailable === Content.Executados) {
+            return true;
+        }
+        return false;
+    }
     setRetencoesActive(): void {
         this.contentAvailable = Content.Retencoes;
         this.tabSelectionParams = ['select_tab', 'test1'];
@@ -47,6 +53,10 @@ export class FeriasComponent {
         this.contentAvailable = Content.Pendentes;
         this.tabSelectionParams = ['select_tab', 'test3'];
     }
+    setExecutadosActive(): void {
+        this.contentAvailable = Content.Executados;
+        this.tabSelectionParams = ['select_tab', 'test4'];
+    }
 }
 
-enum Content {Calculos, Retencoes, Pendentes}
+enum Content {Calculos, Retencoes, Pendentes, Executados}

@@ -7,7 +7,7 @@ export class FeriasCalcular {
     inicioPeriodoAquisitivo: Date;
     fimPeriodoAquisitivo: Date;
     valorMovimentado: number;
-    proporcional: string;
+    parcelas: number;
     nomeTerceirizado: string;
     pValorMovimentado: number;
     pTotalFerias: number;
@@ -23,7 +23,7 @@ export class FeriasCalcular {
                 inicioPeriodoAquisitivo: Date,
                 fimPeriodoAquisitivo: Date,
                 valorMovimentado: number,
-                proporcional: string,
+                parcelas: number,
                 pValorMovimentado: number,
                 pTotalFerias: number,
                 pTotalTercoConstitucional: number,
@@ -37,7 +37,7 @@ export class FeriasCalcular {
         this.inicioPeriodoAquisitivo = inicioPeriodoAquisitivo;
         this.fimPeriodoAquisitivo = fimPeriodoAquisitivo;
         this.valorMovimentado = valorMovimentado;
-        this.proporcional = proporcional;
+        this.parcelas = parcelas;
         this.pValorMovimentado = pValorMovimentado;
         this.pTotalFerias = pTotalFerias;
         this.pTotalTercoConstitucional = pTotalTercoConstitucional;
@@ -76,8 +76,8 @@ export class FeriasCalcular {
         return this.valorMovimentado;
     }
 
-    public getProporcional(): string {
-        return this.proporcional;
+    public getParcelas(): number {
+        return this.parcelas;
     }
     public setInicioFerias(inicioFerias: Date): void {
         this.inicioFerias = inicioFerias;

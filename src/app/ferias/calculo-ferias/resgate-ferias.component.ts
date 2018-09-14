@@ -41,7 +41,7 @@ export class ResgateFeriasComponent implements OnInit {
                 codTerceirizadoContrato: new FormControl(item.codigoTerceirizadoContrato, [Validators.required]),
                 inicioPeriodoAquisitivo: new FormControl(item.inicioPeriodoAquisitivo, [Validators.required]),
                 fimPeriodoAquisitivo: new FormControl(item.fimPeriodoAquisitivo, [Validators.required]),
-                proporcional: new FormControl('N', [Validators.required]),
+                parcelas: new FormControl(0, [Validators.required]),
                 selected: new FormControl(this.isSelected),
                 existeCalculoAnterior: new FormControl(item.existeCalculoAnterior),
                 tipoRestituicao: new FormControl(this.tipoRestituicao, [Validators.required]),
@@ -55,7 +55,8 @@ export class ResgateFeriasComponent implements OnInit {
             this.feriasResgate.get('calcularTerceirizados').get('' + i).get('codTerceirizadoContrato').setValidators(Validators.required);
             this.feriasResgate.get('calcularTerceirizados').get('' + i).get('inicioPeriodoAquisitivo').setValidators(Validators.required);
             this.feriasResgate.get('calcularTerceirizados').get('' + i).get('fimPeriodoAquisitivo').setValidators(Validators.required);
-            this.feriasResgate.get('calcularTerceirizados').get('' + i).get('proporcional').setValidators(Validators.required);
+            this.feriasResgate.get('calcularTerceirizados').get('' + i).get('parcelas').setValidators(Validators.required);
+            this.feriasResgate.get('calcularTerceirizados').get('' + i).get('parcelas').setValue(0);
             this.feriasResgate.get('calcularTerceirizados').get('' + i).get('tipoRestituicao').setValidators(Validators.required);
             this.feriasResgate.get('calcularTerceirizados').get('' + i).get('diasVendidos').setValidators([this.diasVendidosValidator, Validators.required]);
             this.feriasResgate.get('calcularTerceirizados').get('' + i).get('inicioFerias').setValidators([Validators.required,
@@ -205,10 +206,9 @@ export class ResgateFeriasComponent implements OnInit {
     }
     closeModal2() {
         this.modalActions2.emit({action: 'modal', params: ['close']});
-        this.feriasResgate.get('calcularTerceirizados').get('0' ).get('inicioFerias');
+        console.log(this.feriasResgate.get('calcularTerceirizados').get('0' ));
     }
     openModal3() {
-        console.log('Primeira chamada');
         this.modalActions3.emit({action: 'modal', params: ['open']});
     }
     closeModal3() {
@@ -254,7 +254,7 @@ export class ResgateFeriasComponent implements OnInit {
                         this.feriasResgate.get('calcularTerceirizados').get('' + i).get('inicioPeriodoAquisitivo').value,
                         this.feriasResgate.get('calcularTerceirizados').get('' + i).get('fimPeriodoAquisitivo').value,
                         0,
-                        this.feriasResgate.get('calcularTerceirizados').get('' + i).get('proporcional').value, 0, 0, 0, 0, 0);
+                        this.feriasResgate.get('calcularTerceirizados').get('' + i).get('parcelas').value, 0, 0, 0, 0, 0);
                     if (this.terceirizados[i].valorRestituicaoFerias) {
                         objeto.setInicioPeriodoAquisitivo(this.terceirizados[i].valorRestituicaoFerias.inicioPeriodoAquisitivo);
                         objeto.setFimPeriodoAquisitivo(this.terceirizados[i].valorRestituicaoFerias.fimPeriodoAquisitivo);

@@ -72,7 +72,10 @@ import {FeriasCalculosPendentesComponent} from './ferias/ferias-pendentes/ferias
 import {RelatorioRetencoesFeriasComponent} from './ferias/relatorio-retencoes-ferias/relatorio-retencoes-ferias.component';
 import {ResgateFeriasComponent} from './ferias/calculo-ferias/resgate-ferias.component';
 import {MovimentacaoFeriasComponent} from './ferias/calculo-ferias/movimentacao-ferias.component';
-import {DiasConcedidosDirective} from "./_shared/dias-concedidos.directive";
+import {DiasConcedidosDirective} from './_shared/dias-concedidos.directive';
+import {ParcelaPipe} from './_shared/parcela.pipe';
+import {CalculoDecimoTerceiroComponent} from './decimo_terceiro/calculo-decimo-terceiro/calculo-decimo-terceiro.component';
+import {DecimoTerceiroService} from "./decimo_terceiro/decimo-terceiro.service";
 
 @NgModule({
   declarations: [
@@ -98,6 +101,7 @@ import {DiasConcedidosDirective} from "./_shared/dias-concedidos.directive";
     CpfPipe,
     CnpjPipe,
     DatePipe,
+    ParcelaPipe,
     TitlecaseMaskDirective,
     AfirmativePipe,
     PercentuaisComponent,
@@ -125,7 +129,8 @@ import {DiasConcedidosDirective} from "./_shared/dias-concedidos.directive";
     FeriasCalculosPendentesComponent,
     RelatorioRetencoesFeriasComponent,
     ResgateFeriasComponent,
-    MovimentacaoFeriasComponent
+    MovimentacaoFeriasComponent,
+    CalculoDecimoTerceiroComponent,
   ],
   imports: [
     BrowserModule,
@@ -154,6 +159,7 @@ import {DiasConcedidosDirective} from "./_shared/dias-concedidos.directive";
     HistoricoService,
     TotalMensalService,
     FeriasService,
+    DecimoTerceiroService,
     {provide: LOCALE_ID, useValue: 'pt'},
   ],
   bootstrap: [AppComponent]

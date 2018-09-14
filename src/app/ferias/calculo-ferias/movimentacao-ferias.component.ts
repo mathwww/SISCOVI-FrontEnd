@@ -8,6 +8,7 @@ import {Observable} from 'rxjs/Observable';
 import {map} from 'rxjs/operators';
 import 'rxjs/add/observable/of';
 
+
 @Component({
     selector: 'app-movimentacao-ferias-component',
     templateUrl: './movimentacao-ferias.component.html',
@@ -43,7 +44,7 @@ export class MovimentacaoFeriasComponent implements  OnInit {
                 inicioPeriodoAquisitivo: new FormControl(item.inicioPeriodoAquisitivo),
                 fimPeriodoAquisitivo: new FormControl(item.fimPeriodoAquisitivo),
                 valorMovimentado: new FormControl(''),
-                proporcional: new FormControl('N'),
+                parcelas: new FormControl(0),
                 selected: new FormControl(this.isSelected),
                 existeCalculoAnterior: new FormControl(item.existeCalculoAnterior),
                 tipoRestituicao: new FormControl(this.tipoRestituicao),
@@ -60,7 +61,8 @@ export class MovimentacaoFeriasComponent implements  OnInit {
             this.feriasForm.get('calcularTerceirizados').get('' + i).get('fimPeriodoAquisitivo').setValidators(Validators.required);
             this.feriasForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').setValidators(Validators.required);
             this.feriasForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').setAsyncValidators(this.valorMovimentadoValidator.bind(this));
-            this.feriasForm.get('calcularTerceirizados').get('' + i).get('proporcional').setValidators(Validators.required);
+            this.feriasForm.get('calcularTerceirizados').get('' + i).get('parcelas').setValidators(Validators.required);
+            this.feriasForm.get('calcularTerceirizados').get('' + i).get('parcelas').setValue(0);
             this.feriasForm.get('calcularTerceirizados').get('' + i).get('tipoRestituicao').setValidators(Validators.required);
             this.feriasForm.get('calcularTerceirizados').get('' + i).get('diasVendidos').setValidators([this.diasVendidosValidator, Validators.required]);
             this.feriasForm.get('calcularTerceirizados').get('' + i).get('diasVendidos').setValue(0);
@@ -160,7 +162,7 @@ export class MovimentacaoFeriasComponent implements  OnInit {
                         control.parent.get('inicioPeriodoAquisitivo').value,
                         control.parent.get('fimPeriodoAquisitivo').value,
                         0,
-                        control.parent.get('proporcional').value , 0 , 0 , 0 , 0, 0);
+                        control.parent.get('parcelas').value , 0 , 0 , 0 , 0, 0);
                     const index = this.terceirizados.findIndex( x => x.codigoTerceirizadoContrato === Number(control.parent.get('codTerceirizadoContrato').value) );
                     this.feriasService.getValoresFeriasTerceirizado(feriasTemp).subscribe(res => {
                         if (!res.error) {
@@ -280,7 +282,6 @@ export class MovimentacaoFeriasComponent implements  OnInit {
     }
     closeModal2() {
         this.modalActions2.emit({action: 'modal', params: ['close']});
-        this.feriasForm.get('calcularTerceirizados').get('0' ).get('inicioFerias');
     }
     openModal3() {
         this.modalActions3.emit({action: 'modal', params: ['open']});
@@ -329,7 +330,7 @@ export class MovimentacaoFeriasComponent implements  OnInit {
                         this.feriasForm.get('calcularTerceirizados').get('' + i).get('inicioPeriodoAquisitivo').value,
                         this.feriasForm.get('calcularTerceirizados').get('' + i).get('fimPeriodoAquisitivo').value,
                         this.feriasForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').value,
-                        this.feriasForm.get('calcularTerceirizados').get('' + i).get('proporcional').value, 0, 0, 0, 0, 0);
+                        this.feriasForm.get('calcularTerceirizados').get('' + i).get('parcelas').value, 0, 0, 0, 0, 0);
                     if (this.terceirizados[i].valorRestituicaoFerias) {
                         objeto.setInicioPeriodoAquisitivo(this.terceirizados[i].valorRestituicaoFerias.inicioPeriodoAquisitivo);
                         objeto.setFimPeriodoAquisitivo(this.terceirizados[i].valorRestituicaoFerias.fimPeriodoAquisitivo);
@@ -369,8 +370,10 @@ export class MovimentacaoFeriasComponent implements  OnInit {
             for (let i = 0; i < this.feriasCalcular.length; i++) {
                this.getDiasConcedidos(this.feriasCalcular[i].inicioFerias, this.feriasCalcular[i].fimFerias, this.feriasCalcular[i].diasVendidos, i);
                this.terceirizados.forEach(terceirizado => {
-                   this.feriasCalcular[i].inicioPeriodoAquisitivo = terceirizado.valorRestituicaoFerias.inicioPeriodoAquisitivo;
-                   this.feriasCalcular[i].fimPeriodoAquisitivo = terceirizado.valorRestituicaoFerias.fimPeriodoAquisitivo;
+                   if (this.feriasCalcular[i].codTerceirizadoContrato === terceirizado.codigoTerceirizadoContrato) {
+                       this.feriasCalcular[i].inicioPeriodoAquisitivo = terceirizado.valorRestituicaoFerias.inicioPeriodoAquisitivo;
+                       this.feriasCalcular[i].fimPeriodoAquisitivo = terceirizado.valorRestituicaoFerias.fimPeriodoAquisitivo;
+                   }
                });
             }
             this.openModal3();

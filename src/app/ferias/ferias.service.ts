@@ -33,7 +33,7 @@ export class FeriasService {
                 'inicioPeriodoAquisitivo': ferias.getInicioPeriodoAquisitivo(),
                 'fimPeriodoAquisitivo': ferias.getFimPeriodoAquisitivo(),
                 'valorMovimentado': ferias.getValorMovimentado(),
-                'proporcional': ferias.getProporcional(),
+                'parcelas': ferias.getParcelas(),
                 'pTotalFerias': ferias.pTotalFerias,
                 'pTotalTercoConstitucional': ferias.pTotalTercoConstitucional,
                 'pTotalIncidenciaFerias': ferias.pTotalIncidenciaFerias,
@@ -57,7 +57,7 @@ export class FeriasService {
             'inicioPeriodoAquisitivo': feriasCalcular.getInicioPeriodoAquisitivo(),
             'fimPeriodoAquisitivo': feriasCalcular.getFimPeriodoAquisitivo(),
             'valorMovimentado': feriasCalcular.getValorMovimentado(),
-            'proporcional': feriasCalcular.getProporcional()
+            'parcelas': feriasCalcular.getParcelas()
         };
         return this.http.post(url, data).map(res => res.json());
     }

@@ -29,7 +29,7 @@
                     <th>  </th>
                     <th>Tipo de Restituição</th>
                     <th>  </th>
-                    <th>Proporcional</th>
+                    <th>Parcela</th>
                     <th>  </th>
                     <th>Início do Periodo Aquisitivo</th>
                     <th>  </th>
@@ -62,7 +62,7 @@
                     <td>  </td>
                     <td>{{calculos.calcularFeriasModel.tipoRestituicao}}</td>
                     <td>  </td>
-                    <td>{{calculos.calcularFeriasModel.proporcional | afirimativePipe}}</td>
+                    <td>{{calculos.calcularFeriasModel.parcelas | parcelaPipe}}</td>
                     <td>  </td>
                     <td>{{calculos.calcularFeriasModel.inicioPeriodoAquisitivo | date: 'shortDate'}}</td>
                     <td>  </td>

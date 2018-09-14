@@ -8,7 +8,7 @@
                     <label for="test6"></label>
                 </th>
                 <th>Terceirizados</th>
-                <th>Proporcional</th>
+                <th>Parcela</th>
                 <th>Início do Período Aquisitivo</th>
                 <th>Fim do Período Aquisititvo</th>
                 <th>Início do Ususfruto</th>
@@ -29,9 +29,11 @@
                     <div [formGroupName]="k">
                         <div class="row">
                             <div class="input-field col s12">
-                                <select materialize="material_select" formControlName="proporcional">
-                                    <option value="N">Não</option>
-                                    <option value="S">Sim</option>
+                                <select materialize="material_select" formControlName="parcelas">
+                                    <option value="0">Única</option>
+                                    <option value="1">Primeira</option>
+                                    <option value="2">Segunda</option>
+                                    <option value="3">Terceira</option>
                                 </select>
                             </div>
                         </div>
