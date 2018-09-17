@@ -1,0 +1,186 @@
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FeriasCalcular} from '../../ferias/ferias-calcular';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {TerceririzadoDecimoTerceiro} from '../terceririzado.decimo.terceiro';
+import {MaterializeAction} from 'angular2-materialize';
+import {DecimoTerceiroService} from '../decimo-terceiro.service';
+import {Observable} from 'rxjs/Observable';
+import {map} from 'rxjs/operators';
+import 'rxjs/add/observable/of';
+
+@Component({
+    selector: 'app-movimentacao-decimo-terceiro-component',
+    templateUrl: './movimentacao-decimo-terceiro.component.html'
+})
+export class MovimentacaoDecimoTerceiroComponent implements  OnInit {
+    @Input() protected terceirizados: TerceririzadoDecimoTerceiro[];
+    @Input() codigoContrato: number;
+    @Input() tipoRestituicao: string;
+    decimoTerceiroForm: FormGroup;
+    isSelected = false;
+    selected = false;
+    calculosDecimoTerceiro: TerceririzadoDecimoTerceiro[] = [];
+    modalActions = new EventEmitter<string | MaterializeAction>();
+    modalActions2 = new EventEmitter<string | MaterializeAction>();
+    modalActions3 = new EventEmitter<string | MaterializeAction>();
+    modalActions4 = new EventEmitter<string | MaterializeAction>();
+    vmsm = false;
+    protected diasConcedidos: number[] = [];
+    @Output() navegaParaViewDeCalculos = new EventEmitter();
+    constructor(private fb: FormBuilder, private decimoTerceiroService: DecimoTerceiroService) { }
+    ngOnInit() {
+        this.formInit();
+    }
+    formInit(): void {
+        this.decimoTerceiroForm = this.fb.group({
+            calcularTerceirizados: this.fb.array([])
+        });
+        const control = <FormArray>this.decimoTerceiroForm.controls.calcularTerceirizados;
+        this.terceirizados.forEach(item => {
+            const addCtrl = this.fb.group({
+                codTerceirizadoContrato: new FormControl(item.codigoTerceirizadoContrato),
+                valorMovimentado: new FormControl(''),
+                parcelas: new FormControl(0),
+                selected: new FormControl(this.isSelected),
+                tipoRestituicao: new FormControl(this.tipoRestituicao),
+                valorDisponível: new FormControl(item.valorDisponivel),
+                inicioContagem: new FormControl(item.inicioContagem)
+            });
+            control.push(addCtrl);
+        });
+        for (let i = 0; i < this.terceirizados.length; i++) {
+            this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('codTerceirizadoContrato').setValidators(Validators.required);
+            this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').setValidators(Validators.required);
+            this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('parcelas').setValidators(Validators.required);
+            this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('parcelas').setValue(0);
+            this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('tipoRestituicao').setValidators(Validators.required);
+            this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('valorDisponivel');
+            this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('inicioContagem');
+        }
+    }
+    public myDateValidator(control: AbstractControl): {[key: string]: any} {
+        const val = control.value;
+        const mensagem = [];
+        const otherRegex = new RegExp(/^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/);
+        if (val.length > 0 ) {
+            const dia = Number(val.split('/')[0]);
+            const mes = Number(val.split('/')[1]);
+            const ano = Number(val.split('/')[2]);
+            if (dia <= 0 || dia > 31 ) {
+                mensagem.push('O dia da data é inválido.');
+            }
+            if (mes <= 0 || mes > 12) {
+                mensagem.push('O Mês digitado é inválido');
+            }
+            if (ano < 2000 || ano > (new Date().getFullYear() + 5)) {
+                mensagem.push('O Ano digitado é inválido');
+            }
+            if (val.length === 10 ) {
+                if (!otherRegex.test(val)) {
+                    mensagem.push('A data digitada é inválida');
+                }
+            }
+        }
+        return (mensagem.length > 0) ? {'mensagem': [mensagem]} : null;
+    }
+    public valorMovimentadoValidator(control: AbstractControl) { }
+    closeModal1() {
+        this.modalActions.emit({action: 'modal', params: ['close']});
+    }
+    openModal1() {
+        this.modalActions.emit({action: 'modal', params: ['open']});
+    }
+    openModal2() {
+        this.modalActions2.emit({action: 'modal', params: ['open']});
+    }
+    closeModal2() {
+        this.modalActions2.emit({action: 'modal', params: ['close']});
+    }
+    openModal3() {
+        this.modalActions3.emit({action: 'modal', params: ['open']});
+    }
+    closeModal3() {
+        this.modalActions3.emit({action: 'modal', params: ['close']});
+    }
+    openModal4() {
+        this.modalActions4.emit({action: 'modal', params: ['open']});
+    }
+    closeModal4() {
+        this.modalActions4.emit({action: 'modal', params: ['close']});
+        this.navegaParaViewDeCalculos.emit(this.codigoContrato);
+    }
+    efetuarCalculo(): void {
+        this.decimoTerceiroService.calculaFeriasTerceirizados(this.calculosDecimoTerceiro).subscribe(res => {
+            if (res.success) {
+                this.closeModal3();
+                this.openModal4();
+            }
+        });
+    }
+    verificaDadosFormulario() {
+        let aux = 0;
+        for (let i = 0; i < this.terceirizados.length; i++) {
+            if (this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('selected').value) {
+                aux++;
+                this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').updateValueAndValidity();
+                if (this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).status === 'VALID' &&  this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').valid) {
+                    const objeto = new TerceririzadoDecimoTerceiro(this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('codTerceirizadoContrato').value,
+                        this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('tipoRestituicao').value,
+                        this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('inicioContagem').value,
+                        this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').value,
+                        this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('parcelas').value);
+                    if (this.terceirizados[i].valorMovimentado) {
+
+                    }
+                    let index = -1;
+                    for (let j = 0; j < this.calculosDecimoTerceiro.length; j++) {
+                        if (this.calculosDecimoTerceiro[j].codigoTerceirizadoContrato === this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('codTerceirizadoContrato').value) {
+                            index = j;
+                        }
+                    }
+                    objeto.setNomeTerceirizado(this.terceirizados[i].nomeTerceirizado);
+                    if (index === -1) {
+                        this.calculosDecimoTerceiro.push(objeto);
+                    } else {
+                        this.calculosDecimoTerceiro.splice(index, 1);
+                        this.calculosDecimoTerceiro.push(objeto);
+                    }
+                }else {
+                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('inicioFerias').markAsTouched();
+                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('inicioFerias').markAsDirty();
+                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('fimFerias').markAsTouched();
+                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('fimFerias').markAsDirty();
+                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('diasVendidos').markAsTouched();
+                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('diasVendidos').markAsDirty();
+                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').markAsTouched();
+                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').markAsDirty();
+                    aux = undefined;
+                    this.openModal2();
+                }
+            }
+        }
+        if (aux === 0) {
+            this.openModal1();
+        }
+        if ((this.calculosDecimoTerceiro.length > 0) && aux) {
+            this.diasConcedidos = [];
+            for (let i = 0; i < this.calculosDecimoTerceiro.length; i++) {
+            }
+            this.openModal3();
+        }
+    }
+    getDiasConcedidos(inicioFerias, fimFerias, diasVendidos, indice) {
+        let dia = inicioFerias.split('/')[0];
+        let mes = inicioFerias.split('/')[1] - 1;
+        let ano = inicioFerias.split('/')[2];
+        const initDate = new Date(ano, mes , dia);
+        dia = fimFerias.split('/')[0];
+        mes = fimFerias.split('/')[1] - 1;
+        ano = fimFerias.split('/')[2];
+        const finalDate = new Date(ano, mes, dia);
+        const diffTime  = Math.abs(finalDate.getTime() - initDate.getTime());
+        const diffDay = Math.round(diffTime / (1000 * 3600 * 24)) + 1;
+        this.diasConcedidos[indice] = diffDay + diasVendidos;
+        console.log(this.diasConcedidos);
+    }
+}

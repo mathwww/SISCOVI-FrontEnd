@@ -75,7 +75,9 @@ import {MovimentacaoFeriasComponent} from './ferias/calculo-ferias/movimentacao-
 import {DiasConcedidosDirective} from './_shared/dias-concedidos.directive';
 import {ParcelaPipe} from './_shared/parcela.pipe';
 import {CalculoDecimoTerceiroComponent} from './decimo_terceiro/calculo-decimo-terceiro/calculo-decimo-terceiro.component';
-import {DecimoTerceiroService} from "./decimo_terceiro/decimo-terceiro.service";
+import {DecimoTerceiroService} from './decimo_terceiro/decimo-terceiro.service';
+import {MovimentacaoDecimoTerceiroComponent} from './decimo_terceiro/calculo-decimo-terceiro/movimentacao-decimo-terceiro.component';
+import {ResgateDecimoTerceiroComponent} from './decimo_terceiro/calculo-decimo-terceiro/resgate-decimo-terceiro.component';
 
 @NgModule({
   declarations: [
@@ -131,6 +133,8 @@ import {DecimoTerceiroService} from "./decimo_terceiro/decimo-terceiro.service";
     ResgateFeriasComponent,
     MovimentacaoFeriasComponent,
     CalculoDecimoTerceiroComponent,
+    MovimentacaoDecimoTerceiroComponent,
+    ResgateDecimoTerceiroComponent
   ],
   imports: [
     BrowserModule,

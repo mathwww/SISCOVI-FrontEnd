@@ -1,6 +1,9 @@
-<div class="container" >
-    <div class="row">
-        <div class="input-field col s10 center">
+<div class="divider"></div>
+<div class="section">
+
+</div>
+<div class="row">
+        <div class="input-field col l5 offset-l3 center-align">
             <select class="black-text" name="contrato" materialize="material_select"
                     [materializeSelectOptions]="contratos" (load)="onLoad()" (change)="onChange($event.target.value)" *ngIf="contratoSelecionado" required>
                 <option disabled>Selecione</option>
@@ -14,7 +17,6 @@
             </select>
             <label style="font-size: 0.85vw">Selecione um Contrato</label>
         </div>
-    </div>
 </div>
 <div class="container" *ngIf="!calculos && codContrato" (load)="onLoad()">
     <div class="row">

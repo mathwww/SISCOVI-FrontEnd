@@ -8,23 +8,56 @@ import {TotalMensalRetComponent} from './total-mensal-ret/total-mensal-ret.compo
     styleUrls: ['./total-mensal.component.scss']
 })
 export class TotalMensalComponent {
-    view = true;
-    actions1 = new EventEmitter<string|MaterializeAction>();
-    contSel: number;
+    contentAvailable: Content = Content.Calculos;
+    tabSelectionParams = ['select_tab', 'test2'];
+    codigoContrato: number;
     constructor() {}
 
-    toggleCalculo() {
-        this.view = true;
-        this.contSel = null;
+    calculosPendentes(codigoContrato: number) {
+        this.codigoContrato = codigoContrato;
+        this.tabSelectionParams = ['select_tab', 'test3'];
+        this.setPendentesActive();
     }
-    toggleRet() {
-        this.view = false;
+    testeCalculo(): boolean {
+        if (this.contentAvailable === Content.Calculos) {
+            return true;
+        }
+        return false;
     }
-    onCalculated(codigoContrato: number) {
-        this.contSel = codigoContrato;
-        this.view = false;
-        this.actions1.emit({action: 'collapsible', params: ['open', 1]});
-        this.actions1.emit({action: 'collapsible', params: ['close', 0]});
+    testePendentes(): boolean {
+        if (this.contentAvailable === Content.Pendentes) {
+            return true;
+        }
+        return false;
+    }
+    testeRetencoes() {
+        if (this.contentAvailable === Content.Retencoes) {
+            return true;
+        }
+        return false;
+    }
+    testeExecutados() {
+        if (this.contentAvailable === Content.Executados) {
+            return true;
+        }
+        return false;
+    }
+    setRetencoesActive(): void {
+        this.contentAvailable = Content.Retencoes;
+        this.tabSelectionParams = ['select_tab', 'test1'];
+    }
+    setCalcularActive(): void {
+        this.contentAvailable = Content.Calculos;
+        this.tabSelectionParams = ['select_tab', 'test2'];
+    }
+    setPendentesActive(): void {
+        this.contentAvailable = Content.Pendentes;
+        this.tabSelectionParams = ['select_tab', 'test3'];
+    }
+    setExecutadosActive(): void {
+        this.contentAvailable = Content.Executados;
+        this.tabSelectionParams = ['select_tab', 'test4'];
     }
 
 }
+enum Content {Calculos, Retencoes, Pendentes, Executados}
