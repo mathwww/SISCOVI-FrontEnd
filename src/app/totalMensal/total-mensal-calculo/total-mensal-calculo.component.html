@@ -1,8 +1,11 @@
-<br>
+<div class="divider"></div>
+<div class="section">
+
+</div>
 <div class="row">
     <form [formGroup]="myForm">
         <div class="row">
-          <div class="input-field col s7 offset-s1 center-align">
+          <div class="input-field col l6 center-align">
             <select class="black-text" name="contrato" formControlName="contrato" materialize="material_select" [ngModel]="contratos" (change)="onChange($event.target.value)" required>
               <option disabled>Selecione</option>
                 <option class="black-text" *ngFor="let contrato of contratos" [value]="contrato.codigo">{{contrato.nomeDaEmpresa}} - Contrato nº: {{contrato.numeroDoContrato}}</option>
@@ -11,7 +14,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s2 offset-s1 center-align">
+          <div class="input-field col l4 center-align">
             <select name="mes" materialize="material_select" formControlName="mes" required>
               <option *ngFor="let mes of meses" [value]="mes.valor" [selected]="mes.valor === currentMonth">{{ mes.mes }}</option>
             </select>
@@ -19,7 +22,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s2 offset-s1 center-align">
+          <div class="input-field col l2  center-align">
             <select class="center center-align centered" name="ano" id="select-year" materialize="material_select" formControlName="ano" [materializeSelectOptions]="years" required>
               <option *ngFor="let year of years" class="center-align center" [value]="year" [selected]="year === currentYear">{{year}}</option>
             </select>

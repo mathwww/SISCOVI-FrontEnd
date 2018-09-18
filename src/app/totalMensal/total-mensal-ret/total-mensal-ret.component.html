@@ -3,8 +3,8 @@
 
 </div>
 <div class="row">
-        <div class="input-field col l5 offset-l3 center-align">
-            <select class="black-text" name="contrato" materialize="material_select"
+        <div class="input-field col l5 center">
+            <select class="black-text center" name="contrato" materialize="material_select"
                     [materializeSelectOptions]="contratos" (load)="onLoad()" (change)="onChange($event.target.value)" *ngIf="contratoSelecionado" required>
                 <option disabled>Selecione</option>
                 <option class="black-text" *ngFor="let contrato of contratos" [value]="contrato.codigo" [selected]="contrato.codigo == contratoSelecionado">{{contrato.nomeDaEmpresa}} - Contrato nº: {{contrato.numeroDoContrato}}</option>
@@ -18,23 +18,22 @@
             <label style="font-size: 0.85vw">Selecione um Contrato</label>
         </div>
 </div>
-<div class="container" *ngIf="!calculos && codContrato" (load)="onLoad()">
-    <div class="row">
+    <div class="row" *ngIf="!calculos && codContrato" (load)="onLoad()">
         <div class="col s12 grey lighten-4" style="margin-top: 1em">
             <br>
             <h5 class="center-align">Não há cálculos realizados ainda ! <i class="small material-icons">mood_bad</i></h5>
         </div>
     </div>
-</div>
-<div class="container" *ngIf="calculos && codContrato">
-    <div>
+<div class="row">
+    <div class="col" *ngIf="calculos && codContrato">
         <ul materialize="collapsible" class="collapsible" data-collapsible="accordion" >
             <li *ngFor="let calculo of calculos">
                 <div class="collapsible-header">
-                    <h5>Data Referência: {{calculo.dataReferencia}}</h5>
+                    <h5 class="center-align">Data Referência: {{calculo.dataReferencia}}</h5>
                 </div>
-                <div class="collapsible-body">
-                    <table class="highlight centered">
+                <div class="collapsible-body row">
+                    <div class="col xl12 offset-l6 rigth center-align">
+                    <table class="highlight centered center-align">
                         <thead>
                         <tr>
                             <th>Função</th>
@@ -59,6 +58,7 @@
                         </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </li>
         </ul>

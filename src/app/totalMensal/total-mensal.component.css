@@ -12,4 +12,9 @@
 ul > .tabs > li > .indicator {
   background-color: black !important; }
 
+.row .col {
+  float: none !important;
+  margin-left: auto;
+  margin-right: auto; }
+
 /*# sourceMappingURL=total-mensal.component.css.map */

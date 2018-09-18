@@ -7,7 +7,8 @@ import {ListaTotalMensalData} from '../lista-total-mensal-data';
 
 @Component({
     selector: 'app-total-mensal-ret',
-    templateUrl: './total-mensal-ret.component.html'
+    templateUrl: './total-mensal-ret.component.html',
+    styleUrls: ['../total-mensal.component.scss']
 })
 export class TotalMensalRetComponent implements OnInit {
     calculos: ListaTotalMensalData[];

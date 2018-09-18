@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "",
-"sources": [],
+"mappings": "AAAA,SAAS;EACP,KAAK,EAAE,eAAe;EACtB,WAAW,EAAE,IAAI;EACjB,YAAY,EAAE,IAAI",
+"sources": ["total-mensal-calculo.component.scss"],
 "names": [],
 "file": "total-mensal-calculo.component.css"
 }

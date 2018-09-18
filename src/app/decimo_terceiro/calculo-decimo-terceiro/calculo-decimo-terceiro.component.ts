@@ -5,7 +5,8 @@ import {DecimoTerceiroService} from '../decimo-terceiro.service';
 
 @Component({
     selector: 'app-calculo-decimo-terceiro-component',
-    templateUrl: './calculo-decimo-terceiro.component.html'
+    templateUrl: './calculo-decimo-terceiro.component.html',
+    styleUrls: ['./resgate-decimo-terceiro.component.scss']
 })
 export class CalculoDecimoTerceiroComponent {
     protected contratos: Contrato[];
