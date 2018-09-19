@@ -125,8 +125,8 @@ export class ResgateDecimoTerceiroComponent implements OnInit {
         }
         if ((this.calculosDecimoTerceiro.length > 0) && aux) {
             this.diasConcedidos = [];
-            for (let i = 0; i < this.calculosDecimoTerceiro.length; i++) {
-            }
+            // for (let i = 0; i < this.calculosDecimoTerceiro.length; i++) {
+            // }
             this.openModal3();
         }
     }

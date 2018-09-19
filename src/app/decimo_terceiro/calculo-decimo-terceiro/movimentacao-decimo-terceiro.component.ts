@@ -10,7 +10,8 @@ import 'rxjs/add/observable/of';
 
 @Component({
     selector: 'app-movimentacao-decimo-terceiro-component',
-    templateUrl: './movimentacao-decimo-terceiro.component.html'
+    templateUrl: './movimentacao-decimo-terceiro.component.html',
+    styleUrls: ['./resgate-decimo-terceiro.component.scss']
 })
 export class MovimentacaoDecimoTerceiroComponent implements  OnInit {
     @Input() protected terceirizados: TerceririzadoDecimoTerceiro[];
@@ -43,14 +44,14 @@ export class MovimentacaoDecimoTerceiroComponent implements  OnInit {
                 parcelas: new FormControl(0),
                 selected: new FormControl(this.isSelected),
                 tipoRestituicao: new FormControl(this.tipoRestituicao),
-                valorDisponível: new FormControl(item.valorDisponivel),
+                valorDisponivel: new FormControl(item.valorDisponivel),
                 inicioContagem: new FormControl(item.inicioContagem)
             });
             control.push(addCtrl);
         });
         for (let i = 0; i < this.terceirizados.length; i++) {
             this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('codTerceirizadoContrato').setValidators(Validators.required);
-            this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').setValidators(Validators.required);
+            this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').setValidators([Validators.required, this.valorMovimentadoValidator]);
             this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('parcelas').setValidators(Validators.required);
             this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('parcelas').setValue(0);
             this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('tipoRestituicao').setValidators(Validators.required);
@@ -58,32 +59,18 @@ export class MovimentacaoDecimoTerceiroComponent implements  OnInit {
             this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('inicioContagem');
         }
     }
-    public myDateValidator(control: AbstractControl): {[key: string]: any} {
-        const val = control.value;
+    public valorMovimentadoValidator(control: AbstractControl):  {[key: string]: any} {
         const mensagem = [];
-        const otherRegex = new RegExp(/^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/);
-        if (val.length > 0 ) {
-            const dia = Number(val.split('/')[0]);
-            const mes = Number(val.split('/')[1]);
-            const ano = Number(val.split('/')[2]);
-            if (dia <= 0 || dia > 31 ) {
-                mensagem.push('O dia da data é inválido.');
-            }
-            if (mes <= 0 || mes > 12) {
-                mensagem.push('O Mês digitado é inválido');
-            }
-            if (ano < 2000 || ano > (new Date().getFullYear() + 5)) {
-                mensagem.push('O Ano digitado é inválido');
-            }
-            if (val.length === 10 ) {
-                if (!otherRegex.test(val)) {
-                    mensagem.push('A data digitada é inválida');
-                }
+        if (control.value === 0) {
+            mensagem.push('Digite um valor a ser movimentado !');
+        }
+        if (control.parent) {
+            if (control.parent.get('valorDisponivel').value < control.value) {
+                mensagem.push('O valor a ser movimentado não pode ser maior que o valor disponível !');
             }
         }
         return (mensagem.length > 0) ? {'mensagem': [mensagem]} : null;
     }
-    public valorMovimentadoValidator(control: AbstractControl) { }
     closeModal1() {
         this.modalActions.emit({action: 'modal', params: ['close']});
     }
@@ -165,6 +152,7 @@ export class MovimentacaoDecimoTerceiroComponent implements  OnInit {
         if ((this.calculosDecimoTerceiro.length > 0) && aux) {
             this.diasConcedidos = [];
             for (let i = 0; i < this.calculosDecimoTerceiro.length; i++) {
+
             }
             this.openModal3();
         }

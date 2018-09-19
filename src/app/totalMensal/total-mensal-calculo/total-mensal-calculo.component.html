@@ -35,6 +35,11 @@
   <div class="row">
     <div class="center-align">
       <button class="waves-effect waves-light btn-large blue-grey darken-3" type="submit" [disabled]="validate" (click)="calculoTotalMensal()">Calcular</button>
+        <div *ngIf="myForm.invalid && (myForm.dirty || myForm.touched)">
+            <div *ngIf="myForm.getError('mensagem')">
+                <span class="mensagem-erro">{{myForm.getError('mensagem')}}</span>
+            </div>
+        </div>
     </div>
   </div>
 <div id="modal1" class="modal bottom-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">

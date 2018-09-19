@@ -10,7 +10,7 @@ export class TotalMensalService {
         this.configService = config;
        this.http = http;
     }
-    public getValoresCalculados(codigoContrato: number, codigoUsuario: number) {
+    public getValoresRetidos(codigoContrato: number, codigoUsuario: number) {
         const url = this.configService.myApi + '/total-mensal-a-reter/getValoresRetidos/' + codigoContrato + '/' + codigoUsuario;
         return this.http.get(url).map(res => res.json());
     }

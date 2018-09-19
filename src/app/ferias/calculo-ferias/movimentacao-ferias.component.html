@@ -85,7 +85,7 @@
                 <td>
                     <div [formGroupName]="i">
                         <div class="row">
-                            <div class="input-field col s12">
+                            <div class="input-field col s10">
                                 <input type="number" value="0" placeholder="Exemplo: 0" class="validate" formControlName="diasVendidos" min="0" max="10" required>
                                 <div *ngIf="feriasForm.get('calcularTerceirizados').get('' + i).get('diasVendidos').invalid && (feriasForm.get('calcularTerceirizados').get('' + i).get('diasVendidos').dirty ||
                                 feriasForm.get('calcularTerceirizados').get('' + i).get('diasVendidos').touched)">
