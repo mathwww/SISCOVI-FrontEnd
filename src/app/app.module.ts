@@ -79,6 +79,7 @@ import {DecimoTerceiroService} from './decimo_terceiro/decimo-terceiro.service';
 import {MovimentacaoDecimoTerceiroComponent} from './decimo_terceiro/calculo-decimo-terceiro/movimentacao-decimo-terceiro.component';
 import {ResgateDecimoTerceiroComponent} from './decimo_terceiro/calculo-decimo-terceiro/resgate-decimo-terceiro.component';
 import {TotalMensalPendenteComponent} from './totalMensal/calculos-pendentes/total-mensal-pendente.component';
+import {CalculoRescisaoComponent} from './rescisao/calculo-rescisao/calculo-rescisao.component';
 
 @NgModule({
   declarations: [
@@ -137,6 +138,7 @@ import {TotalMensalPendenteComponent} from './totalMensal/calculos-pendentes/tot
     MovimentacaoDecimoTerceiroComponent,
     ResgateDecimoTerceiroComponent,
     TotalMensalPendenteComponent,
+    CalculoRescisaoComponent,
   ],
   imports: [
     BrowserModule,

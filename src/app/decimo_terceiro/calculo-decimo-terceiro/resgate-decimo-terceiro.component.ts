@@ -64,6 +64,7 @@ export class ResgateDecimoTerceiroComponent implements OnInit {
         this.modalActions2.emit({action: 'modal', params: ['close']});
     }
     openModal3() {
+        this.vmsm = false;
         this.modalActions3.emit({action: 'modal', params: ['open']});
     }
     closeModal3() {
@@ -77,7 +78,7 @@ export class ResgateDecimoTerceiroComponent implements OnInit {
         this.navegaParaViewDeCalculos.emit(this.codigoContrato);
     }
     efetuarCalculo(): void {
-        this.decimoTerceiroService.calculaFeriasTerceirizados(this.calculosDecimoTerceiro).subscribe(res => {
+        this.decimoTerceiroService.registrarCalculoDecimoTerceiro(this.calculosDecimoTerceiro).subscribe(res => {
             if (res.success) {
                 this.closeModal3();
                 this.openModal4();
@@ -86,15 +87,17 @@ export class ResgateDecimoTerceiroComponent implements OnInit {
     }
     verificaDadosFormulario() {
         let aux = 0;
+        this.vmsm = false;
         for (let i = 0; i < this.terceirizados.length; i++) {
             if (this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('selected').value) {
                 aux++;
                 if (this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).status === 'VALID') {
                     const objeto = new TerceririzadoDecimoTerceiro(this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('codTerceirizadoContrato').value,
-                        this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('tipoRestituicao').value,
+                        this.terceirizados[i].nomeTerceirizado,
                         this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('inicioContagem').value,
                         0,
                         this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('parcelas').value);
+                    objeto.tipoRestituicao = this.tipoRestituicao;
                     let index = -1;
                     for (let j = 0; j < this.calculosDecimoTerceiro.length; j++) {
                         if (this.calculosDecimoTerceiro[j].codigoTerceirizadoContrato === this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('codTerceirizadoContrato').value) {
@@ -109,12 +112,6 @@ export class ResgateDecimoTerceiroComponent implements OnInit {
                         this.calculosDecimoTerceiro.push(objeto);
                     }
                 }else {
-                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('inicioFerias').markAsTouched();
-                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('inicioFerias').markAsDirty();
-                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('fimFerias').markAsTouched();
-                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('fimFerias').markAsDirty();
-                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('diasVendidos').markAsTouched();
-                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('diasVendidos').markAsDirty();
                     aux = undefined;
                     this.openModal2();
                 }
@@ -125,9 +122,13 @@ export class ResgateDecimoTerceiroComponent implements OnInit {
         }
         if ((this.calculosDecimoTerceiro.length > 0) && aux) {
             this.diasConcedidos = [];
-            // for (let i = 0; i < this.calculosDecimoTerceiro.length; i++) {
-            // }
-            this.openModal3();
+            this.decimoTerceiroService.calculaDecimoTerceiroTerceirizados(this.calculosDecimoTerceiro).subscribe(res => {
+                if (!res.error) {
+                    this.calculosDecimoTerceiro = res;
+                    this.openModal3();
+                    this.vmsm = true;
+                }
+            });
         }
     }
     getDiasConcedidos(inicioFerias, fimFerias, diasVendidos, indice) {

@@ -75,22 +75,23 @@
         <h4 class="center">Atenção</h4>
         <h5 class="center">Deseja Confirmar o cálculo realizado ?</h5>
         <p>Obs.: Esta ação não poderá ser desfeita futuramente *</p>
-        <table *ngIf="calculosDecimoTerceiro"  class="highlight centered responsive-table hoverable">
+        <table *ngIf="calculosDecimoTerceiro && vmsm"  class="highlight centered responsive-table hoverable">
             <thead>
             <tr>
                 <th>Terceirizado</th>
-                <th>Data de Inicio da Contagem</th>
-                <th>Data Fim da Contagem</th>
-                <th>Dias Concedidos</th>
-                <th>Valor a Movimentar</th>
+                <th>Parcela</th>
+                <th>Inicio Contagem</th>
+                <th>Valor Décimo Terceiro</th>
+                <th>Incidência Décimo Terceiro</th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let calculo of calculosDecimoTerceiro; let l = index">
+            <tr *ngFor="let calculo of calculosDecimoTerceiro">
                 <td>{{calculo.nomeTerceirizado}}</td>
-                <td>{{calculo.parcelas}}</td>
+                <td>{{calculo.parcelas | parcelaPipe}}</td>
                 <td>{{calculo.inicioContagem | date:'shortDate'}}</td>
-                <td>{{calculo.valorMovimentado}}</td>
+                <td>{{calculo.valoresDecimoTerceiro.valorDecimoTerceiro | currency:'BRL':true:'1.2-2'}}</td>
+                <td>{{calculo.valoresDecimoTerceiro.valorIncidenciaDecimoTerceiro | currency:'BRL':true:'1.2-2'}}</td>
             </tr>
             </tbody>
         </table>

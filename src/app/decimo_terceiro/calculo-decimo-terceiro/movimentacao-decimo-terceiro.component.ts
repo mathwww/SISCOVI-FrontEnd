@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FeriasCalcular} from '../../ferias/ferias-calcular';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {TerceririzadoDecimoTerceiro} from '../terceririzado.decimo.terceiro';
@@ -28,6 +28,7 @@ export class MovimentacaoDecimoTerceiroComponent implements  OnInit {
     vmsm = false;
     protected diasConcedidos: number[] = [];
     @Output() navegaParaViewDeCalculos = new EventEmitter();
+    primeiroItemErrado: number;
     constructor(private fb: FormBuilder, private decimoTerceiroService: DecimoTerceiroService) { }
     ngOnInit() {
         this.formInit();
@@ -81,6 +82,7 @@ export class MovimentacaoDecimoTerceiroComponent implements  OnInit {
         this.modalActions2.emit({action: 'modal', params: ['open']});
     }
     closeModal2() {
+
         this.modalActions2.emit({action: 'modal', params: ['close']});
     }
     openModal3() {
@@ -97,7 +99,7 @@ export class MovimentacaoDecimoTerceiroComponent implements  OnInit {
         this.navegaParaViewDeCalculos.emit(this.codigoContrato);
     }
     efetuarCalculo(): void {
-        this.decimoTerceiroService.calculaFeriasTerceirizados(this.calculosDecimoTerceiro).subscribe(res => {
+        this.decimoTerceiroService.registrarCalculoDecimoTerceiro(this.calculosDecimoTerceiro).subscribe(res => {
             if (res.success) {
                 this.closeModal3();
                 this.openModal4();
@@ -106,16 +108,18 @@ export class MovimentacaoDecimoTerceiroComponent implements  OnInit {
     }
     verificaDadosFormulario() {
         let aux = 0;
+        this.primeiroItemErrado = null;
         for (let i = 0; i < this.terceirizados.length; i++) {
             if (this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('selected').value) {
                 aux++;
                 this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').updateValueAndValidity();
                 if (this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).status === 'VALID' &&  this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').valid) {
                     const objeto = new TerceririzadoDecimoTerceiro(this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('codTerceirizadoContrato').value,
-                        this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('tipoRestituicao').value,
+                        this.terceirizados[i].nomeTerceirizado,
                         this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('inicioContagem').value,
                         this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').value,
                         this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('parcelas').value);
+                    objeto.tipoRestituicao = this.tipoRestituicao;
                     if (this.terceirizados[i].valorMovimentado) {
 
                     }
@@ -133,12 +137,9 @@ export class MovimentacaoDecimoTerceiroComponent implements  OnInit {
                         this.calculosDecimoTerceiro.push(objeto);
                     }
                 }else {
-                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('inicioFerias').markAsTouched();
-                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('inicioFerias').markAsDirty();
-                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('fimFerias').markAsTouched();
-                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('fimFerias').markAsDirty();
-                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('diasVendidos').markAsTouched();
-                    this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('diasVendidos').markAsDirty();
+                    if (!this.primeiroItemErrado) {
+                       this.primeiroItemErrado = i;
+                    }
                     this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').markAsTouched();
                     this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').markAsDirty();
                     aux = undefined;

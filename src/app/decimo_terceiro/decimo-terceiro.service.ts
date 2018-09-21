@@ -3,6 +3,8 @@ import {Http} from '@angular/http';
 import {ConfigService} from '../_shared/config.service';
 import {Observable} from 'rxjs/Observable';
 import {TerceririzadoDecimoTerceiro} from './terceririzado.decimo.terceiro';
+import {CalculoDecimoTerceiroComponent} from './calculo-decimo-terceiro/calculo-decimo-terceiro.component';
+import {forEach} from '@angular/router/src/utils/collection';
 
 @Injectable()
 export class DecimoTerceiroService {
@@ -43,26 +45,9 @@ export class DecimoTerceiroService {
         const headers = new Headers({'Content-type': 'application/json'});
         return this.http.post(url, data, headers).map(res => res.json());
     }*/
-    calculaFeriasTerceirizados(tercerizadosDecimoTerceiro: TerceririzadoDecimoTerceiro[]) {
-        const url = this.config.myApi + '/ferias/calcularFeriasTerceirizados';
-        const data = [];
-        tercerizadosDecimoTerceiro.forEach(decimoTerceiro => {
-            let tipoRestituicao = '';
-            if (decimoTerceiro.tipoRestituicao === 'MOVIMENTACAO') {
-                tipoRestituicao = 'MOVIMENTAÇÃO';
-            }else if (decimoTerceiro.tipoRestituicao === 'RESGATE') {
-                tipoRestituicao = decimoTerceiro.tipoRestituicao;
-            }
-            const val = {
-                'codTerceirizadoContrato': decimoTerceiro.codigoTerceirizadoContrato,
-                'tipoRestituicao': tipoRestituicao,
-                'inicioContagem': decimoTerceiro.inicioContagem,
-                'valorMovimentado': decimoTerceiro.valorMovimentado,
-                'parcelas': decimoTerceiro.parcelas,
-                'nomeTerceirizado': decimoTerceiro.nomeTerceirizado,
-            };
-            data.push(val);
-        });
+    calculaDecimoTerceiroTerceirizados(tercerizadosDecimoTerceiro: TerceririzadoDecimoTerceiro[]) {
+        const url = this.config.myApi + '/decimo-terceiro/calcularDecimoTerceiroTerceirizados';
+        const data = tercerizadosDecimoTerceiro;
         const headers = new Headers({'Content-type': 'application/json'});
         return this.http.post(url, data, headers).map(res => res.json());
     }
@@ -72,5 +57,14 @@ export class DecimoTerceiroService {
         const mes = Number(a[1]) - 1;
         const ano = Number(a[2]);
         return new Date(ano, mes, dia);
+    }
+    registrarCalculoDecimoTerceiro(calculosDecimoTerceiro: TerceririzadoDecimoTerceiro[]) {
+        const url = this.config.myApi + '/decimo-terceiro/registrarCalculoDecimoTerceiro';
+        calculosDecimoTerceiro.forEach(item => {
+            item.id = this.config.user.username;
+        });
+        const data = calculosDecimoTerceiro;
+        const headers = new Headers({'Content-type': 'application/json'});
+        return this.http.post(url, data, headers).map(res => res.json());
     }
 }
