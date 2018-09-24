@@ -37,7 +37,8 @@ export class FeriasService {
                 'pTotalFerias': ferias.pTotalFerias,
                 'pTotalTercoConstitucional': ferias.pTotalTercoConstitucional,
                 'pTotalIncidenciaFerias': ferias.pTotalIncidenciaFerias,
-                'pTotalIncidenciaTerco': ferias.pTotalIncidenciaTerco
+                'pTotalIncidenciaTerco': ferias.pTotalIncidenciaTerco,
+                'username': this.config.user.username
             };
             data.push(val);
         });

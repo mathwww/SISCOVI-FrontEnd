@@ -19,9 +19,9 @@
     </div>
 </div>
 <div  *ngIf="terceirizados && (tipoRestituicao == 'MOVIMENTACAO')" class="row">
-    <app-movimentacao-decimo-terceiro-component [tipoRestituicao]="tipoRestituicao" [codigoContrato]="codigo" [terceirizados]="terceirizados" (navegaParaViewDeCalculos)="eventNav($event)">
-    </app-movimentacao-decimo-terceiro-component>
+   <app-movimentacao-rescisao-component [tipoRestituicao]="tipoRestituicao" [codigoContrato]="codigo" [terceirizados]="terceirizados" (navegaParaViewDeCalculos)="eventNav($event)">
+    </app-movimentacao-rescisao-component>
 </div>
 <div *ngIf="terceirizados && (tipoRestituicao == 'RESGATE')">
-    <app-resgate-decimo-terceiro-component [tipoRestituicao]="tipoRestituicao" [codigoContrato]="codigo" [terceirizados]="terceirizados" (navegaParaViewDeCalculos)="eventNav($event)"></app-resgate-decimo-terceiro-component>
+    <app-resgate-rescisao-component [tipoRestituicao]="tipoRestituicao" [codigoContrato]="codigo" [terceirizados]="terceirizados" (navegaParaViewDeCalculos)="eventNav($event)"></app-resgate-rescisao-component>
 </div>
