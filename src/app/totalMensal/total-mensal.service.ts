@@ -18,4 +18,8 @@ export class TotalMensalService {
         const url = this.configService.myApi + '/total-mensal-a-reter/calculaTotalMensal=' + this.configService.user.id + '/codigo=' + codigoContrato + '/mes=' + mes + '/ano=' + ano;
         return this.http.get(url).map(res => res.json());
     }
+    public getTotaisPendentes(codigoContrato: number) {
+        const url = this.configService.myApi + '/total-mensal-a-reter/getValoresPendentes/' + codigoContrato;
+        return this.http.get(url).map(res => res.json());
+    }
 }

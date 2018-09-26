@@ -41,7 +41,9 @@ export  class MovimentacaoRescisaoComponent implements  OnInit {
                 tipoRescisao: new FormControl(),
                 selected: new FormControl(this.isSelected),
                 tipoRestituicao: new FormControl(this.tipoRestituicao),
-                dataDesligamento: new FormControl()
+                dataDesligamento: new FormControl(),
+                dataInicio: new FormControl(),
+                dataFim: new FormControl()
             });
             control.push(addCtrl);
         });

@@ -8,9 +8,19 @@ import {TotalMensalService} from '../total-mensal.service';
     templateUrl: './total-mensal-pendente.component.html'
 })
 export class TotalMensalPendenteComponent {
-    @Input() codContrato: number;
+    @Input() codigoContrato: number;
     contratos: Contrato[];
     totais: TotalMensal[];
-    constructor (private totalMensalService: TotalMensalService) { }
-
+    constructor (private totalMensalService: TotalMensalService) {
+        if (this.codigoContrato) {
+            this.totalMensalService.getTotaisPendentes(this.codigoContrato).subscribe(res => {
+                this.totais = res;
+            });
+        }
+    }
+    defineCodigoContrato(codigo: number) {
+        this.totalMensalService.getTotaisPendentes(codigo).subscribe(res => {
+            this.totais = res;
+        });
+    }
 }
