@@ -19,7 +19,7 @@ export class TotalMensalService {
         return this.http.get(url).map(res => res.json());
     }
     public getTotaisPendentes(codigoContrato: number) {
-        const url = this.configService.myApi + '/total-mensal-a-reter/getValoresPendentes/' + codigoContrato;
+        const url = this.configService.myApi + '/total-mensal-a-reter/getValoresPendentes/' + codigoContrato + '/' + this.configService.user.id;
         return this.http.get(url).map(res => res.json());
     }
 }

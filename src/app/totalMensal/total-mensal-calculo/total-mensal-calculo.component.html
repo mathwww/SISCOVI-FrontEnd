@@ -62,12 +62,12 @@
                 <tbody>
                 <tr *ngFor="let total of resultado">
                     <td>{{total.funcao}}</td>
-                    <td>{{total.ferias}}</td>
-                    <td>{{total.tercoConstitucional}}</td>
-                    <td>{{total.decimoTerceiro}}</td>
-                    <td>{{total.incidencia}}</td>
-                    <td>{{total.multaFGTS}}</td>
-                    <td>{{total.total}}</td>
+                    <td>{{total.ferias | currency:'BRL':true:'1.2-2'}}</td>
+                    <td>{{total.tercoConstitucional | currency:'BRL':true:'1.2-2'}}</td>
+                    <td>{{total.decimoTerceiro | currency:'BRL':true:'1.2-2'}}</td>
+                    <td>{{total.incidencia | currency:'BRL':true:'1.2-2'}}</td>
+                    <td>{{total.multaFGTS | currency:'BRL':true:'1.2-2'}}</td>
+                    <td>{{total.total | currency:'BRL':true:'1.2-2'}}</td>
                 </tr>
                 </tbody>
             </table>
