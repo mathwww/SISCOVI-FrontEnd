@@ -46,7 +46,7 @@
                             <div class="row">
                                 <div class="input-field col s12">
                                     <select materialize="material_select" formControlName="avaliacao">
-                                        <option value="APROVADO">APROVAR</option>
+                                        <option value="EXECUTADO">EXECUTAR</option>
                                         <option value="REJEITADO">REJEITAR</option>
                                     </select>
                                 </div>
@@ -57,26 +57,26 @@
                     <td>
                         <table class="highlight centered responsive-table">
                             <thead>
-                                <tr>
-                                    <th>Função</th>
-                                    <th>Férias</th>
-                                    <th>Terço Constitucional</th>
-                                    <th>Décimo Terceiro</th>
-                                    <th>Incidência Retido</th>
-                                    <th>Multa do FGTS</th>
-                                    <th class="black-text">Total</th>
-                                </tr>
+                            <tr>
+                                <th>Função</th>
+                                <th>Férias</th>
+                                <th>Terço Constitucional</th>
+                                <th>Décimo Terceiro</th>
+                                <th>Incidência Retido</th>
+                                <th>Multa do FGTS</th>
+                                <th class="black-text">Total</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let calculo of total.totaisMensais.totais">
-                                    <td>{{calculo.funcao }}</td>
-                                    <td>{{calculo.ferias | currency:'BRL':true:'1.2-2'}}</td>
-                                    <td>{{calculo.tercoConstitucional | currency:'BRL':true:'1.2-2'}}</td>
-                                    <td>{{calculo.decimoTerceiro | currency:'BRL':true:'1.2-2'}}</td>
-                                    <td>{{calculo.incidencia | currency:'BRL':true:'1.2-2'}}</td>
-                                    <td>{{calculo.multaFGTS | currency:'BRL':true:'1.2-2'}}</td>
-                                    <td class="black-text text-darken-2">{{calculo.total | currency:'BRL':true:'1.2-2'}}</td>
-                                </tr>
+                            <tr *ngFor="let calculo of total.totaisMensais.totais">
+                                <td>{{calculo.funcao }}</td>
+                                <td>{{calculo.ferias | currency:'BRL':true:'1.2-2'}}</td>
+                                <td>{{calculo.tercoConstitucional | currency:'BRL':true:'1.2-2'}}</td>
+                                <td>{{calculo.decimoTerceiro | currency:'BRL':true:'1.2-2'}}</td>
+                                <td>{{calculo.incidencia | currency:'BRL':true:'1.2-2'}}</td>
+                                <td>{{calculo.multaFGTS | currency:'BRL':true:'1.2-2'}}</td>
+                                <td class="black-text text-darken-2">{{calculo.total | currency:'BRL':true:'1.2-2'}}</td>
+                            </tr>
                             </tbody>
                         </table>
                     </td>

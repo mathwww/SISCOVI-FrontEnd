@@ -15,5 +15,6 @@
         <div id="test1" active="testeRetencoes()" ><app-total-mensal-ret *ngIf="testeRetencoes()"></app-total-mensal-ret></div>
         <div id="test2" class="col s12" active="testeCalculo()" ><app-total-mensal-calculo *ngIf="testeCalculo()" (navegaParaViewDeCalculos)="calculosPendentes($event)"></app-total-mensal-calculo></div>
         <div id="test3" class="col s12" active="testePendentes()"><app-total-mensal-pendente-component *ngIf="testePendentes()" [codigoContrato]="codigoContrato"></app-total-mensal-pendente-component></div>
+        <div id="test4" class="col s12" active="testePendentes()"><app-total-mensal-execucao-component *ngIf="testeExecutados()" [codigoContrato]="codigoContrato"></app-total-mensal-execucao-component></div>
     </div>
 </div>

@@ -80,9 +80,10 @@ import {MovimentacaoDecimoTerceiroComponent} from './decimo_terceiro/calculo-dec
 import {ResgateDecimoTerceiroComponent} from './decimo_terceiro/calculo-decimo-terceiro/resgate-decimo-terceiro.component';
 import {TotalMensalPendenteComponent} from './totalMensal/calculos-pendentes/total-mensal-pendente.component';
 import {CalculoRescisaoComponent} from './rescisao/calculo-rescisao/calculo-rescisao.component';
-import {ResgateRescisaoComponent} from "./rescisao/calculo-rescisao/resgate-rescisao.component";
-import {MovimentacaoRescisaoComponent} from "./rescisao/calculo-rescisao/movimentacao-rescisao.component";
-import {RescisaoService} from "./rescisao/rescisao.service";
+import {ResgateRescisaoComponent} from './rescisao/calculo-rescisao/resgate-rescisao.component';
+import {MovimentacaoRescisaoComponent} from './rescisao/calculo-rescisao/movimentacao-rescisao.component';
+import {RescisaoService} from './rescisao/rescisao.service';
+import {TotalMensalExecucaoComponent} from './totalMensal/calculos-pendentes/total-mensal-execucao.component';
 
 @NgModule({
   declarations: [
@@ -144,6 +145,7 @@ import {RescisaoService} from "./rescisao/rescisao.service";
     CalculoRescisaoComponent,
     ResgateRescisaoComponent,
     MovimentacaoRescisaoComponent,
+    TotalMensalExecucaoComponent,
   ],
   imports: [
     BrowserModule,
