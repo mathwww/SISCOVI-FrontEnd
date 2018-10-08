@@ -3,7 +3,7 @@
 
 </div>
 <div class="row">
-        <div class="input-field col l5 center">
+        <div class="input-field col l7 center">
             <select class="black-text center" name="contrato" materialize="material_select"
                     [materializeSelectOptions]="contratos" (load)="onLoad()" (change)="onChange($event.target.value)" *ngIf="contratoSelecionado" required>
                 <option disabled>Selecione</option>
@@ -29,7 +29,7 @@
         <ul materialize="collapsible" class="collapsible" data-collapsible="accordion" >
             <li *ngFor="let calculo of calculos">
                 <div class="collapsible-header">
-                    <h5 class="center-align">Data Referência: {{calculo.dataReferencia}}</h5>
+                    <h5 class="center-align">Data Referência: {{calculo.dataReferencia | date: 'shortDate'}}</h5>
                 </div>
                 <div class="collapsible-body row">
                     <div class="col xl12 offset-l6 rigth center-align">

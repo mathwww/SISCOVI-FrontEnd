@@ -22,7 +22,7 @@
             <table class="highlight centered responsive-table hoverable">
                 <thead>
                 <tr>
-                    <th>
+                    <th *ngIf="config.user.perfil.sigla == 'ADMINISTRADOR'">
                         <input type="checkbox" id="test5" (change)="isSelected = !isSelected"/>
                         <label for="test5"></label>
                     </th>
@@ -34,7 +34,7 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let total of totais; let i = index">
-                    <td>
+                    <td *ngIf="config.user.perfil.sigla == 'ADMINISTRADOR'">
                         <div [formGroupName]="i">
                             <input type="checkbox" [checked]="isSelected" [ngModel]="isSelected" formControlName="selected" id="{{i}}"/>
                             <label for="{{i}}"></label>
@@ -46,8 +46,8 @@
                             <div class="row">
                                 <div class="input-field col s12">
                                     <select materialize="material_select" formControlName="avaliacao">
-                                        <option value="EXECUTADO">EXECUTAR</option>
-                                        <option value="REJEITADO">REJEITAR</option>
+                                        <option value="S">EXECUTAR</option>
+                                        <option value="N">REJEITAR</option>
                                     </select>
                                 </div>
                             </div>
@@ -86,10 +86,95 @@
         </div>
     </form>
 </div>
-<div class="row" *ngIf="codigoContrato && totais" >
+<div class="row" *ngIf="codigoContrato && totais && config.user.perfil.sigla == 'ADMINISTRADOR'" >
     <div class="col">
         <div class="center">
-            <button class="btn waves-effect waves-light">Salvar Alterações</button>
+            <button class="btn waves-effect waves-light" (click)="verificaFormulario()">Salvar Alterações</button>
+        </div>
+    </div>
+</div>
+<div id="modal1" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
+    <div class="modal-content">
+        <h4 class="center">Atenção</h4>
+        <br>
+        <h5 class=" center">No mínimo uma pessoa deve ser selecionada para se realizar o cálculo !</h5>
+    </div>
+    <div class="modal-footer">
+        <button class="btn waves-effect center"  (click)="closeModal()">Ok</button>
+    </div>
+</div>
+<div id="modal3" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions3">
+    <div class="modal-content">
+        <h4 class="center">Sucesso</h4>
+        <br>
+        <h5 class=" center">As alterações foram feitas com sucesso</h5>
+    </div>
+    <div class="modal-footer">
+        <button class="btn waves-effect center"  (click)="navegaViewExec()">Ok</button>
+    </div>
+</div>
+<div class="container" *ngIf="totaisAvaliados">
+    <div id="modal2" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions2">
+        <div class="modal-content">
+            <h4 class="center">Atenção</h4>
+            <table class="highlight centered responsive-table hoverable striped">
+                <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Data Referência</th>
+                    <th>Cálculos</th>
+                    <th>Observações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let total of totaisAvaliados; let i = index">
+                    <td>{{total.status | pendentePipe}} </td>
+                    <td>{{total.totaisMensais.dataReferencia | date: 'shortDate'}}</td>
+                    <td>
+                        <table class="highlight centered responsive-table">
+                            <thead>
+                            <tr>
+                                <th>Função</th>
+                                <th>Férias</th>
+                                <th>Terço Constitucional</th>
+                                <th>Décimo Terceiro</th>
+                                <th>Incidência Retido</th>
+                                <th>Multa do FGTS</th>
+                                <th class="total-calculo">Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let calculo of total.totaisMensais.totais">
+                                <td>{{calculo.funcao }}</td>
+                                <td>{{calculo.ferias | currency:'BRL':true:'1.2-2'}}</td>
+                                <td>{{calculo.tercoConstitucional | currency:'BRL':true:'1.2-2'}}</td>
+                                <td>{{calculo.decimoTerceiro | currency:'BRL':true:'1.2-2'}}</td>
+                                <td>{{calculo.incidencia | currency:'BRL':true:'1.2-2'}}</td>
+                                <td>{{calculo.multaFGTS | currency:'BRL':true:'1.2-2'}}</td>
+                                <td class="total-calculo">{{calculo.total | currency:'BRL':true:'1.2-2'}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td>
+                        <div class="row">
+                            <form [formGroup]="totalMensalFormAfter" class="col">
+                                <div class="row" formArrayName="calculosAvaliados">
+                                    <div class="input-field col 12" [formGroupName]="i">
+                                        <textarea id="textarea1" class="materialize-textarea" formControlName="observacoes"></textarea>
+                                        <label for="textarea1">Observações</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn waves-effect left" (click)="closeModal2()">Cancelar</button>
+            <button class="btn waves-effect right" (click)="enviarAvaliacao()">Confirmar Avaliação</button>
         </div>
     </div>
 </div>

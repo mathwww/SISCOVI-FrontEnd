@@ -84,6 +84,8 @@ import {ResgateRescisaoComponent} from './rescisao/calculo-rescisao/resgate-resc
 import {MovimentacaoRescisaoComponent} from './rescisao/calculo-rescisao/movimentacao-rescisao.component';
 import {RescisaoService} from './rescisao/rescisao.service';
 import {TotalMensalExecucaoComponent} from './totalMensal/calculos-pendentes/total-mensal-execucao.component';
+import {PendentePipe} from './_shared/pendente.pipe';
+import {RecalculoTotalMensalComponent} from './totalMensal/recalculo-total-mensal/recalculo-total-mensal.component';
 
 @NgModule({
   declarations: [
@@ -110,6 +112,7 @@ import {TotalMensalExecucaoComponent} from './totalMensal/calculos-pendentes/tot
     CnpjPipe,
     DatePipe,
     ParcelaPipe,
+    PendentePipe,
     TitlecaseMaskDirective,
     AfirmativePipe,
     PercentuaisComponent,
@@ -146,6 +149,7 @@ import {TotalMensalExecucaoComponent} from './totalMensal/calculos-pendentes/tot
     ResgateRescisaoComponent,
     MovimentacaoRescisaoComponent,
     TotalMensalExecucaoComponent,
+    RecalculoTotalMensalComponent,
   ],
   imports: [
     BrowserModule,

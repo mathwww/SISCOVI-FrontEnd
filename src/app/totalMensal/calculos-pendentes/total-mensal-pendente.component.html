@@ -19,11 +19,11 @@
 <div class="row" *ngIf="codigoContrato && totais">
     <form [formGroup]="totalMensalForm">
         <div class="col xl12 l12 s12 l12 m12" formArrayName="avaliacaoDeCalculo">
-            <table class="highlight centered responsive-table hoverable">
+            <table class="highlight centered responsive-table hoverable striped">
                 <thead>
                 <tr>
-                    <th>
-                        <input type="checkbox" id="test5" (change)="isSelected = !isSelected"/>
+                    <th *ngIf="config.user.perfil.sigla == 'ADMINISTRADOR'">
+                        <input type="checkbox" class="checkbox-black" id="test5" (change)="isSelected = !isSelected"/>
                         <label for="test5"></label>
                     </th>
                     <th *ngIf="config.user.perfil.sigla == 'USUÁRIO'">Status</th>
@@ -33,10 +33,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let total of totais; let i = index">
-                    <td>
+                <tr *ngFor="let total of totais; let i = index" [class.status]="total.status == 'NEGADO' && config.user.perfil.sigla == 'USUÁRIO'" (dblclick)="corrigeCalculo(total.totaisMensais.dataReferencia)">
+                    <td *ngIf="config.user.perfil.sigla == 'ADMINISTRADOR'">
                         <div [formGroupName]="i">
-                            <input type="checkbox" [checked]="isSelected" [ngModel]="isSelected" formControlName="selected" id="{{i}}"/>
+                            <input type="checkbox" class="checkbox-black" [checked]="isSelected" [ngModel]="isSelected" formControlName="selected" id="{{i}}"/>
                             <label for="{{i}}"></label>
                         </div>
                     </td>
@@ -46,8 +46,8 @@
                             <div class="row">
                                 <div class="input-field col s12">
                                     <select materialize="material_select" formControlName="avaliacao">
-                                        <option value="APROVADO">APROVAR</option>
-                                        <option value="REJEITADO">REJEITAR</option>
+                                        <option value="S">APROVAR</option>
+                                        <option value="N">REJEITAR</option>
                                     </select>
                                 </div>
                             </div>
@@ -64,18 +64,18 @@
                                     <th>Décimo Terceiro</th>
                                     <th>Incidência Retido</th>
                                     <th>Multa do FGTS</th>
-                                    <th class="black-text">Total</th>
+                                    <th class="total-calculo">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let calculo of total.totaisMensais.totais">
+                                <tr *ngFor="let calculo of total.totaisMensais.totais" [class.status]="total.status == 'NEGADO' && config.user.perfil.sigla == 'USUÁRIO'">
                                     <td>{{calculo.funcao }}</td>
                                     <td>{{calculo.ferias | currency:'BRL':true:'1.2-2'}}</td>
                                     <td>{{calculo.tercoConstitucional | currency:'BRL':true:'1.2-2'}}</td>
                                     <td>{{calculo.decimoTerceiro | currency:'BRL':true:'1.2-2'}}</td>
                                     <td>{{calculo.incidencia | currency:'BRL':true:'1.2-2'}}</td>
                                     <td>{{calculo.multaFGTS | currency:'BRL':true:'1.2-2'}}</td>
-                                    <td class="black-text text-darken-2">{{calculo.total | currency:'BRL':true:'1.2-2'}}</td>
+                                    <td class="total-calculo">{{calculo.total | currency:'BRL':true:'1.2-2'}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -86,10 +86,95 @@
         </div>
     </form>
 </div>
-<div class="row" *ngIf="codigoContrato && totais" >
+<div class="row" *ngIf="codigoContrato && totais && config.user.perfil.sigla == 'ADMINISTRADOR'" >
     <div class="col">
         <div class="center">
-            <button class="btn waves-effect waves-light">Salvar Alterações</button>
+            <button class="btn waves-effect waves-light" (click)="verificaFormulario()">Salvar Alterações</button>
         </div>
+    </div>
+</div>
+<div id="modal1" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
+    <div class="modal-content">
+        <h4 class="center">Atenção</h4>
+        <br>
+        <h5 class=" center">No mínimo uma pessoa deve ser selecionada para se realizar o cálculo !</h5>
+    </div>
+    <div class="modal-footer">
+        <button class="btn waves-effect center"  (click)="closeModal()">Ok</button>
+    </div>
+</div>
+<div class="container" *ngIf="totaisAvaliados">
+    <div id="modal2" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions2">
+        <div class="modal-content">
+            <h4 class="center">Atenção</h4>
+            <table class="highlight centered responsive-table hoverable striped">
+                <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Data Referência</th>
+                    <th>Cálculos</th>
+                    <th>Observações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let total of totaisAvaliados; let i = index">
+                    <td>{{total.status | pendentePipe}} </td>
+                    <td>{{total.totaisMensais.dataReferencia | date: 'shortDate'}}</td>
+                    <td>
+                        <table class="highlight centered responsive-table">
+                            <thead>
+                            <tr>
+                                <th>Função</th>
+                                <th>Férias</th>
+                                <th>Terço Constitucional</th>
+                                <th>Décimo Terceiro</th>
+                                <th>Incidência Retido</th>
+                                <th>Multa do FGTS</th>
+                                <th class="total-calculo">Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let calculo of total.totaisMensais.totais">
+                                <td>{{calculo.funcao }}</td>
+                                <td>{{calculo.ferias | currency:'BRL':true:'1.2-2'}}</td>
+                                <td>{{calculo.tercoConstitucional | currency:'BRL':true:'1.2-2'}}</td>
+                                <td>{{calculo.decimoTerceiro | currency:'BRL':true:'1.2-2'}}</td>
+                                <td>{{calculo.incidencia | currency:'BRL':true:'1.2-2'}}</td>
+                                <td>{{calculo.multaFGTS | currency:'BRL':true:'1.2-2'}}</td>
+                                <td class="total-calculo">{{calculo.total | currency:'BRL':true:'1.2-2'}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td>
+                        <div class="row">
+                            <form [formGroup]="totalMennsalFormAfter" class="col">
+                                <div class="row" formArrayName="calculosAvaliados">
+                                    <div class="input-field col 12" [formGroupName]="i">
+                                        <textarea id="textarea1" class="materialize-textarea" formControlName="observacoes"></textarea>
+                                        <label for="textarea1">Observações</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn waves-effect left" (click)="closeModal2()">Cancelar</button>
+            <button class="btn waves-effect right" (click)="enviarAvaliacao()">Confirmar Avaliação</button>
+        </div>
+    </div>
+</div>
+<div id="modal3" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions3">
+    <div class="modal-content">
+        <h4 class="center">Sucesso</h4>
+        <br>
+        <h5 class=" center">As alterações foram feitas com sucesso</h5>
+    </div>
+    <div class="modal-footer">
+        <button class="btn waves-effect center"  (click)="navegaViewExec()">Ok</button>
     </div>
 </div>

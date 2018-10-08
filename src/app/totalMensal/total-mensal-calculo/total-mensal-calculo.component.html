@@ -5,7 +5,7 @@
 <div class="row">
     <form [formGroup]="myForm">
         <div class="row">
-          <div class="input-field col l6 center-align">
+          <div class="input-field col l7 center-align">
             <select class="black-text" name="contrato" formControlName="contrato" materialize="material_select" [ngModel]="contratos" (change)="onChange($event.target.value)" required>
               <option disabled>Selecione</option>
                 <option class="black-text" *ngFor="let contrato of contratos" [value]="contrato.codigo">{{contrato.nomeDaEmpresa}} - Contrato nº: {{contrato.numeroDoContrato}}</option>

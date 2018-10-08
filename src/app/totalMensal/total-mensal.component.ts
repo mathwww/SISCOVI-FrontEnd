@@ -18,6 +18,11 @@ export class TotalMensalComponent {
         this.tabSelectionParams = ['select_tab', 'test3'];
         this.setPendentesActive();
     }
+    calculosPendentesExecucao(codigoContrato: number) {
+        this.codigoContrato = codigoContrato;
+        this.tabSelectionParams = ['select_tab', 'test4'];
+        this.setExecutadosActive();
+    }
     testeCalculo(): boolean {
         if (this.contentAvailable === Content.Calculos) {
             return true;

@@ -23,7 +23,8 @@ import {HistoricoGestoresComponent} from './historico/historico-gestores.compone
 import {TotalMensalComponent} from './totalMensal/total-mensal.component';
 import {FeriasComponent} from './ferias/ferias.component';
 import {DecimoTerceiroComponent} from './decimo_terceiro/decimo-terceiro.component';
-import {RescisaoComponent} from "./rescisao/rescisao.component";
+import {RescisaoComponent} from './rescisao/rescisao.component';
+import {RecalculoTotalMensalComponent} from "./totalMensal/recalculo-total-mensal/recalculo-total-mensal.component";
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'home'},
@@ -51,6 +52,7 @@ const routes: Routes = [
       {path: 'decTer', component: DecimoTerceiroComponent, canActivate: [LoggedInGuard]},
       {path: 'rescisao', component: RescisaoComponent, canActivate: [LoggedInGuard]},
       {path: 'totalMensal', component: TotalMensalComponent, canActivate: [LoggedInGuard]},
+      {path: 'totalMensal/:id/:dataReferencia', component: RecalculoTotalMensalComponent, canActivate: [LoggedInGuard]},
       {path: 'saldoConta', component: InicioComponent, canActivate: [LoggedInGuard]},
       {path: 'percentEst', component: PercentuaisEstaticosComponent, canActivate: [LoggedInGuard, ProfileGuard]},
       {path: 'ajustes-contratuais', component: AjusteContratoComponent, canActivate: [LoggedInGuard]},
