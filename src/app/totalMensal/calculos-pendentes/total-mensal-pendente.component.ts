@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Contrato} from '../../contratos/contrato';
 import {TotalMensalService} from '../total-mensal.service';
 import {TotalMensalPendente} from '../total-mensal-pendente';
@@ -8,6 +8,7 @@ import {ConfigService} from '../../_shared/config.service';
 import {ListaTotalMensalData} from '../lista-total-mensal-data';
 import {MaterializeAction} from 'angular2-materialize';
 import {Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
     selector: 'app-total-mensal-pendente-component',
@@ -17,7 +18,7 @@ import {Router} from '@angular/router';
 export class TotalMensalPendenteComponent implements OnInit {
     @Input() codigoContrato: number;
     contratos: Contrato[];
-    totais: TotalMensalPendente[];
+    totais: TotalMensalPendente[] = [];
     totalMensalForm: FormGroup;
     totalMennsalFormAfter: FormGroup;
     config: ConfigService;
@@ -26,8 +27,11 @@ export class TotalMensalPendenteComponent implements OnInit {
     modalActions = new EventEmitter<string | MaterializeAction>();
     modalActions2 = new EventEmitter<string| MaterializeAction>();
     modalActions3 = new EventEmitter<string | MaterializeAction>();
+    modalActions4 = new EventEmitter<string | MaterializeAction>();
     @Output() nav = new EventEmitter();
-    constructor (private contratoService: ContratosService, private totalMensalService: TotalMensalService, private fb: FormBuilder, config: ConfigService, private router: Router) {
+    historicoPendente: TotalMensalPendente[] = [];
+    notifications: number;
+    constructor (private contratoService: ContratosService, private totalMensalService: TotalMensalService, private fb: FormBuilder, config: ConfigService, private router: Router, private ref: ChangeDetectorRef) {
         this.config = config;
         this.contratoService.getContratosDoUsuario().subscribe(res => {
             this.contratos = res;
@@ -36,8 +40,23 @@ export class TotalMensalPendenteComponent implements OnInit {
             }
             if (this.codigoContrato) {
                 this.totalMensalService.getTotaisPendentes(this.codigoContrato).subscribe(res2 => {
-                    this.totais = res2;
+                    const historico: TotalMensalPendente[] = [];
+                    if (!res.error) {
+                        this.totais = res2;
+                    }
                     if (this.totais) {
+                        for (let i = 0; i < res.length; i++) {
+                            if (res[i].status === 'NEGADO') {
+                                const a: any =  res.slice(i, i + 1);
+                                const val: TotalMensalPendente = a[0];
+                                historico.push(val as TotalMensalPendente);
+                                res.splice(i, 1);
+                                i = -1;
+                            }
+                        }
+                        this.historicoPendente = historico;
+                        this.notifications = this.historicoPendente.length;
+                        this.ref.markForCheck();
                         this.formInit();
                     }
                 });
@@ -45,6 +64,22 @@ export class TotalMensalPendenteComponent implements OnInit {
         });
     }
     ngOnInit() {
+        if (this.totais.length > 0) {
+            if (this.totais.length > 0) {
+                const historico: TotalMensalPendente[] = [];
+                for (let i = 0; i < this.totais.length; i++) {
+                    if (this.totais[i].status === 'NEGADO') {
+                        const a: any =  this.totais.slice(i, i + 1);
+                        const val: TotalMensalPendente = a[0];
+                        historico.push(val as TotalMensalPendente);
+                        this.totais.splice(i, 1);
+                    }
+                }
+                this.historicoPendente = historico;
+                this.notifications = this.historicoPendente.length;
+                this.ref.markForCheck();
+            }
+        }
         this.formInit();
     }
     formInit() {
@@ -69,9 +104,27 @@ export class TotalMensalPendenteComponent implements OnInit {
             });
     }
     defineCodigoContrato(codigo: number) {
+        this.historicoPendente = [];
         this.codigoContrato = codigo;
+        if (this.totais.length > 0) {
+            this.totais = [];
+        }
         this.totalMensalService.getTotaisPendentes(codigo).subscribe(res => {
-            this.totais = res;
+            const historico: TotalMensalPendente[] = [];
+            if (!res.error) {
+                for (let i = 0; i < res.length; i++) {
+                    if (res[i].status === 'NEGADO') {
+                        const a: any =  res.slice(i, i + 1);
+                        const val: TotalMensalPendente = a[0];
+                        historico.push(val as TotalMensalPendente);
+                        res.splice(i, 1);
+                        i = -1;
+                    }
+                }
+                this.historicoPendente = historico;
+                this.totais = res;
+            }
+            this.notifications = this.historicoPendente.length;
             if (this.formInit()) {
                 this.formInit();
             }
@@ -88,6 +141,11 @@ export class TotalMensalPendenteComponent implements OnInit {
     }
     closeModal3() {
         this.modalActions3.emit({action: 'modal', params: ['close']});
+    } openModal4() {
+        this.modalActions4.emit({action: 'modal', params: ['open']});
+    }
+    closeModal4() {
+        this.modalActions4.emit({action: 'modal', params: ['close']});
     }
     openModal2() {
         this.modalActions2.emit({action: 'modal', params: ['open']});

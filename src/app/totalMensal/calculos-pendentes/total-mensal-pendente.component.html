@@ -8,7 +8,23 @@
         <label for="selecao_contrato">Contrato<span class="red-text"> *</span></label>
     </div>
 </div>
-<div class="container" *ngIf="!totais && codigoContrato">
+<div class="row" *ngIf="codigoContrato && totais && (historicoPendente.length > 0) && config.user.perfil.sigla == 'ADMINISTRADOR'">
+    <div class="col tooltip" *ngIf="totais.length > 0">
+        <span class="tooltiptext">Histórico de Cálculos Negados</span>
+        <a (click)="openModal4()" class="left badge1" [attr.data-badge]="notifications" >
+            <i class="material-icons left small">announcement</i>
+        </a>
+    </div>
+</div>
+<div class="row" *ngIf="codigoContrato && totais.length == 0 && (historicoPendente.length > 0) && config.user.perfil.sigla == 'ADMINISTRADOR'">
+    <div class="col center-align center tooltip" >
+        <span class="tooltiptext">Histórico de Cálculos Negados</span>
+        <a (click)="openModal4()" class="center badge1" [attr.data-badge]="notifications" >
+            <i class="material-icons left small">announcement</i>
+        </a>
+    </div>
+</div>
+<div class="container" *ngIf= "codigoContrato && totais.length == 0">
     <div class="row" >
         <div class="col s12 grey lighten-4" style="margin-top: 1em">
             <br>
@@ -17,7 +33,7 @@
     </div>
 </div>
 <div class="row" *ngIf="codigoContrato && totais">
-    <form [formGroup]="totalMensalForm">
+    <form [formGroup]="totalMensalForm" *ngIf="totais.length > 0">
         <div class="col xl12 l12 s12 l12 m12" formArrayName="avaliacaoDeCalculo">
             <table class="highlight centered responsive-table hoverable striped">
                 <thead>
@@ -59,6 +75,7 @@
                             <thead>
                                 <tr>
                                     <th>Função</th>
+                                    <th>Número de Terceirizados por Função</th>
                                     <th>Férias</th>
                                     <th>Terço Constitucional</th>
                                     <th>Décimo Terceiro</th>
@@ -70,6 +87,7 @@
                             <tbody>
                                 <tr *ngFor="let calculo of total.totaisMensais.totais" [class.status]="total.status == 'NEGADO' && config.user.perfil.sigla == 'USUÁRIO'">
                                     <td>{{calculo.funcao }}</td>
+                                    <td>{{calculo.numeroTerceirizados}}</td>
                                     <td>{{calculo.ferias | currency:'BRL':true:'1.2-2'}}</td>
                                     <td>{{calculo.tercoConstitucional | currency:'BRL':true:'1.2-2'}}</td>
                                     <td>{{calculo.decimoTerceiro | currency:'BRL':true:'1.2-2'}}</td>
@@ -87,7 +105,7 @@
     </form>
 </div>
 <div class="row" *ngIf="codigoContrato && totais && config.user.perfil.sigla == 'ADMINISTRADOR'" >
-    <div class="col">
+    <div class="col" *ngIf="totais.length > 0">
         <div class="center">
             <button class="btn waves-effect waves-light" (click)="verificaFormulario()">Salvar Alterações</button>
         </div>
@@ -125,6 +143,7 @@
                             <thead>
                             <tr>
                                 <th>Função</th>
+                                <th>Número de Terceirizados por Função</th>
                                 <th>Férias</th>
                                 <th>Terço Constitucional</th>
                                 <th>Décimo Terceiro</th>
@@ -136,6 +155,7 @@
                             <tbody>
                             <tr *ngFor="let calculo of total.totaisMensais.totais">
                                 <td>{{calculo.funcao }}</td>
+                                <td>{{calculo.numeroTerceirizados}}</td>
                                 <td>{{calculo.ferias | currency:'BRL':true:'1.2-2'}}</td>
                                 <td>{{calculo.tercoConstitucional | currency:'BRL':true:'1.2-2'}}</td>
                                 <td>{{calculo.decimoTerceiro | currency:'BRL':true:'1.2-2'}}</td>
@@ -176,5 +196,59 @@
     </div>
     <div class="modal-footer">
         <button class="btn waves-effect center"  (click)="navegaViewExec()">Ok</button>
+    </div>
+</div>
+
+<div class="container" *ngIf="historicoPendente.length > 0 && codigoContrato && totais">
+    <div id="modal4" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions4">
+        <div class="modal-content">
+            <h4 class="center">Atenção</h4>
+            <table class="highlight centered responsive-table hoverable striped">
+                <thead>
+                <tr>
+                    <th>Data Referência</th>
+                    <th>Cálculos</th>
+                    <th>Observações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let total of historicoPendente; let i = index">
+                    <td>{{total.totaisMensais.dataReferencia | date: 'shortDate'}}</td>
+                    <td>
+                        <table class="highlight centered responsive-table">
+                            <thead>
+                            <tr>
+                                <th>Função</th>
+                                <th>Número de Terceirizados por Função</th>
+                                <th>Férias</th>
+                                <th>Terço Constitucional</th>
+                                <th>Décimo Terceiro</th>
+                                <th>Incidência Retido</th>
+                                <th>Multa do FGTS</th>
+                                <th class="total-calculo">Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let calculo of total.totaisMensais.totais">
+                                    <td>{{calculo.funcao }}</td>
+                                    <td>{{calculo.numeroTerceirizados}}</td>
+                                    <td>{{calculo.ferias | currency:'BRL':true:'1.2-2'}}</td>
+                                    <td>{{calculo.tercoConstitucional | currency:'BRL':true:'1.2-2'}}</td>
+                                    <td>{{calculo.decimoTerceiro | currency:'BRL':true:'1.2-2'}}</td>
+                                    <td>{{calculo.incidencia | currency:'BRL':true:'1.2-2'}}</td>
+                                    <td>{{calculo.multaFGTS | currency:'BRL':true:'1.2-2'}}</td>
+                                    <td class="total-calculo">{{calculo.total | currency:'BRL':true:'1.2-2'}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td>{{total.observacoes}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button class="btn waves-effect left" (click)="closeModal4()">Ok</button>
+        </div>
     </div>
 </div>

@@ -7,7 +7,8 @@ export class TotalMensal {
     private _multaFGTS: number;
     private _total: number;
     private _status: string;
-    constructor(funcao: string, ferias: number, tercoConstitucional: number, decimoTerceiro: number, incidencia: number, multaFGTS: number, total: number, status: string) {
+    private _numeroTerceirizados;
+    constructor(funcao: string, ferias: number, tercoConstitucional: number, decimoTerceiro: number, incidencia: number, multaFGTS: number, total: number, status: string, numeroTerceirizados: number) {
         this._funcao = funcao;
         this._ferias = ferias;
         this._tercoConstitucional = tercoConstitucional;
@@ -16,6 +17,7 @@ export class TotalMensal {
         this._multaFGTS = multaFGTS;
         this._total = total;
         this._status = status;
+        this._numeroTerceirizados = numeroTerceirizados;
     }
 
 
@@ -48,5 +50,9 @@ export class TotalMensal {
     }
     get status(): string {
         return this._status;
-}
+    }
+
+    get numeroTerceirizados() {
+        return this._numeroTerceirizados;
+    }
 }

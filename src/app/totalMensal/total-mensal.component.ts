@@ -16,12 +16,12 @@ export class TotalMensalComponent {
     calculosPendentes(codigoContrato: number) {
         this.codigoContrato = codigoContrato;
         this.tabSelectionParams = ['select_tab', 'test3'];
-        this.setPendentesActive();
+        this.contentAvailable = Content.Pendentes;
     }
     calculosPendentesExecucao(codigoContrato: number) {
         this.codigoContrato = codigoContrato;
         this.tabSelectionParams = ['select_tab', 'test4'];
-        this.setExecutadosActive();
+        this.contentAvailable = Content.Executados;
     }
     testeCalculo(): boolean {
         if (this.contentAvailable === Content.Calculos) {
@@ -48,20 +48,37 @@ export class TotalMensalComponent {
         return false;
     }
     setRetencoesActive(): void {
+        if (this.codigoContrato) {
+            this.codigoContrato = null;
+        }
         this.contentAvailable = Content.Retencoes;
         this.tabSelectionParams = ['select_tab', 'test1'];
     }
     setCalcularActive(): void {
+        if (this.codigoContrato) {
+            this.codigoContrato = null;
+        }
         this.contentAvailable = Content.Calculos;
         this.tabSelectionParams = ['select_tab', 'test2'];
     }
     setPendentesActive(): void {
+        if (this.codigoContrato) {
+            this.codigoContrato = null;
+        }
         this.contentAvailable = Content.Pendentes;
         this.tabSelectionParams = ['select_tab', 'test3'];
     }
     setExecutadosActive(): void {
+        if (this.codigoContrato) {
+            this.codigoContrato = null;
+        }
         this.contentAvailable = Content.Executados;
         this.tabSelectionParams = ['select_tab', 'test4'];
+    }
+    calculosRetidos(codigoContrato: number) {
+        this.codigoContrato = codigoContrato;
+        this.tabSelectionParams = ['select_tab', 'test1'];
+        this.contentAvailable = Content.Retencoes;
     }
 
 }

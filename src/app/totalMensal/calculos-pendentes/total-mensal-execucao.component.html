@@ -59,6 +59,7 @@
                             <thead>
                             <tr>
                                 <th>Função</th>
+                                <th>Número de Terceirizados por Função</th>
                                 <th>Férias</th>
                                 <th>Terço Constitucional</th>
                                 <th>Décimo Terceiro</th>
@@ -70,6 +71,7 @@
                             <tbody>
                             <tr *ngFor="let calculo of total.totaisMensais.totais">
                                 <td>{{calculo.funcao }}</td>
+                                <td>{{calculo.numeroTerceirizados}}</td>
                                 <td>{{calculo.ferias | currency:'BRL':true:'1.2-2'}}</td>
                                 <td>{{calculo.tercoConstitucional | currency:'BRL':true:'1.2-2'}}</td>
                                 <td>{{calculo.decimoTerceiro | currency:'BRL':true:'1.2-2'}}</td>
@@ -135,6 +137,7 @@
                             <thead>
                             <tr>
                                 <th>Função</th>
+                                <th>Número de Terceirizados por Função</th>
                                 <th>Férias</th>
                                 <th>Terço Constitucional</th>
                                 <th>Décimo Terceiro</th>
@@ -146,6 +149,7 @@
                             <tbody>
                             <tr *ngFor="let calculo of total.totaisMensais.totais">
                                 <td>{{calculo.funcao }}</td>
+                                <td>{{calculo.numeroTerceirizados}}</td>
                                 <td>{{calculo.ferias | currency:'BRL':true:'1.2-2'}}</td>
                                 <td>{{calculo.tercoConstitucional | currency:'BRL':true:'1.2-2'}}</td>
                                 <td>{{calculo.decimoTerceiro | currency:'BRL':true:'1.2-2'}}</td>
