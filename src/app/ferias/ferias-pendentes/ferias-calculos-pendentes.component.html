@@ -1,6 +1,6 @@
 <br>
 <div class="row">
-    <div class="input-field col l7 offset-l2">
+    <div class="input-field col l7">
         <select id="selecao_contrato"materialize="material_select" [materializeSelectOptions]="contratos" (change)="defineCodigoContrato($event.target.value)">
             <option disabled>Selecione um Contrato</option>
             <option *ngFor="let contrato of contratos" [value]="contrato.codigo" [selected]="codigoContrato == contrato.codigo">{{contrato.nomeDaEmpresa}} - Contrato nº: {{contrato.numeroDoContrato}}</option>
@@ -84,4 +84,85 @@
             </table>
         </div>
     </form>
+</div>
+<div class="row" *ngIf="config.user.perfil.sigla == 'ADMINISTRADOR' && calculosPendentes">
+    <div class="col">
+        <div class="center">
+            <button class="btn waves-effect center" (click)="verificaFormulario()">Salvar Alterações</button>
+        </div>
+    </div>
+</div>
+<div id="modal1" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
+    <div class="modal-content">
+        <h4 class="center">Atenção</h4>
+        <br>
+        <h5 class=" center">No mínimo uma pessoa deve ser selecionada !</h5>
+    </div>
+    <div class="modal-footer">
+        <button class="btn waves-effect center"  (click)="closeModal()">Ok</button>
+    </div>
+</div>
+<div id="modal2" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions2" >
+    <div class="modal-content">
+        <h4 class="center">Atenção</h4>
+        <br>
+        <table  class="highlight centered responsive-table">
+            <thead>
+            <tr>
+                <th>Status</th>
+                <th >Terceirizado</th>
+                <th >Cargo</th>
+                <th>Tipo de Restituição</th>
+                <th>Parcela</th>
+                <th>Início do Periodo Aquisitivo</th>
+                <th>Fim do Periodo Aquisitivo</th>
+                <th>Início do Usufruto</th>
+                <th>Fim do Usufruto</th>
+                <th>Dias Vendidos</th>
+                <th>Valor de Férias</th>
+                <th>Valor de 1/3</th>
+                <th>Incidência Sobre Férias</th>
+                <th>Incidência Sobre 1/3</th>
+                <th>Total</th>
+                <th>Observações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let calculos of calculosAvaliados; let k = index">
+                <td>{{calculos.status | pendentePipe}}</td>
+                <td *ngIf="config.user.perfil.sigla == 'USUÁRIO'">{{calculos.status}}</td>
+                <td class="hoverable">{{calculos.nomeTerceirizado}}</td>
+                <td class="hoverable">{{calculos.nomeCargo}}</td>
+                <td class="hoverable">{{calculos.calcularFeriasModel.tipoRestituicao}}</td>
+                <td class="hoverable">{{calculos.calcularFeriasModel.parcelas | parcelaPipe}}</td>
+                <td class="hoverable">{{calculos.calcularFeriasModel.inicioPeriodoAquisitivo | date: 'shortDate'}}</td>
+                <td class="hoverable">{{calculos.calcularFeriasModel.fimPeriodoAquisitivo | date: 'shortDate'}}</td>
+                <td class="hoverable">{{calculos.calcularFeriasModel.inicioFerias | date: 'shortDate'}}</td>
+                <td class="hoverable">{{calculos.calcularFeriasModel.fimFerias | date: 'shortDate'}}</td>
+                <td class="hoverable">{{calculos.calcularFeriasModel.diasVendidos}}</td>
+                <td class="hoverable">{{calculos.calcularFeriasModel.pTotalFerias | currency:'BRL':true:'1.2-2'}}</td>
+                <td class="hoverable">{{calculos.calcularFeriasModel.pTotalTercoConstitucional | currency:'BRL':true:'1.2-2'}}</td>
+                <td class="hoverable">{{calculos.calcularFeriasModel.pTotalIncidenciaFerias | currency:'BRL':true:'1.2-2'}}</td>
+                <td class="hoverable">{{calculos.calcularFeriasModel.pTotalIncidenciaTerco | currency:'BRL':true:'1.2-2'}}</td>
+                <td class="hoverable"><b>{{calculos.total | currency:'BRL':true:'1.2-2'}}</b></td>
+                <td>
+                    <div class="row">
+                        <form [formGroup]="feriasFormAfter" class="col">
+                            <div class="row" formArrayName="calculosAvaliados">
+                                <div class="input-field col s12" [formGroupName]="k">
+                                    <textarea id="textarea1" class="materialize-textarea" formControlName="observacoes"></textarea>
+                                    <label for="textarea1">Observações</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="btn waves-effect left"  (click)="closeModal2()">Cancelar</button>
+        <button class="btn waves-effect right" (click)="salvarAlteracoes()">Confirmar</button>
+    </div>
 </div>

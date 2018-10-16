@@ -6,4 +6,5 @@ export class FeriasCalculosPendentes {
     nomeCargo: string;
     status: string;
     total: number;
+    observacoes: string;
 }

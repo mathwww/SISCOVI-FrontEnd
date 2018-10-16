@@ -3,6 +3,8 @@ import {Http} from '@angular/http';
 import {ConfigService} from '../_shared/config.service';
 import {FeriasCalcular} from './ferias-calcular';
 import {Observable} from 'rxjs/Observable';
+import {FeriasCalculosPendentes} from "./ferias-pendentes/ferias-calculos-pendentes";
+import {User} from "../users/user";
 
 
 @Injectable()
@@ -65,6 +67,11 @@ export class FeriasService {
     getCalculosPendentes(codigoContrato: number) {
         const url = this.config.myApi + '/ferias' + '/getCalculosPendentes=' + codigoContrato;
         return this.http.get(url).map(res => res.json());
+    }
+    salvarFeriasAvaliadas(codigoContrato: number, lista: FeriasCalculosPendentes[]) {
+        const url = this.config.myApi + '/ferias/salvaFeriasAvaliadas';
+
+        return this.http.post(url, lista).map(res => res.json());
     }
     protected encapsulaDatas(value: any): Date {
             const a = value.split('/');
