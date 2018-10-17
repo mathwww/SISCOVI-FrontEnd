@@ -23,6 +23,7 @@ export class FeriasCalculosPendentesComponent implements OnInit {
     feriasFormAfter: FormGroup;
     modalActions = new EventEmitter<string | MaterializeAction>();
     modalActions2 = new EventEmitter<string | MaterializeAction>();
+    modalActions3 = new EventEmitter<string | MaterializeAction>();
     constructor(private feriasService: FeriasService, private contratoService: ContratosService, config: ConfigService, private fb: FormBuilder, private ref: ChangeDetectorRef) {
         this.config = config;
         this.contratoService.getContratosDoUsuario().subscribe(res => {
@@ -68,7 +69,8 @@ export class FeriasCalculosPendentesComponent implements OnInit {
     }
     closeModal() {
         this.modalActions.emit({action: 'modal', params: ['close']});
-    } openModal2() {
+    }
+    openModal2() {
         this.modalActions2.emit({action: 'modal', params: ['open']});
     }
     closeModal2() {
@@ -77,6 +79,12 @@ export class FeriasCalculosPendentesComponent implements OnInit {
         this.feriasFormAfter = this.fb.group({
             calculosAvaliados: this.fb.array([])
         });
+    }
+    openModal3() {
+        this.modalActions3.emit({action: 'modal', params: ['open']});
+    }
+    closeModal3() {
+        this.modalActions3.emit({action: 'modal', params: ['close']});
     }
     defineCodigoContrato(codigoContrato: number): void {
         this.codigoContrato = codigoContrato;
@@ -119,7 +127,11 @@ export class FeriasCalculosPendentesComponent implements OnInit {
            this.calculosAvaliados[i].observacoes = this.feriasFormAfter.get('calculosAvaliados').get('' + i).get('observacoes').value;
         }
         this.feriasService.salvarFeriasAvaliadas(this.codigoContrato, this.calculosAvaliados).subscribe(res => {
+            if (res.success) {
+               this.openModal3();
+            }else {
 
+            }
         });
     }
 }

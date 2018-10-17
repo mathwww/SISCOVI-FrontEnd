@@ -104,7 +104,7 @@
 </div>
 <div id="modal2" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions2" >
     <div class="modal-content">
-        <h4 class="center">Atenção</h4>
+        <h4 class="center">Confirma Operação</h4>
         <br>
         <table  class="highlight centered responsive-table">
             <thead>
@@ -164,5 +164,15 @@
     <div class="modal-footer">
         <button class="btn waves-effect left"  (click)="closeModal2()">Cancelar</button>
         <button class="btn waves-effect right" (click)="salvarAlteracoes()">Confirmar</button>
+    </div>
+</div>
+<div id="modal3" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions3">
+    <div class="modal-content">
+        <h4 class="center">Atenção</h4>
+        <br>
+        <h5 class=" center">As alterações foram feitas com sucesso !</h5>
+    </div>
+    <div class="modal-footer">
+        <button class="btn waves-effect center"  (click)="closeModal3()">Ok</button>
     </div>
 </div>

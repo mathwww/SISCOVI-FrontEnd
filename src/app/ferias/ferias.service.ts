@@ -69,9 +69,13 @@ export class FeriasService {
         return this.http.get(url).map(res => res.json());
     }
     salvarFeriasAvaliadas(codigoContrato: number, lista: FeriasCalculosPendentes[]) {
-        const url = this.config.myApi + '/ferias/salvaFeriasAvaliadas';
-
-        return this.http.post(url, lista).map(res => res.json());
+        const url = this.config.myApi + '/ferias/salvarFeriasAvaliadas';
+        const object = {
+            codContrato: codigoContrato,
+            user: this.config.user,
+            calculosAvaliados: lista
+        }
+        return this.http.put(url, object).map(res => res.json());
     }
     protected encapsulaDatas(value: any): Date {
             const a = value.split('/');
