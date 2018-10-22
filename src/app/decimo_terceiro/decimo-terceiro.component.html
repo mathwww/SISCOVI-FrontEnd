@@ -13,6 +13,7 @@
         <div id="test1" class="col s12" active="testeRetencoes()"><app-relatorio-retencoes-ferias-component *ngIf="testeRetencoes()"></app-relatorio-retencoes-ferias-component></div>
         <div id="test2" class="col s12" active="testeCalculo()"><app-calculo-decimo-terceiro-component *ngIf="testeCalculo()" (navegaParaViewDeCalculos)="calculosPendentes($event)">
         </app-calculo-decimo-terceiro-component></div>
-        <div id="test3" class="col s12" active="testePendentes()"><app-ferias-calculos-pendentes *ngIf="testePendentes()" [codigoContrato]="codigoContrato"></app-ferias-calculos-pendentes></div>
+        <div id="test3" class="col s12" active="testePendentes()"><app-decimo-terceiro-pendente-component *ngIf="testePendentes()" [codigoContrato]="codigoContrato"></app-decimo-terceiro-pendente-component></div>
+        <div id="test4" class="col s12" active="testeExeucao()"><app-decimo-terceiro-execucao-component *ngIf="testeExecutados()" [codigoContrato]="codigoContrato"></app-decimo-terceiro-execucao-component></div>
     </div>
 </div>

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TerceririzadoDecimoTerceiro} from '../terceririzado.decimo.terceiro';
+import {TerceirizadoDecimoTerceiro} from '../terceirizado-decimo-terceiro';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MaterializeAction} from 'angular2-materialize';
 import {DecimoTerceiroService} from '../decimo-terceiro.service';
@@ -10,13 +10,13 @@ import {DecimoTerceiroService} from '../decimo-terceiro.service';
    styleUrls: ['./resgate-decimo-terceiro.component.scss']
 })
 export class ResgateDecimoTerceiroComponent implements OnInit {
-    @Input() protected terceirizados: TerceririzadoDecimoTerceiro[];
+    @Input() protected terceirizados: TerceirizadoDecimoTerceiro[];
     @Input() codigoContrato: number;
     @Input() tipoRestituicao: string;
     decimoTerceiroForm: FormGroup;
     isSelected = false;
     selected = false;
-    calculosDecimoTerceiro: TerceririzadoDecimoTerceiro[] = [];
+    calculosDecimoTerceiro: TerceirizadoDecimoTerceiro[] = [];
     modalActions = new EventEmitter<string | MaterializeAction>();
     modalActions2 = new EventEmitter<string | MaterializeAction>();
     modalActions3 = new EventEmitter<string | MaterializeAction>();
@@ -92,7 +92,7 @@ export class ResgateDecimoTerceiroComponent implements OnInit {
             if (this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('selected').value) {
                 aux++;
                 if (this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).status === 'VALID') {
-                    const objeto = new TerceririzadoDecimoTerceiro(this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('codTerceirizadoContrato').value,
+                    const objeto = new TerceirizadoDecimoTerceiro(this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('codTerceirizadoContrato').value,
                         this.terceirizados[i].nomeTerceirizado,
                         this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('inicioContagem').value,
                         0,

@@ -87,6 +87,9 @@ import {TotalMensalExecucaoComponent} from './totalMensal/calculos-pendentes/tot
 import {PendentePipe} from './_shared/pendente.pipe';
 import {RecalculoTotalMensalComponent} from './totalMensal/recalculo-total-mensal/recalculo-total-mensal.component';
 import {HistoricoTotalMensalComponent} from './totalMensal/calculos-pendentes/historico-total-mensal/historico-total-mensal.component';
+import {FeriasCalculosPendentesExecucaoComponent} from './ferias/ferias-pendentes/ferias-calculos-pendentes-execucao.component';
+import {DecimoTerceiroPendenteComponent} from './decimo_terceiro/decimo-terceiro-pendente/decimo-terceiro-pendente.component';
+import {DecimoTerceiroPendenteExecucaoComponent} from './decimo_terceiro/decimo-terceiro-pendente/decimo-terceiro-pendente-execucao.component';
 
 @NgModule({
   declarations: [
@@ -151,7 +154,10 @@ import {HistoricoTotalMensalComponent} from './totalMensal/calculos-pendentes/hi
     MovimentacaoRescisaoComponent,
     TotalMensalExecucaoComponent,
     RecalculoTotalMensalComponent,
-    HistoricoTotalMensalComponent
+    HistoricoTotalMensalComponent,
+    FeriasCalculosPendentesExecucaoComponent,
+    DecimoTerceiroPendenteComponent,
+    DecimoTerceiroPendenteExecucaoComponent
   ],
   imports: [
     BrowserModule,

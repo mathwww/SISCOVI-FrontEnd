@@ -8,15 +8,15 @@ import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {MaterializeAction} from 'angular2-materialize';
 
 @Component({
-    selector: 'app-ferias-calculos-pendentes',
-    templateUrl: './ferias-calculos-pendentes.component.html',
+    selector: 'app-ferias-calculos-pendentes-execucao',
+    templateUrl: './ferias-calculos-pendentes-execucao.component.html',
     styleUrls: ['./ferias-calculos-pendentes.component.scss']
 })
-export class FeriasCalculosPendentesComponent implements OnInit {
+export class FeriasCalculosPendentesExecucaoComponent implements OnInit {
     contratos: Contrato[];
     @Input() codigoContrato = 0;
     isSelected = false;
-    calculosPendentes: FeriasCalculosPendentes[];
+    calculosPendentesExecucao: FeriasCalculosPendentes[];
     calculosAvaliados: FeriasCalculosPendentes[] = [];
     calculosNegados: FeriasCalculosPendentes[] = [];
     config: ConfigService;
@@ -27,41 +27,41 @@ export class FeriasCalculosPendentesComponent implements OnInit {
     modalActions3 = new EventEmitter<string | MaterializeAction>();
     modalActions4 = new EventEmitter<string | MaterializeAction>();
     modalActions5 = new EventEmitter<string | MaterializeAction>();
-    notifications: number;
     @Output() nav = new EventEmitter();
+    notifications: number;
     constructor(private feriasService: FeriasService, private contratoService: ContratosService, config: ConfigService, private fb: FormBuilder, private ref: ChangeDetectorRef) {
         this.config = config;
         this.contratoService.getContratosDoUsuario().subscribe(res => {
-           this.contratos = res;
-           if (this.codigoContrato) {
-              this.feriasService.getCalculosPendentes(this.codigoContrato).subscribe(res2 => {
-                  this.calculosPendentes = res2;
-                  if (this.calculosPendentes.length === 0) {
-                      this.calculosPendentes = null;
-                  }else {
-                      this.formInit();
-                  }
-              });
-               this.feriasService.getCalculosPendentesNegados(this.codigoContrato).subscribe(res3 => {
-                   const historico: FeriasCalculosPendentes[] = res3;
-                   this.calculosNegados = historico;
-                   this.notifications = this.calculosNegados.length;
-                   this.ref.markForCheck();
-               });
-           }
+            this.contratos = res;
+            if (this.codigoContrato) {
+                this.feriasService.getCalculosPendentesExecucao(this.codigoContrato).subscribe(res2 => {
+                    this.calculosPendentesExecucao = res2;
+                    if (this.calculosPendentesExecucao.length === 0) {
+                        this.calculosPendentesExecucao = null;
+                    }else {
+                        this.formInit();
+                    }
+                });
+                this.feriasService.getCalculosNaoPendentesNegados(this.codigoContrato).subscribe(res3 => {
+                    const historico: FeriasCalculosPendentes[] = res3;
+                    this.calculosNegados = historico;
+                    this.notifications = this.calculosNegados.length;
+                    this.ref.markForCheck();
+                });
+            }
         });
     }
     ngOnInit() {
         this.formInit();
     }
     formInit() {
-        if (this.calculosPendentes ) {
+        if (this.calculosPendentesExecucao ) {
             this.feriasForm = this.fb.group({
                 avaliacaoCalculoFerias: this.fb.array([])
             });
-            if (this.calculosPendentes) {
+            if (this.calculosPendentesExecucao) {
                 const control = <FormArray>this.feriasForm.controls.avaliacaoCalculoFerias;
-                this.calculosPendentes.forEach(() => {
+                this.calculosPendentesExecucao.forEach(() => {
                     const addControl = this.fb.group({
                         selected: new FormControl(),
                         avaliacao: new FormControl('S')
@@ -72,7 +72,7 @@ export class FeriasCalculosPendentesComponent implements OnInit {
             this.ref.markForCheck();
         }
         this.feriasFormAfter = this.fb.group({
-           calculosAvaliados: this.fb.array([])
+            calculosAvaliados: this.fb.array([])
         });
     }
     openModal() {
@@ -113,15 +113,15 @@ export class FeriasCalculosPendentesComponent implements OnInit {
     defineCodigoContrato(codigoContrato: number): void {
         this.codigoContrato = codigoContrato;
         if (this.codigoContrato) {
-            this.feriasService.getCalculosPendentes(this.codigoContrato).subscribe(res2 => {
-                this.calculosPendentes = res2;
-                if (this.calculosPendentes.length === 0) {
-                    this.calculosPendentes = null;
+            this.feriasService.getCalculosPendentesExecucao(this.codigoContrato).subscribe(res2 => {
+                this.calculosPendentesExecucao = res2;
+                if (this.calculosPendentesExecucao.length === 0) {
+                    this.calculosPendentesExecucao = null;
                 }else {
                     this.formInit();
                 }
             });
-            this.feriasService.getCalculosPendentesNegados(this.codigoContrato).subscribe(res3 => {
+            this.feriasService.getCalculosNaoPendentesNegados(this.codigoContrato).subscribe(res3 => {
                 const historico: FeriasCalculosPendentes[] = res3;
                 this.calculosNegados = historico;
                 this.notifications = this.calculosNegados.length;
@@ -131,10 +131,10 @@ export class FeriasCalculosPendentesComponent implements OnInit {
     }
     verificaFormulario() {
         let aux = 0;
-        for (let i = 0; i < this.calculosPendentes.length; i ++) {
+        for (let i = 0; i < this.calculosPendentesExecucao.length; i ++) {
             if (this.feriasForm.get('avaliacaoCalculoFerias').get('' + i).get('selected').value) {
                 aux++;
-                const temp: FeriasCalculosPendentes = this.calculosPendentes[i];
+                const temp: FeriasCalculosPendentes = this.calculosPendentesExecucao[i];
                 temp.status = this.feriasForm.get('avaliacaoCalculoFerias').get('' + i).get('avaliacao').value;
                 this.calculosAvaliados.push(temp);
             }
@@ -154,11 +154,11 @@ export class FeriasCalculosPendentesComponent implements OnInit {
     }
     salvarAlteracoes() {
         for (let i = 0; i < this.calculosAvaliados.length; i++) {
-           this.calculosAvaliados[i].observacoes = this.feriasFormAfter.get('calculosAvaliados').get('' + i).get('observacoes').value;
+            this.calculosAvaliados[i].observacoes = this.feriasFormAfter.get('calculosAvaliados').get('' + i).get('observacoes').value;
         }
-        this.feriasService.salvarFeriasAvaliadas(this.codigoContrato, this.calculosAvaliados).subscribe(res => {
+        this.feriasService.salvarExecucaoFerias(this.codigoContrato, this.calculosAvaliados).subscribe(res => {
             if (res.success) {
-               this.openModal3();
+                this.openModal3();
             }else {
                 this.openModal5();
             }

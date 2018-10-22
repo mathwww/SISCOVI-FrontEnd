@@ -1,6 +1,6 @@
 import {ValorDecimoTerceiro} from './valor-decimo-terceiro';
 
-export class TerceririzadoDecimoTerceiro {
+export class TerceirizadoDecimoTerceiro {
     codigoTerceirizadoContrato: number;
     nomeTerceirizado: string;
     inicioContagem: Date;

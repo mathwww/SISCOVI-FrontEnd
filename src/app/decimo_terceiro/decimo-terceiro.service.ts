@@ -2,9 +2,8 @@ import {EventEmitter, Injectable, Output} from '@angular/core';
 import {Http} from '@angular/http';
 import {ConfigService} from '../_shared/config.service';
 import {Observable} from 'rxjs/Observable';
-import {TerceririzadoDecimoTerceiro} from './terceririzado.decimo.terceiro';
-import {CalculoDecimoTerceiroComponent} from './calculo-decimo-terceiro/calculo-decimo-terceiro.component';
-import {forEach} from '@angular/router/src/utils/collection';
+import {TerceirizadoDecimoTerceiro} from './terceirizado-decimo-terceiro';
+import {DecimoTerceiroPendente} from './decimo-terceiro-pendente/decimo-terceiro-pendente';
 
 @Injectable()
 export class DecimoTerceiroService {
@@ -45,7 +44,7 @@ export class DecimoTerceiroService {
         const headers = new Headers({'Content-type': 'application/json'});
         return this.http.post(url, data, headers).map(res => res.json());
     }*/
-    calculaDecimoTerceiroTerceirizados(tercerizadosDecimoTerceiro: TerceririzadoDecimoTerceiro[]) {
+    calculaDecimoTerceiroTerceirizados(tercerizadosDecimoTerceiro: TerceirizadoDecimoTerceiro[]) {
         const url = this.config.myApi + '/decimo-terceiro/calcularDecimoTerceiroTerceirizados';
         const data = tercerizadosDecimoTerceiro;
         const headers = new Headers({'Content-type': 'application/json'});
@@ -58,7 +57,7 @@ export class DecimoTerceiroService {
         const ano = Number(a[2]);
         return new Date(ano, mes, dia);
     }
-    registrarCalculoDecimoTerceiro(calculosDecimoTerceiro: TerceririzadoDecimoTerceiro[]) {
+    registrarCalculoDecimoTerceiro(calculosDecimoTerceiro: TerceirizadoDecimoTerceiro[]) {
         const url = this.config.myApi + '/decimo-terceiro/registrarCalculoDecimoTerceiro';
         calculosDecimoTerceiro.forEach(item => {
             item.id = this.config.user.username;
@@ -66,5 +65,20 @@ export class DecimoTerceiroService {
         const data = calculosDecimoTerceiro;
         const headers = new Headers({'Content-type': 'application/json'});
         return this.http.post(url, data, headers).map(res => res.json());
+    }
+
+    getCalculosPendentes(codigoContrato: number) {
+        const url = this.config.myApi + 'decimo-terceiro';
+        return this.http.get(url).map(res => res.json());
+    }
+
+    getCalculosPendentesNegados(codigoContrato: number) {
+        const url = this.config.myApi + 'decimo-terceiro';
+        return this.http.get(url).map(res => res.json());
+    }
+
+    salvarFeriasAvaliadas(codigoContrato: number, calculosAvaliados: DecimoTerceiroPendente[]) {
+        const url = this.config.myApi + 'decimo-terceiro';
+        return this.http.get(url).map(res => res.json());
     }
 }

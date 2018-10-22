@@ -17,6 +17,16 @@ export class FeriasComponent {
         this.tabSelectionParams = ['select_tab', 'test3'];
         this.setPendentesActive();
     }
+    calculosExecutados(codigoContrato: number) {
+        this.codigoContrato = codigoContrato;
+        this.tabSelectionParams = ['select_tab', 'test4'];
+        this.setExecutadosActive();
+    }
+    retencoes(codigoContrato: number) {
+        this.codigoContrato = codigoContrato;
+        this.tabSelectionParams = ['select_tab', 'test1'];
+        this.setRetencoesActive();
+    }
     testeCalculo(): boolean {
         if (this.contentAvailable === Content.Calculos) {
             return true;

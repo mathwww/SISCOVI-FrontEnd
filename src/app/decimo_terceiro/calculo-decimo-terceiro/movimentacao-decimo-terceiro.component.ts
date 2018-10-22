@@ -1,7 +1,7 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FeriasCalcular} from '../../ferias/ferias-calcular';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {TerceririzadoDecimoTerceiro} from '../terceririzado.decimo.terceiro';
+import {TerceirizadoDecimoTerceiro} from '../terceirizado-decimo-terceiro';
 import {MaterializeAction} from 'angular2-materialize';
 import {DecimoTerceiroService} from '../decimo-terceiro.service';
 import {Observable} from 'rxjs/Observable';
@@ -14,13 +14,13 @@ import 'rxjs/add/observable/of';
     styleUrls: ['./resgate-decimo-terceiro.component.scss']
 })
 export class MovimentacaoDecimoTerceiroComponent implements  OnInit {
-    @Input() protected terceirizados: TerceririzadoDecimoTerceiro[];
+    @Input() protected terceirizados: TerceirizadoDecimoTerceiro[];
     @Input() codigoContrato: number;
     @Input() tipoRestituicao: string;
     decimoTerceiroForm: FormGroup;
     isSelected = false;
     selected = false;
-    calculosDecimoTerceiro: TerceririzadoDecimoTerceiro[] = [];
+    calculosDecimoTerceiro: TerceirizadoDecimoTerceiro[] = [];
     modalActions = new EventEmitter<string | MaterializeAction>();
     modalActions2 = new EventEmitter<string | MaterializeAction>();
     modalActions3 = new EventEmitter<string | MaterializeAction>();
@@ -114,7 +114,7 @@ export class MovimentacaoDecimoTerceiroComponent implements  OnInit {
                 aux++;
                 this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').updateValueAndValidity();
                 if (this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).status === 'VALID' &&  this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').valid) {
-                    const objeto = new TerceririzadoDecimoTerceiro(this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('codTerceirizadoContrato').value,
+                    const objeto = new TerceirizadoDecimoTerceiro(this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('codTerceirizadoContrato').value,
                         this.terceirizados[i].nomeTerceirizado,
                         this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('inicioContagem').value,
                         this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').value,

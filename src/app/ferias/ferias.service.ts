@@ -3,17 +3,20 @@ import {Http} from '@angular/http';
 import {ConfigService} from '../_shared/config.service';
 import {FeriasCalcular} from './ferias-calcular';
 import {Observable} from 'rxjs/Observable';
-import {FeriasCalculosPendentes} from "./ferias-pendentes/ferias-calculos-pendentes";
-import {User} from "../users/user";
+import {FeriasCalculosPendentes} from './ferias-pendentes/ferias-calculos-pendentes';
+import {User} from '../users/user';
 
 
 @Injectable()
 export class FeriasService {
+
     constructor(private http: Http, private config: ConfigService) {}
+
     getFuncionariosFerias(codigoContrato: number, tipoRestituicao: string) {
         const url = this.config.myApi + '/ferias/getTerceirizadosFerias=' + codigoContrato + '/' + tipoRestituicao;
         return this.http.get(url).map(res => res.json());
     }
+
     calculaFeriasTerceirizados(feriasCalcular: FeriasCalcular[]) {
         const url = this.config.myApi + '/ferias/calcularFeriasTerceirizados';
         const data = [];
@@ -47,6 +50,7 @@ export class FeriasService {
         const headers = new Headers({'Content-type': 'application/json'});
         return this.http.post(url, data, headers).map(res => res.json());
     }
+
     getValoresFeriasTerceirizado(feriasCalcular: FeriasCalcular) {
         const url = this.config.myApi + '/ferias/getValorRestituicaoFeriasModel';
         const inicioFerias = this.encapsulaDatas(feriasCalcular.getInicioFerias());
@@ -64,17 +68,46 @@ export class FeriasService {
         };
         return this.http.post(url, data).map(res => res.json());
     }
+
     getCalculosPendentes(codigoContrato: number) {
-        const url = this.config.myApi + '/ferias' + '/getCalculosPendentes=' + codigoContrato;
+        const url = this.config.myApi + '/ferias' + '/getCalculosPendentes=' + codigoContrato + '/' + this.config.user.id;
         return this.http.get(url).map(res => res.json());
     }
+
     salvarFeriasAvaliadas(codigoContrato: number, lista: FeriasCalculosPendentes[]) {
         const url = this.config.myApi + '/ferias/salvarFeriasAvaliadas';
         const object = {
             codContrato: codigoContrato,
             user: this.config.user,
             calculosAvaliados: lista
-        }
+        };
+        return this.http.put(url, object).map(res => res.json());
+    }
+
+    getCalculosPendentesNegados(codigoContrato: number) {
+        const url = this.config.myApi + '/ferias' + '/getCalculosPendentesNegados=' + codigoContrato + '/' + this.config.user.id;
+        return this.http.get(url).map(res => res.json());
+    }
+
+    getCalculosPendentesExecucao(codigoContrato: number) {
+        const url = this.config.myApi + '/ferias' + '/getCalculosPendentesExecucao=' + codigoContrato + '/' + this.config.user.id;
+        return this.http.get(url).map(res => res.json());
+    }
+    getCalculosNaoPendentesNegados(codigoContrato: number) {
+        const url = this.config.myApi + '/ferias' + '/getCalculosNaoPendentesNegados=' + codigoContrato + '/' + this.config.user.id;
+        return this.http.get(url).map(res => res.json());
+    }
+    getRetencoesFerias(codigoContrato: number) {
+        const url = this.config.myApi + '/ferias/getRetencoesFerias/' + codigoContrato + '/' + this.config.user.id;
+        return this.http.get(url).map(res => res.json());
+    }
+    salvarExecucaoFerias(codigoContrato: number, lista: FeriasCalculosPendentes[]) {
+        const url = this.config.myApi + '/ferias/salvarExecucaoFerias';
+        const object = {
+            codContrato: codigoContrato,
+            user: this.config.user,
+            calculosAvaliados: lista
+        };
         return this.http.put(url, object).map(res => res.json());
     }
     protected encapsulaDatas(value: any): Date {
