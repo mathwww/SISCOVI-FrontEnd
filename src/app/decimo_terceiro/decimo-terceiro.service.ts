@@ -68,17 +68,17 @@ export class DecimoTerceiroService {
     }
 
     getCalculosPendentes(codigoContrato: number) {
-        const url = this.config.myApi + 'decimo-terceiro';
+        const url = this.config.myApi + '/decimo-terceiro/getCalculosPendentes/' + codigoContrato + '/' + this.config.user.id;
         return this.http.get(url).map(res => res.json());
     }
 
     getCalculosPendentesNegados(codigoContrato: number) {
-        const url = this.config.myApi + 'decimo-terceiro';
+        const url = this.config.myApi + '/decimo-terceiro';
         return this.http.get(url).map(res => res.json());
     }
 
     salvarFeriasAvaliadas(codigoContrato: number, calculosAvaliados: DecimoTerceiroPendente[]) {
-        const url = this.config.myApi + 'decimo-terceiro';
+        const url = this.config.myApi + '/decimo-terceiro';
         return this.http.get(url).map(res => res.json());
     }
 }

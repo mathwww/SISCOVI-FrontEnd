@@ -9,6 +9,7 @@ export class TerceirizadoDecimoTerceiro {
     valorMovimentado: number;
     parcelas: number;
     valoresDecimoTerceiro: ValorDecimoTerceiro;
+    nomeCargo: string;
     fimContagem: Date;
     private _id: String;
     constructor(codigoTerceirizadoContrato: number, nomeTerceirizado: string, inicioContagem: Date, valorMovimentado: number, parcelas: number) {

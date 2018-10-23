@@ -35,6 +35,7 @@ export class DecimoTerceiroPendenteComponent implements OnInit {
             this.contratos = res;
             if (this.codigoContrato) {
                 this.decimoTerceiroService.getCalculosPendentes(this.codigoContrato).subscribe(res2 => {
+                    console.log(res2);
                     this.calculosPendentes = res2;
                     if (this.calculosPendentes.length === 0) {
                         this.calculosPendentes = null;
@@ -108,6 +109,7 @@ export class DecimoTerceiroPendenteComponent implements OnInit {
         this.codigoContrato = codigoContrato;
         if (this.codigoContrato) {
             this.decimoTerceiroService.getCalculosPendentes(this.codigoContrato).subscribe(res2 => {
+                console.log(res2);
                 this.calculosPendentes = res2;
                 if (this.calculosPendentes.length === 0) {
                     this.calculosPendentes = null;
@@ -115,12 +117,12 @@ export class DecimoTerceiroPendenteComponent implements OnInit {
                     this.formInit();
                 }
             });
-            this.decimoTerceiroService.getCalculosPendentesNegados(this.codigoContrato).subscribe(res3 => {
+            /*this.decimoTerceiroService.getCalculosPendentesNegados(this.codigoContrato).subscribe(res3 => {
                 const historico: DecimoTerceiroPendente[] = res3;
                 this.calculosNegados = historico;
                 this.notifications = this.calculosNegados.length;
                 this.ref.markForCheck();
-            });
+            });*/
         }
     }
     verificaFormulario() {

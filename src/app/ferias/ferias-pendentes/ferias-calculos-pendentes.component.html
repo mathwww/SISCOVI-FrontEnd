@@ -60,7 +60,7 @@
                                 <label for="{{k}}"></label>
                             </div>
                         </td>
-                        <td>
+                        <td *ngIf="config.user.perfil.sigla == 'ADMINISTRADOR'">
                             <div [formGroupName]="k">
                                 <div class="row">
                                     <div class="input-field col s12">
