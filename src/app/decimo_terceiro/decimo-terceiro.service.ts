@@ -73,12 +73,44 @@ export class DecimoTerceiroService {
     }
 
     getCalculosPendentesNegados(codigoContrato: number) {
-        const url = this.config.myApi + '/decimo-terceiro';
+        const url = this.config.myApi + '/decimo-terceiro/getCalculosPendentesNegados/' + codigoContrato + '/' + this.config.user.id;
         return this.http.get(url).map(res => res.json());
     }
 
-    salvarFeriasAvaliadas(codigoContrato: number, calculosAvaliados: DecimoTerceiroPendente[]) {
-        const url = this.config.myApi + '/decimo-terceiro';
+    salvarDecimoTerceiroAvaliados(codigoContrato: number, calculosAvaliados: DecimoTerceiroPendente[]) {
+        const url = this.config.myApi + '/decimo-terceiro/avaliarCalculosPendentes';
+        const object = {
+           decimosTerceirosPendentes: calculosAvaliados,
+           user: this.config.user,
+           codigoContrato: codigoContrato
+
+        };
+        return this.http.put(url, object).map(res => res.json());
+    }
+
+    executarDecimoTerceiroAvaliados(codigoContrato: number, calculosAvaliados: DecimoTerceiroPendente[]) {
+        const url = this.config.myApi + '/decimo-terceiro/executarCalculos';
+        const object = {
+            decimosTerceirosPendentes: calculosAvaliados,
+            user: this.config.user,
+            codigoContrato: codigoContrato
+
+        };
+        return this.http.put(url, object).map(res => res.json());
+    }
+
+    getCalculosPendentesExecucao(codigoContrato: number) {
+        const url = this.config.myApi + '/decimo-terceiro/getCalculosPendentesExecucao/' + codigoContrato + '/' + this.config.user.id;
+        return this.http.get(url).map(res => res.json());
+    }
+
+    getCalculosNaoPendentesNegados(codigoContrato: number) {
+        const url = this.config.myApi + '/decimo-terceiro/getCalculosNaoPendentesNegados/' + codigoContrato + '/' + this.config.user.id;
+        return this.http.get(url).map(res => res.json());
+    }
+
+    getRestituicoesDecimoTerceiro(codigoContrato: number) {
+        const url = this.config.myApi + '/decimo-terceiro/getRestituicoes/' + codigoContrato + '/' + this.config.user.id;
         return this.http.get(url).map(res => res.json());
     }
 }

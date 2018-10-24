@@ -90,6 +90,7 @@ import {HistoricoTotalMensalComponent} from './totalMensal/calculos-pendentes/hi
 import {FeriasCalculosPendentesExecucaoComponent} from './ferias/ferias-pendentes/ferias-calculos-pendentes-execucao.component';
 import {DecimoTerceiroPendenteComponent} from './decimo_terceiro/decimo-terceiro-pendente/decimo-terceiro-pendente.component';
 import {DecimoTerceiroPendenteExecucaoComponent} from './decimo_terceiro/decimo-terceiro-pendente/decimo-terceiro-pendente-execucao.component';
+import {RetencoesDecimoTerceiroComponent} from "./decimo_terceiro/relatorio-retencoes-decimo-terceiro/retencoes-decimo-terceiro.component";
 
 @NgModule({
   declarations: [
@@ -157,7 +158,8 @@ import {DecimoTerceiroPendenteExecucaoComponent} from './decimo_terceiro/decimo-
     HistoricoTotalMensalComponent,
     FeriasCalculosPendentesExecucaoComponent,
     DecimoTerceiroPendenteComponent,
-    DecimoTerceiroPendenteExecucaoComponent
+    DecimoTerceiroPendenteExecucaoComponent,
+    RetencoesDecimoTerceiroComponent
   ],
   imports: [
     BrowserModule,

@@ -12,11 +12,23 @@ export class DecimoTerceiroComponent {
 
     constructor() {    }
     calculosPendentes(codigoContrato: number) {
+        this.contentAvailable = Content.Pendentes;
         this.codigoContrato = codigoContrato;
         this.tabSelectionParams = ['select_tab', 'test3'];
         this.setPendentesActive();
     }
-
+    navegaExecucao(codigoContrato: number) {
+        this.contentAvailable = Content.Executados;
+        this.codigoContrato = codigoContrato;
+        this.tabSelectionParams = ['select_tab', 'test4'];
+        this.setExecutadosActive();
+    }
+    navegaRetencoes(codigoContrato: number) {
+        this.contentAvailable = Content.Retencoes;
+        this.codigoContrato = codigoContrato;
+        this.tabSelectionParams = ['select_tab', 'test1'];
+        this.setRetencoesActive();
+    }
     testeCalculo(): boolean {
         if (this.contentAvailable === Content.Calculos) {
             return true;

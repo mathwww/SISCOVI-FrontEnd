@@ -60,12 +60,12 @@
                             <label for="{{k}}"></label>
                         </div>
                     </td>
-                    <td>
+                    <td *ngIf="config.user.perfil.sigla == 'ADMINISTRADOR'">
                         <div [formGroupName]="k">
                             <div class="row">
                                 <div class="input-field col s12">
                                     <select materialize="material_select" formControlName="avaliacao">
-                                        <option value="S">APROVAR</option>
+                                        <option value="S">EXECUTAR</option>
                                         <option value="N">REJEITAR</option>
                                     </select>
                                 </div>

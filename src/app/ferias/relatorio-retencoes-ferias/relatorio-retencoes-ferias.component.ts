@@ -16,13 +16,17 @@ export class RelatorioRetencoesFeriasComponent {
     isSelected = false;
     calculosFerias: FeriasCalculosPendentes[];
     config: ConfigService;
-    constructor(private feriasService: FeriasService, private contratoService: ContratosService, config: ConfigService) {
+    constructor(private feriasService: FeriasService, private contratoService: ContratosService, config: ConfigService, private ref: ChangeDetectorRef) {
         this.config = config;
         this.contratoService.getContratosDoUsuario().subscribe(res => {
             this.contratos = res;
             if (this.codigoContrato) {
                 this.feriasService.getRetencoesFerias(this.codigoContrato).subscribe(res2 => {
                     this.calculosFerias = res2;
+                    if (this.calculosFerias.length === 0) {
+                        this.calculosFerias = null;
+                        this.ref.markForCheck();
+                    }
                 });
             }
         });
@@ -32,6 +36,10 @@ export class RelatorioRetencoesFeriasComponent {
         if (this.codigoContrato) {
             this.feriasService.getRetencoesFerias(this.codigoContrato).subscribe(res2 => {
                 this.calculosFerias = res2;
+                if (this.calculosFerias.length === 0) {
+                   this.calculosFerias = null;
+                   this.ref.markForCheck();
+                }
             });
         }
     }

@@ -37,7 +37,7 @@
                     <th *ngIf="config.user.perfil.sigla == 'ADMINISTRADOR'">Avaliação</th>
                     <th *ngIf="config.user.perfil.sigla == 'USUÁRIO'">Status</th>
                     <th >Terceirizado</th>
-                    <th >Cargo</th>
+                    <th >Função</th>
                     <th>Tipo de Restituição</th>
                     <th>Parcela</th>
                     <th>Data para Início da Contagem</th>
@@ -54,7 +54,7 @@
                             <label for="{{k}}"></label>
                         </div>
                     </td>
-                    <td>
+                    <td *ngIf="config.user.perfil.sigla == 'ADMINISTRADOR'">
                         <div [formGroupName]="k">
                             <div class="row">
                                 <div class="input-field col s12">
@@ -108,7 +108,7 @@
             <tr>
                 <th>Status</th>
                 <th >Terceirizado</th>
-                <th >Cargo</th>
+                <th >Função</th>
                 <th>Tipo de Restituição</th>
                 <th>Parcela</th>
                 <th>Data para Início da Contagem</th>
@@ -158,7 +158,7 @@
         <h5 class=" center">As alterações foram feitas com sucesso !</h5>
     </div>
     <div class="modal-footer">
-        <button class="btn waves-effect center"  (click)="closeModal3()">Ok</button>
+        <button class="btn waves-effect center"  (click)="navegaViewExec()">Ok</button>
     </div>
 </div>
 <div id="modal4" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions4">
@@ -169,18 +169,12 @@
             <tr>
                 <th>Status</th>
                 <th >Terceirizado</th>
-                <th >Cargo</th>
+                <th >Função</th>
                 <th>Tipo de Restituição</th>
                 <th>Parcela</th>
-                <th>Início do Periodo Aquisitivo</th>
-                <th>Fim do Periodo Aquisitivo</th>
-                <th>Início do Usufruto</th>
-                <th>Fim do Usufruto</th>
-                <th>Dias Vendidos</th>
-                <th>Valor de Férias</th>
-                <th>Valor de 1/3</th>
-                <th>Incidência Sobre Férias</th>
-                <th>Incidência Sobre 1/3</th>
+                <th>Data para Início da Contagem</th>
+                <th>Valor de Décimo Terceiro</th>
+                <th>Valor de Incidência</th>
                 <th>Total</th>
                 <th>Observações</th>
             </tr>
@@ -188,20 +182,15 @@
             <tbody>
             <tr *ngFor="let calculos of calculosNegados">
                 <td>{{calculos.status}}</td>
-                <td class="hoverable">{{calculos.nomeTerceirizado}}</td>
-                <td class="hoverable">{{calculos.nomeCargo}}</td>
-                <td class="hoverable">{{calculos.calcularFeriasModel.tipoRestituicao}}</td>
-                <td class="hoverable">{{calculos.calcularFeriasModel.parcelas | parcelaPipe}}</td>
-                <td class="hoverable">{{calculos.calcularFeriasModel.inicioPeriodoAquisitivo | date: 'shortDate'}}</td>
-                <td class="hoverable">{{calculos.calcularFeriasModel.fimPeriodoAquisitivo | date: 'shortDate'}}</td>
-                <td class="hoverable">{{calculos.calcularFeriasModel.inicioFerias | date: 'shortDate'}}</td>
-                <td class="hoverable">{{calculos.calcularFeriasModel.fimFerias | date: 'shortDate'}}</td>
-                <td class="hoverable">{{calculos.calcularFeriasModel.diasVendidos}}</td>
-                <td class="hoverable">{{calculos.calcularFeriasModel.pTotalFerias | currency:'BRL':true:'1.2-2'}}</td>
-                <td class="hoverable">{{calculos.calcularFeriasModel.pTotalTercoConstitucional | currency:'BRL':true:'1.2-2'}}</td>
-                <td class="hoverable">{{calculos.calcularFeriasModel.pTotalIncidenciaFerias | currency:'BRL':true:'1.2-2'}}</td>
-                <td class="hoverable">{{calculos.calcularFeriasModel.pTotalIncidenciaTerco | currency:'BRL':true:'1.2-2'}}</td>
-                <td class="hoverable"><b>{{calculos.total | currency:'BRL':true:'1.2-2'}}</b></td>
+                <td class="hoverable">{{calculos.terceirizadoDecTer.nomeTerceirizado}}</td>
+                <td class="hoverable">{{calculos.terceirizadoDecTer.nomeCargo}}</td>
+                <td class="hoverable">{{calculos.terceirizadoDecTer.tipoRestituicao}}</td>
+                <td class="hoverable">{{calculos.terceirizadoDecTer.parcelas | parcelaPipe}}</td>
+                <td class="hoverable">{{calculos.terceirizadoDecTer.inicioContagem| date: 'shortDate'}}</td>
+                <td class="hoverable">{{calculos.terceirizadoDecTer.valoresDecimoTerceiro.valorDecimoTerceiro | currency:'BRL':true:'1.2-2'}}</td>
+                <td class="hoverable">{{calculos.terceirizadoDecTer.valoresDecimoTerceiro.valorIncidenciaDecimoTerceiro | currency:'BRL':true:'1.2-2'}}</td>
+                <td class="hoverable"><b>{{calculos.terceirizadoDecTer.valoresDecimoTerceiro.valorDecimoTerceiro + calculos.terceirizadoDecTer.valoresDecimoTerceiro.valorIncidenciaDecimoTerceiro
+                    | currency:'BRL':true:'1.2-2'}}</b></td>
                 <td class="hoverable">{{calculos.observacoes}}</td>
             </tr>
             </tbody>

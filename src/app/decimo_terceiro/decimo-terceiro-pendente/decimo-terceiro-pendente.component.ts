@@ -35,7 +35,6 @@ export class DecimoTerceiroPendenteComponent implements OnInit {
             this.contratos = res;
             if (this.codigoContrato) {
                 this.decimoTerceiroService.getCalculosPendentes(this.codigoContrato).subscribe(res2 => {
-                    console.log(res2);
                     this.calculosPendentes = res2;
                     if (this.calculosPendentes.length === 0) {
                         this.calculosPendentes = null;
@@ -45,6 +44,14 @@ export class DecimoTerceiroPendenteComponent implements OnInit {
                 });
             }
         });
+        if (this.codigoContrato) {
+            this.decimoTerceiroService.getCalculosPendentesNegados(this.codigoContrato).subscribe(res3 => {
+                const historico: DecimoTerceiroPendente[] = res3;
+                this.calculosNegados = historico;
+                this.notifications = this.calculosNegados.length;
+                this.ref.markForCheck();
+            });
+        }
     }
     ngOnInit() {
         this.formInit();
@@ -91,7 +98,6 @@ export class DecimoTerceiroPendenteComponent implements OnInit {
     }
     closeModal3() {
         this.modalActions3.emit({action: 'modal', params: ['close']});
-        this.nav.emit(this.codigoContrato);
     }
     openModal4() {
         this.modalActions4.emit({action: 'modal', params: ['open']});
@@ -109,7 +115,6 @@ export class DecimoTerceiroPendenteComponent implements OnInit {
         this.codigoContrato = codigoContrato;
         if (this.codigoContrato) {
             this.decimoTerceiroService.getCalculosPendentes(this.codigoContrato).subscribe(res2 => {
-                console.log(res2);
                 this.calculosPendentes = res2;
                 if (this.calculosPendentes.length === 0) {
                     this.calculosPendentes = null;
@@ -117,12 +122,12 @@ export class DecimoTerceiroPendenteComponent implements OnInit {
                     this.formInit();
                 }
             });
-            /*this.decimoTerceiroService.getCalculosPendentesNegados(this.codigoContrato).subscribe(res3 => {
+            this.decimoTerceiroService.getCalculosPendentesNegados(this.codigoContrato).subscribe(res3 => {
                 const historico: DecimoTerceiroPendente[] = res3;
                 this.calculosNegados = historico;
                 this.notifications = this.calculosNegados.length;
                 this.ref.markForCheck();
-            });*/
+            });
         }
     }
     verificaFormulario() {
@@ -152,12 +157,18 @@ export class DecimoTerceiroPendenteComponent implements OnInit {
         for (let i = 0; i < this.calculosAvaliados.length; i++) {
             this.calculosAvaliados[i].observacoes = this.decimoTerceiroFormAfter.get('calculosAvaliados').get('' + i).get('observacoes').value;
         }
-        this.decimoTerceiroService.salvarFeriasAvaliadas(this.codigoContrato, this.calculosAvaliados).subscribe(res => {
+        this.decimoTerceiroService.salvarDecimoTerceiroAvaliados(this.codigoContrato, this.calculosAvaliados).subscribe(res => {
             if (res.success) {
                 this.openModal3();
+                this.closeModal2();
             }else {
                 this.openModal5();
+                this.closeModal2();
             }
         });
+    }
+    navegaViewExec() {
+        this.closeModal3();
+        this.nav.emit(this.codigoContrato);
     }
 }

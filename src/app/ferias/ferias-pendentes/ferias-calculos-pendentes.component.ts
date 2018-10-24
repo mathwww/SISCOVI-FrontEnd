@@ -96,7 +96,6 @@ export class FeriasCalculosPendentesComponent implements OnInit {
     }
     closeModal3() {
         this.modalActions3.emit({action: 'modal', params: ['close']});
-        this.nav.emit(this.codigoContrato);
     }
     openModal4() {
         this.modalActions4.emit({action: 'modal', params: ['open']});
@@ -159,9 +158,15 @@ export class FeriasCalculosPendentesComponent implements OnInit {
         this.feriasService.salvarFeriasAvaliadas(this.codigoContrato, this.calculosAvaliados).subscribe(res => {
             if (res.success) {
                this.openModal3();
+               this.closeModal2();
             }else {
                 this.openModal5();
+                this.closeModal2();
             }
         });
+    }
+    navegaViewExec() {
+        this.closeModal3();
+        this.nav.emit(this.codigoContrato);
     }
 }
