@@ -1,5 +1,18 @@
 <div class="container">
   <h2 class="center-align">Terceirizados</h2>
+    <div class="row">
+        <div class="col right">
+            <button class="btn waves-effect" (click)="openModal()">Cadastrar Novo Terceirizado</button>
+        </div>
+        <div id="modal1" class="modal " materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
+            <div class="modal-content">
+            </div>
+            <div class="modal-footer">
+                <button class="btn waves-effect left" (click)="closeModal()">Cancelar</button>
+                <button class="btn waves-effect right" [disabled]="!terceirizadoForm.valid" (click)="cadastrarTerceirzado()">Cadastrar</button>
+            </div>
+        </div>
+    </div>
   <div class="row">
       <div class="input-field col s5">
         <select  name="contrato" materialize="material_select" [ngModel]="contratos" (change)="onChange($event.target.value)">

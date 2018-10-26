@@ -1,0 +1,27 @@
+<h2 class="center">Cadastrar Terceirizado</h2>
+<div class="container">
+    <div class="row">
+        <form  materialize class="col s12" [formGroup]="terceirizadoForm" autocomplete="off">
+            <div class="row">
+                <div class="col input-field l6 center">
+                    <input placeholder="Digite um Nome" id="nome"  formControlName="nomeTerceirizado" type="text" class="validate">
+                    <label for="nome">Nome do Terceirizado</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col input-field l6 center" >
+                    <label for="cpf">CPF</label>
+                    <input id="cpf" placeholder="Digite o CPF" type="text"  formControlName="cpf" class="validate" appKzMask="999.999.999-99">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col input-field l2 center">
+                    <select materialize="material_select" formControlName="ativo">
+                        <option disabled>Selecione</option>
+                        <option value="S">SIM</option>
+                        <option value="N">NÃO</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
