@@ -24,7 +24,8 @@ export class FuncionariosService {
     }
 
     cadastraTerceirizado(funcionario: Funcionario) {
-        const url = this.config + 'funcionarios/cadastraTerceirizado';
+        const url = this.config.myApi + '/funcionarios/cadastrarTerceirizado';
+        funcionario.loginAtualizacao = this.config.user.username;
         return this.http.post(url, funcionario).map(res => res.json());
     }
 }

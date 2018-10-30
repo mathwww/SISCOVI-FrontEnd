@@ -6,6 +6,7 @@ import {Funcionario} from './funcionario';
 import {PagerService} from '../_shared/pager.service';
 import {MaterializeAction} from 'angular2-materialize';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-funcionarios',
@@ -24,20 +25,12 @@ export class FuncionariosComponent {
   pagedItems: Funcionario[];
   indice = 1;
   modalActions = new EventEmitter<string | MaterializeAction>();
-  terceirizadoForm: FormGroup;
-  constructor(contrSer: ContratosService, funcServ: FuncionariosService, private pagerService: PagerService, private fb: FormBuilder, private ref: ChangeDetectorRef) {
+  constructor(contrSer: ContratosService, funcServ: FuncionariosService, private pagerService: PagerService, private  route: ActivatedRoute, private router: Router) {
     this.contrSer = contrSer;
     this.funcServ = funcServ;
     this.contrSer.getContratosDoUsuario().subscribe(res => {
       this.contratos = res;
     });
-      this.terceirizadoForm = this.fb.group({
-          nomeTerceirizado: new FormControl(),
-          cpf: new FormControl(),
-          ativo: new FormControl('S', [Validators.required])
-      });
-      this.terceirizadoForm.get('nomeTerceirizado').setValidators(Validators.required);
-      this.terceirizadoForm.get('cpf').setValidators(Validators.required);
   }
 
   onChange(value: string) {
@@ -59,26 +52,8 @@ export class FuncionariosComponent {
         this.pagedItems = this.funcionarios.slice(this.pager.startIndex, this.pager.endIndex + 1);
     }
 
-  openModal() {
-      this.modalActions.emit({action: 'modal', params: ['open']});
-    }
-
-  closeModal() {
-        this.modalActions.emit({action: 'modal', params: ['close']});
-        this.terceirizadoForm.reset();
-        this.ref.markForCheck();
-    }
-
-  cadastrarTerceirzado() {
-        if (this.terceirizadoForm.valid) {
-            const funcionario = new Funcionario();
-            funcionario.nome = this.terceirizadoForm.get('nomeTerceirizado').value;
-            funcionario.cpf = this.terceirizadoForm.get('cpf').value;
-            funcionario.ativo = this.terceirizadoForm.get('ativo').value;
-            this.funcServ.cadastraTerceirizado(funcionario).subscribe(res => {
-
-            });
-        }
-    }
+  cadastroTerceirzado() {
+        this.router.navigate(['./cadastro-terceirizado'], {relativeTo: this.route});
+  }
 
 }

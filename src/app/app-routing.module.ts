@@ -24,7 +24,8 @@ import {TotalMensalComponent} from './totalMensal/total-mensal.component';
 import {FeriasComponent} from './ferias/ferias.component';
 import {DecimoTerceiroComponent} from './decimo_terceiro/decimo-terceiro.component';
 import {RescisaoComponent} from './rescisao/rescisao.component';
-import {RecalculoTotalMensalComponent} from "./totalMensal/recalculo-total-mensal/recalculo-total-mensal.component";
+import {RecalculoTotalMensalComponent} from './totalMensal/recalculo-total-mensal/recalculo-total-mensal.component';
+import {CadastrarTerceirizadoComponent} from './funcionarios/cadastrar-terceirizado/cadastrar-terceirizado.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'home'},
@@ -45,6 +46,7 @@ const routes: Routes = [
       {path: 'cargosContrato', component: CargosDoContratoComponent, canActivate: [LoggedInGuard]},
       {path: 'convencoes', component: ConvencoesColetivasComponent, canActivate: [LoggedInGuard]},
       {path: 'terceirizados', component: FuncionariosComponent, canActivate: [LoggedInGuard]},
+      {path: 'terceirizados/cadastro-terceirizado', component: CadastrarTerceirizadoComponent, canActivate: [LoggedInGuard]},
       {path: 'funcoes-dos-terceirizados', component: CargosDosFuncionariosComponent, canActivate: [LoggedInGuard]},
       {path: 'vigencias', component: VigenciaDosContratosComponent, canActivate: [LoggedInGuard]},
       {path: 'home', component: InicioComponent, canActivate: [LoggedInGuard]},
