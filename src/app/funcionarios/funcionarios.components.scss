@@ -15,11 +15,11 @@ li.waves-effect.active {
  }
 table.highlight tbody tr:hover {
   background-color: #bdbdbd;
-  cursor: context-menu;
+  cursor: pointer;
 }
 table.highlight tbody tr:hover .total-calculo{
   background-color: #bdbdbd;
-  cursor: context-menu;
+  cursor: pointer;
 }
 .checkbox-black[type="checkbox"] + label:before{
   border: 2px solid black;

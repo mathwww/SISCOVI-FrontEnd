@@ -1,6 +1,6 @@
 <h2 class="center">Cadastrar Terceirizado(s)</h2>
 <div class="container">
-    <div class="row">
+    <div class="row" *ngIf="!id">
             <div class="col input-field center-align l6">
                 <select  materialize id="forma" materialize="material_select" [ngModel]="opcao" (change)="onChange($event.target.value)">
                     <option disabled>Selecione</option>
@@ -66,7 +66,6 @@
             </form>
         </div>
     </div>
-
     <div class="row" *ngIf="opcao == 1">
         <div class="center-align">
             <button class="btn waves-effect" [disabled]="!terceirizadoForm.valid" (click)="cadastroTerceirizado()">Cadastrar</button>
@@ -92,4 +91,36 @@
     <div class="modal-footer">
         <button class="waves-effect waves-green btn-flat btn" (click)="closeModal2()">Ok</button>
     </div>
+</div>
+<div class="container" *ngIf="id">
+    <!--<div class="row">
+        <button class="btn right">Apagar Terceirizado</button>
+    </div> -->
+
+    <form [formGroup]="editaTerceirizadoForm">
+        <div class="row">
+            <div class="col input-field l6 center">
+                <label for="nome-edicao">Nome</label>
+                <input placeholder="Digite um Nome" id="nome-edicao"  formControlName="nomeTerceirizado" type="text" class="validate" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col input-field l6 center" >
+                <label for="cpf-edicao">CPF</label>
+                <input id="cpf-edicao" placeholder="Digite o CPF" type="text"  formControlName="cpf" class="validate"  required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col input-field l2 center">
+                <select materialize="material_select" formControlName="ativo" id="selecao-edicao">
+                    <option disabled>Selecione</option>
+                    <option value="S">SIM</option>
+                    <option value="N">NÃO</option>
+                </select>
+                <label for="selecao-edicao">Ativo</label>
+            </div>
+        </div>
+    </form>
+    <button class="btn left">Voltar</button>
+    <button class="btn right">Salvar</button>
 </div>

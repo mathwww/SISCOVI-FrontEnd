@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import {HttpModule} from '@angular/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterializeModule} from 'angular2-materialize';
-import {TextMaskModule} from 'angular2-text-mask';
 import {MaskDateDirective} from './_shared/mask-date.directive';
 import {ConfigService} from './_shared/config.service';
 import {UserService} from './users/user.service';
@@ -170,7 +169,6 @@ import {CadastrarTerceirizadoComponent} from './funcionarios/cadastrar-terceiriz
     HttpModule,
     FormsModule,
     MaterializeModule,
-    TextMaskModule,
     AppRoutingModule,
     ReactiveFormsModule,
     CurrencyMaskModule,

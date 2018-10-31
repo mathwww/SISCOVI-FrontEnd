@@ -46,6 +46,7 @@ const routes: Routes = [
       {path: 'cargosContrato', component: CargosDoContratoComponent, canActivate: [LoggedInGuard]},
       {path: 'convencoes', component: ConvencoesColetivasComponent, canActivate: [LoggedInGuard]},
       {path: 'terceirizados', component: FuncionariosComponent, canActivate: [LoggedInGuard]},
+      {path: 'terceirizados/:id', component: CadastrarTerceirizadoComponent, canActivate: [LoggedInGuard]},
       {path: 'terceirizados/cadastro-terceirizado', component: CadastrarTerceirizadoComponent, canActivate: [LoggedInGuard]},
       {path: 'funcoes-dos-terceirizados', component: CargosDosFuncionariosComponent, canActivate: [LoggedInGuard]},
       {path: 'vigencias', component: VigenciaDosContratosComponent, canActivate: [LoggedInGuard]},

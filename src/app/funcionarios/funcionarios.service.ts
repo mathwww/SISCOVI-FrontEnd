@@ -40,4 +40,9 @@ export class FuncionariosService {
         const url = this.config.myApi + '/funcionarios/getAllTerceirizados';
         return this.http.get(url).map(res => res.json());
     }
+
+    getTerceirizado(id: number) {
+        const url = this.config.myApi + '/funcionarios/getTerceirizado/' + id;
+        return this.http.get(url).map(res => res.json());
+    }
 }

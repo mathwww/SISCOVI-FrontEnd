@@ -71,7 +71,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let funcionario of pagedItems; let i=index">
+        <tr *ngFor="let funcionario of pagedItems; let i=index" (dblclick)="editarTerceirizado(funcionario.codigo)">
             <td>{{(i + 1) + ((pager.currentPage - 1) * 50)}}</td>
             <td>{{funcionario.nome}}</td>
             <td>{{funcionario.cpf | cpfPipe}}</td>

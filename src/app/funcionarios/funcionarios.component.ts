@@ -60,4 +60,7 @@ export class FuncionariosComponent {
         this.router.navigate(['./cadastro-terceirizado'], {relativeTo: this.route});
   }
 
+    editarTerceirizado(cod: number) {
+        this.router.navigate(['terceirizados', cod], {skipLocationChange: true});
+    }
 }
