@@ -56,12 +56,11 @@
                 <div class="file-field input-field">
                     <button class="btn waves-effect" >
                         <span>File</span>
-                        <input type="file"  accept=".xlsx">
+                        <input type="file"  accept=".xlsx" (change)="sobeArquivo($event)">
                     </button>
                     <div class="file-path-wrapper">
-                        <input class="file-path validate" (change)="uploadFile($event)" type="text">
-
-                        <button class="btn waves-effect right" (click)="uploadData()" [disabled]="!buttonDisabled" >Enviar planilha</button>
+                        <input class="file-path validate" type="text">
+                        <button class="btn waves-effect right" (click)="uploadData()" [disabled]="buttonDisabled" >Enviar planilha</button>
                     </div>
                 </div>
             </form>

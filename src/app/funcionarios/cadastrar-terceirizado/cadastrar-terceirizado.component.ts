@@ -11,7 +11,7 @@ import * as XLSX from 'xlsx';
     templateUrl: './cadastrar-terceirizado.component.html',
     styleUrls: ['./cadastrar-terceirizado.component.scss']
 })
-export class CadastrarTerceirizadoComponent implements OnInit{
+export class CadastrarTerceirizadoComponent implements OnInit {
     id: number;
     terceirizadoForm: FormGroup;
     modalActions = new EventEmitter<string | MaterializeAction>();
@@ -71,10 +71,8 @@ export class CadastrarTerceirizadoComponent implements OnInit{
         this.modalActions2.emit({action: 'modal', params: ['close']});
         window.location.reload();
     }
-    uploadFile(event) {
-        console.log(event);
+    sobeArquivo(event: any) {
         if (event.srcElement.files[0]) {
-            console.log('passou aqui9');
             if (event.srcElement.files[0].name === 'modelo-cadastro-terceirizados.xlsx') {
                 this.file = event.srcElement.files[0];
                 this.buttonDisabled = false;
@@ -85,7 +83,6 @@ export class CadastrarTerceirizadoComponent implements OnInit{
         }
     }
     uploadData() {
-        console.log('eu');
         this.buttonDisabled = true;
         this.listaTerceirizados = [];
         if (this.file) {
@@ -100,7 +97,6 @@ export class CadastrarTerceirizadoComponent implements OnInit{
 
                 /* save data */
                 const data = (XLSX.utils.sheet_to_json(ws, {header: 1}));
-                console.log(data);
                 data.forEach((result: any) => {
                     if (result[0]) {
                         const funcionario = new Funcionario();
@@ -114,6 +110,7 @@ export class CadastrarTerceirizadoComponent implements OnInit{
             };
             fileReader.readAsBinaryString(this.file);
         }
+        console.log(this.listaTerceirizados);
     }
     cadastroTerceirizado() {
         if (this.terceirizadoForm.valid) {

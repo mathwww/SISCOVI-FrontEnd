@@ -82,7 +82,7 @@ export class CadastroCargosComponent implements OnInit {
     uploadFile(event) {
         this.cargoService.displayCargos = false;
         if (event.srcElement.files[0]) {
-            if (event.srcElement.files[0].name === 'modelo-cadastro-terceirizados.xlsx') {
+            if (event.srcElement.files[0].name === 'modelo-cadastro-cargos.xlsx') {
                 this.file = event.srcElement.files[0];
                 this.buttonDisabled = false;
             }else {
