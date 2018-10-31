@@ -36,4 +36,8 @@ export class FuncionariosService {
         }
         return this.http.post(url, listaTerceirizados).map(res => res.json());
     }
+    getAllTerceirizados() {
+        const url = this.config.myApi + '/funcionarios/getAllTerceirizados';
+        return this.http.get(url).map(res => res.json());
+    }
 }

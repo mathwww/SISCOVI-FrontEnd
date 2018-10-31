@@ -31,6 +31,10 @@ export class FuncionariosComponent {
     this.contrSer.getContratosDoUsuario().subscribe(res => {
       this.contratos = res;
     });
+    this.funcServ.getAllTerceirizados().subscribe(res => {
+        this.funcionarios = res;
+        this.setPage(1);
+    });
   }
 
   onChange(value: string) {
@@ -47,7 +51,7 @@ export class FuncionariosComponent {
 
   setPage(page: number) {
         // get pager object from service
-        this.pager = this.pagerService.getPager(this.funcionarios.length, page);
+        this.pager = this.pagerService.getPager(this.funcionarios.length, page, 50);
         // get current page of items
         this.pagedItems = this.funcionarios.slice(this.pager.startIndex, this.pager.endIndex + 1);
     }
