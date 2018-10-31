@@ -114,17 +114,31 @@ export class CadastrarTerceirizadoComponent implements OnInit {
     }
     cadastroTerceirizado() {
         if (this.terceirizadoForm.valid) {
-           const funcionario = new Funcionario();
-           funcionario.nome = this.terceirizadoForm.get('nomeTerceirizado').value;
-           funcionario.cpf = this.terceirizadoForm.get('cpf').value;
-           funcionario.ativo = this.terceirizadoForm.get('ativo').value;
-           this.terceirizadoService.cadastraTerceirizado(funcionario).subscribe(res => {
-               if (res.success) {
-                  this.openModal();
-               }else {
-                   this.openModal2();
-               }
-           });
+            this.listaTerceirizados = [];
+            for (const control of this.terceirizados.controls) {
+                const funcionario = new Funcionario();
+                funcionario.nome = control.get('nomeTerceirizado').value;
+                funcionario.cpf = control.get('cpf').value;
+                funcionario.ativo = control.get('ativo').value;
+                this.listaTerceirizados.push(funcionario);
+            }
+            if (this.listaTerceirizados.length === 1) {
+                this.terceirizadoService.cadastraTerceirizado(this.listaTerceirizados[0]).subscribe(res => {
+                  if (res.success) {
+                   this.openModal();
+                }else {
+                  this.openModal2();
+                }
+                });
+            }else {
+                this.terceirizadoService.cadastraTerceirizados(this.listaTerceirizados).subscribe(res => {
+                    if (res.success) {
+                        this.openModal();
+                    }else {
+                        this.openModal2();
+                    }
+                });
+            }
         }
     }
 }

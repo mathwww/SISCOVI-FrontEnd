@@ -28,4 +28,12 @@ export class FuncionariosService {
         funcionario.loginAtualizacao = this.config.user.username;
         return this.http.post(url, funcionario).map(res => res.json());
     }
+
+    cadastraTerceirizados(listaTerceirizados: Funcionario[]) {
+        const url = this.config.myApi + '/funcionarios/cadastrarTerceirizados';
+        for (const terceirizado of listaTerceirizados){
+            terceirizado.loginAtualizacao = this.config.user.username;
+        }
+        return this.http.post(url, listaTerceirizados).map(res => res.json());
+    }
 }
