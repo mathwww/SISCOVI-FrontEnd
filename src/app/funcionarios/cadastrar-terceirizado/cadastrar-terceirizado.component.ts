@@ -25,17 +25,19 @@ export class CadastrarTerceirizadoComponent implements OnInit {
     cpf: string;
     constructor(private fb: FormBuilder, private  terceirizadoService: FuncionariosService, private  route: ActivatedRoute, private router: Router, private ref: ChangeDetectorRef) {
         this.route.params.subscribe(params => {
+          if (!isNaN(params['id'])) {
             this.id = params['id'];
-            if (this.id) {
-                this.terceirizadoService.getTerceirizado(this.id).subscribe(res2 => {
-                    this.funcionario = res2;
-                    this.cpf = this.funcionario.cpf;
-                    this.editaTerceirizadoForm.get('nomeTerceirizado').setValue(this.funcionario.nome);
-                    this.mascararCPF();
-                    this.editaTerceirizadoForm.get('ativo').setValue(this.funcionario.ativo);
-                    this.ref.markForCheck();
-                });
-            }
+          }
+          if (this.id) {
+              this.terceirizadoService.getTerceirizado(this.id).subscribe(res2 => {
+                  this.funcionario = res2;
+                  this.cpf = this.funcionario.cpf;
+                  this.editaTerceirizadoForm.get('nomeTerceirizado').setValue(this.funcionario.nome);
+                  this.mascararCPF();
+                  this.editaTerceirizadoForm.get('ativo').setValue(this.funcionario.ativo);
+                  this.ref.markForCheck();
+              });
+           }
         });
     }
     ngOnInit() {
@@ -45,7 +47,7 @@ export class CadastrarTerceirizadoComponent implements OnInit {
         if (this.id) {
             this.editaTerceirizadoForm = this.fb.group({
                 nomeTerceirizado: new FormControl('', [Validators.required]),
-                cpf: new FormControl(),
+                cpf: new FormControl('', [Validators.required, Validators.maxLength(11), Validators.minLength(11)]),
                 ativo: new FormControl('', [Validators.required])
             });
             this.ref.markForCheck();
