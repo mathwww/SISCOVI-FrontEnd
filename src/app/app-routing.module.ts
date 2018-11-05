@@ -26,6 +26,7 @@ import {DecimoTerceiroComponent} from './decimo_terceiro/decimo-terceiro.compone
 import {RescisaoComponent} from './rescisao/rescisao.component';
 import {RecalculoTotalMensalComponent} from './totalMensal/recalculo-total-mensal/recalculo-total-mensal.component';
 import {CadastrarTerceirizadoComponent} from './funcionarios/cadastrar-terceirizado/cadastrar-terceirizado.component';
+import {CadastrarGestorContratoComponent} from "./historico/cadastrar-gestor/cadastrar-gestor-contrato.component";
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'home'},
@@ -60,6 +61,7 @@ const routes: Routes = [
       {path: 'percentEst', component: PercentuaisEstaticosComponent, canActivate: [LoggedInGuard, ProfileGuard]},
       {path: 'ajustes-contratuais', component: AjusteContratoComponent, canActivate: [LoggedInGuard]},
       {path: 'historico-gestores', component: HistoricoGestoresComponent, canActivate: [LoggedInGuard]},
+      {path: 'historico-gestores/cadastro-gestor-contrato', component: CadastrarGestorContratoComponent, canActivate: [LoggedInGuard]},
     ]}
 ];
 @NgModule({

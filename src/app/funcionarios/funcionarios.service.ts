@@ -45,4 +45,10 @@ export class FuncionariosService {
         const url = this.config.myApi + '/funcionarios/getTerceirizado/' + id;
         return this.http.get(url).map(res => res.json());
     }
+
+    updateTerceirizado(terceirizado: Funcionario) {
+        terceirizado.loginAtualizacao = this.config.user.username;
+        const url = this.config.myApi + '/funcionarios/updateTerceirizado';
+        return this.http.put(url, terceirizado).map(res => res.json());
+    }
 }

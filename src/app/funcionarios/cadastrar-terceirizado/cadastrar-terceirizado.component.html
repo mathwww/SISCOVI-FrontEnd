@@ -1,4 +1,6 @@
-<h2 class="center">Cadastrar Terceirizado(s)</h2>
+<h2 class="center" *ngIf="!id">Cadastrar Terceirizado(s)</h2>
+<h2 class="center" *ngIf="id">Editar Informações de Terceirizado</h2>
+<br>
 <div class="container">
     <div class="row" *ngIf="!id">
             <div class="col input-field center-align l6">
@@ -101,18 +103,20 @@
         <div class="row">
             <div class="col input-field l6 center">
                 <label for="nome-edicao">Nome</label>
-                <input placeholder="Digite um Nome" id="nome-edicao"  formControlName="nomeTerceirizado" type="text" class="validate" required>
+                <input placeholder="Digite um Nome" id="nome-edicao" (input)="activateButton();editaTerceirizadoForm.get('cpf').updateValueAndValidity()"
+                       formControlName="nomeTerceirizado" type="text" class="validate" required>
             </div>
         </div>
         <div class="row">
             <div class="col input-field l6 center" >
                 <label for="cpf-edicao">CPF</label>
-                <input id="cpf-edicao" placeholder="Digite o CPF" type="text"  formControlName="cpf" class="validate"  required>
+                <input id="cpf-edicao" placeholder="Digite o CPF" type="text" (input)="activateButton()"
+                       formControlName="cpf"  class="validate" required maxlength="14" minlength="14">
             </div>
         </div>
         <div class="row">
             <div class="col input-field l2 center">
-                <select materialize="material_select" formControlName="ativo" id="selecao-edicao">
+                <select materialize="material_select" (change)="activateButton();editaTerceirizadoForm.get('cpf').updateValueAndValidity()" formControlName="ativo" id="selecao-edicao">
                     <option disabled>Selecione</option>
                     <option value="S">SIM</option>
                     <option value="N">NÃO</option>
@@ -121,6 +125,35 @@
             </div>
         </div>
     </form>
-    <button class="btn left">Voltar</button>
-    <button class="btn right">Salvar</button>
+    <button class="btn left" (click)="voltar()">Voltar</button>
+    <button class="btn right" [disabled]="salvarButtonDisabled" (click)="salvarAlteracoes()">Salvar</button>
+</div>
+<div id="modal3" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions3">
+    <div class="modal-content">
+        <h4 class="center">Atenção</h4>
+        <h5 class="center">Tem certeza que deseja sair sem salvar as alterações ?</h5>
+    </div>
+    <div class="modal-footer">
+        <button class="btn waves-effect left" (click)="closeModal3()">Não</button>
+        <button class="btn waves-effect right" (click)="navTer()">Sim</button>
+    </div>
+</div>
+<div id="modal4" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions4">
+    <div class="modal-content">
+        <h4 class="center">Ok</h4>
+        <h5 class="center">As alterações foram salvas com sucesso !</h5>
+    </div>
+    <div class="modal-footer">
+        <button class="waves-effect btn" (click)="navTer()">Ok</button>
+    </div>
+</div>
+<div id="modal5" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions5">
+    <div class="modal-content">
+        <h4 class="center">ERRO</h4>
+        <h5 class="center">Ocorreu algum erro ao tentar salvar as alterações!</h5>
+        <p>Tente novamente mais tarde</p>
+    </div>
+    <div class="modal-footer">
+        <button class="waves-effect btn" (click)="navTer()">Ok</button>
+    </div>
 </div>

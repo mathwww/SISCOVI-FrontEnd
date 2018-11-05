@@ -92,6 +92,7 @@ import {DecimoTerceiroPendenteExecucaoComponent} from './decimo_terceiro/decimo-
 import {RetencoesDecimoTerceiroComponent} from './decimo_terceiro/relatorio-retencoes-decimo-terceiro/retencoes-decimo-terceiro.component';
 import {RescisaoPendenteComponent} from './rescisao/rescisoes-pendentes/rescisao-pendente.component';
 import {CadastrarTerceirizadoComponent} from './funcionarios/cadastrar-terceirizado/cadastrar-terceirizado.component';
+import {CadastrarGestorContratoComponent} from './historico/cadastrar-gestor/cadastrar-gestor-contrato.component';
 
 @NgModule({
   declarations: [
@@ -163,6 +164,7 @@ import {CadastrarTerceirizadoComponent} from './funcionarios/cadastrar-terceiriz
     RetencoesDecimoTerceiroComponent,
     RescisaoPendenteComponent,
     CadastrarTerceirizadoComponent,
+    CadastrarGestorContratoComponent
   ],
   imports: [
     BrowserModule,

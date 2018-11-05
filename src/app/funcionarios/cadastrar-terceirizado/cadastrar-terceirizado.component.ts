@@ -17,12 +17,16 @@ export class CadastrarTerceirizadoComponent implements OnInit {
     editaTerceirizadoForm: FormGroup;
     modalActions = new EventEmitter<string | MaterializeAction>();
     modalActions2 = new EventEmitter<string | MaterializeAction>();
+    modalActions3 = new EventEmitter<string | MaterializeAction>();
+    modalActions4 = new EventEmitter<string | MaterializeAction>();
+    modalActions5 = new EventEmitter<string | MaterializeAction>();
     opcao: number;
     buttonDisabled = true;
     file: File;
     listaTerceirizados: Funcionario[];
     funcionario: Funcionario;
     cpf: string;
+    salvarButtonDisabled = true;
     constructor(private fb: FormBuilder, private  terceirizadoService: FuncionariosService, private  route: ActivatedRoute, private router: Router, private ref: ChangeDetectorRef) {
         this.route.params.subscribe(params => {
           if (!isNaN(params['id'])) {
@@ -32,13 +36,14 @@ export class CadastrarTerceirizadoComponent implements OnInit {
               this.terceirizadoService.getTerceirizado(this.id).subscribe(res2 => {
                   this.funcionario = res2;
                   this.cpf = this.funcionario.cpf;
-                  this.editaTerceirizadoForm.get('nomeTerceirizado').setValue(this.funcionario.nome);
                   this.mascararCPF();
+                  this.editaTerceirizadoForm.get('nomeTerceirizado').setValue(this.funcionario.nome);
+                  //  this.editaTerceirizadoForm.get('cpf').setValue(this.funcionario.cpf);
                   this.editaTerceirizadoForm.get('ativo').setValue(this.funcionario.ativo);
-                  this.ref.markForCheck();
               });
            }
         });
+
     }
     ngOnInit() {
         this.terceirizadoForm = this.fb.group({
@@ -47,10 +52,16 @@ export class CadastrarTerceirizadoComponent implements OnInit {
         if (this.id) {
             this.editaTerceirizadoForm = this.fb.group({
                 nomeTerceirizado: new FormControl('', [Validators.required]),
-                cpf: new FormControl('', [Validators.required, Validators.maxLength(11), Validators.minLength(11)]),
+                cpf: new FormControl('', [Validators.required]),
                 ativo: new FormControl('', [Validators.required])
             });
+            if (this.funcionario) {
+                this.editaTerceirizadoForm.get('nomeTerceirizado').setValue(this.funcionario.nome);
+                this.mascararCPF();
+                this.editaTerceirizadoForm.get('ativo').setValue(this.funcionario.ativo);
+            }
             this.ref.markForCheck();
+            this.ref.detectChanges();
         }
     }
     createTerceirizado(): FormGroup {
@@ -96,6 +107,24 @@ export class CadastrarTerceirizadoComponent implements OnInit {
         this.modalActions2.emit({action: 'modal', params: ['close']});
         window.location.reload();
     }
+    openModal3() {
+        this.modalActions3.emit({action: 'modal', params: ['open']});
+    }
+    closeModal3() {
+        this.modalActions3.emit({action: 'modal', params: ['close']});
+    }
+    openModal4() {
+        this.modalActions4.emit({action: 'modal', params: ['open']});
+    }
+    closeModal4() {
+        this.modalActions4.emit({action: 'modal', params: ['close']});
+    }
+    openModal5() {
+        this.modalActions5.emit({action: 'modal', params: ['open']});
+    }
+    closeModal5() {
+        this.modalActions5.emit({action: 'modal', params: ['close']});
+    }
     sobeArquivo(event: any) {
         if (event.srcElement.files[0]) {
             if (event.srcElement.files[0].name === 'modelo-cadastro-terceirizados.xlsx') {
@@ -135,7 +164,6 @@ export class CadastrarTerceirizadoComponent implements OnInit {
             };
             fileReader.readAsBinaryString(this.file);
         }
-        console.log(this.listaTerceirizados);
     }
     cadastroTerceirizado() {
         if (this.terceirizadoForm.valid) {
@@ -179,5 +207,66 @@ export class CadastrarTerceirizadoComponent implements OnInit {
             value = value + this.funcionario.cpf[i];
         }
         this.editaTerceirizadoForm.get('cpf').setValue(value);
+    }
+    activateButton() {
+        const cpfUnmasked = this.unmask();
+        this.editaTerceirizadoForm.get('cpf').updateValueAndValidity();
+        this.editaTerceirizadoForm.get('nomeTerceirizado').updateValueAndValidity();
+        this.editaTerceirizadoForm.get('ativo').updateValueAndValidity();
+        this.editaTerceirizadoForm.get('cpf').updateValueAndValidity();
+        if (this.id) {
+           if ((this.editaTerceirizadoForm.get('nomeTerceirizado').value !== this.funcionario.nome ||
+                cpfUnmasked !== this.cpf ||
+                this.editaTerceirizadoForm.get('ativo').value !== this.funcionario.ativo)) {
+               this.salvarButtonDisabled = false;
+           }else {
+               this.salvarButtonDisabled = true;
+           }
+        }
+    }
+    voltar() {
+        if (this.editaTerceirizadoForm.get('nomeTerceirizado').value !== this.funcionario.nome ||
+            this.unmask() !== this.funcionario.cpf ||
+            this.editaTerceirizadoForm.get('ativo').value !== this.funcionario.ativo) {
+            this.openModal3();
+        }else {
+            this.navTer();
+        }
+    }
+    navTer() {
+        this.closeModal3();
+        this.closeModal4();
+        this.closeModal5();
+        this.router.navigate(['terceirizados']);
+    }
+    salvarAlteracoes() {
+        if (this.editaTerceirizadoForm.valid) {
+            const terceirizado: Funcionario = new Funcionario();
+            terceirizado.nome = this.editaTerceirizadoForm.get('nomeTerceirizado').value;
+            terceirizado.cpf = this.unmask();
+            terceirizado.ativo = this.editaTerceirizadoForm.get('ativo').value;
+            terceirizado.codigo = this.funcionario.codigo;
+            this.terceirizadoService.updateTerceirizado(terceirizado).subscribe(res => {
+                if (res.success) {
+                   this.openModal4();
+                }else {
+                    this.openModal5();
+                }
+            });
+        }
+    }
+
+    private unmask() {
+        let partes: string[] = this.editaTerceirizadoForm.get('cpf').value.split('.');
+        let value = '';
+        for (const parte  of partes) {
+            value = value + parte;
+        }
+        partes = value.split('-');
+        value = '';
+        for (const parte of partes) {
+            value = value +  parte;
+        }
+        return value;
     }
 }
