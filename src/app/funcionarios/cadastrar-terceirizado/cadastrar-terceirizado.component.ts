@@ -27,6 +27,7 @@ export class CadastrarTerceirizadoComponent implements OnInit {
     funcionario: Funcionario;
     cpf: string;
     salvarButtonDisabled = true;
+    terceirizadosPlanilhaForm: FormGroup;
     constructor(private fb: FormBuilder, private  terceirizadoService: FuncionariosService, private  route: ActivatedRoute, private router: Router, private ref: ChangeDetectorRef) {
         this.route.params.subscribe(params => {
           if (!isNaN(params['id'])) {
@@ -73,6 +74,9 @@ export class CadastrarTerceirizadoComponent implements OnInit {
     }
     get terceirizados(): FormArray {
         return this.terceirizadoForm.get('terceirizados') as FormArray;
+    }
+    get terceirizadosPlanilha(): FormArray {
+        return this.terceirizadosPlanilhaForm.get('terceirizados') as FormArray;
     }
     adicionaTerceirizadoForm(): void {
         this.terceirizados.push(this.fb.group({
@@ -157,31 +161,80 @@ export class CadastrarTerceirizadoComponent implements OnInit {
                         funcionario.nome = result[0];
                         funcionario.cpf = result[1];
                         funcionario.ativo = result[2];
+                        if (funcionario.ativo.toUpperCase() === 'SIM') {
+                           funcionario.ativo = 'S';
+                        }else {
+                            funcionario.ativo = 'N';
+                        }
                         this.listaTerceirizados.push(funcionario);
                     }
                 });
                 this.listaTerceirizados.splice(0, 1);
+                if (this.listaTerceirizados.length > 0) {
+                   this.terceirizadosPlanilhaForm = this.fb.group({
+                       terceirizados: this.fb.array([])
+                   });
+                   const formArray = this.terceirizadosPlanilhaForm.get('terceirizados') as FormArray;
+                   this.listaTerceirizados.forEach(terceirizado => {
+                       formArray.push(this.fb.group({
+                           nomeTerceirizado: new FormControl(terceirizado.nome, [Validators.required]),
+                           cpf: new FormControl(terceirizado.cpf, [Validators.required]),
+                           ativo: new FormControl(terceirizado.ativo, [Validators.required])
+                       }));
+                   });
+                   this.terceirizadosPlanilhaForm.updateValueAndValidity();
+                   this.ref.markForCheck();
+                }
             };
             fileReader.readAsBinaryString(this.file);
         }
     }
     cadastroTerceirizado() {
         if (this.terceirizadoForm.valid) {
+                    this.listaTerceirizados = [];
+                    for (const control of this.terceirizados.controls) {
+                        const funcionario = new Funcionario();
+                        funcionario.nome = control.get('nomeTerceirizado').value;
+                        funcionario.cpf = control.get('cpf').value;
+                        funcionario.ativo = control.get('ativo').value;
+                        this.listaTerceirizados.push(funcionario);
+                    }
+                    if (this.listaTerceirizados.length === 1) {
+                        this.terceirizadoService.cadastraTerceirizado(this.listaTerceirizados[0]).subscribe(res => {
+                            if (res.success) {
+                                this.openModal();
+                            }else {
+                                this.openModal2();
+                            }
+                        });
+                    }else {
+                        this.terceirizadoService.cadastraTerceirizados(this.listaTerceirizados).subscribe(res => {
+                            if (res.success) {
+                                this.openModal();
+                            }else {
+                                this.openModal2();
+                            }
+                        });
+            }
+        }
+    }
+    cadastroTerceirizadosPlanilha() {
+        if (this.terceirizadosPlanilhaForm.valid) {
             this.listaTerceirizados = [];
-            for (const control of this.terceirizados.controls) {
+            for (const control of this.terceirizadosPlanilha.controls) {
                 const funcionario = new Funcionario();
                 funcionario.nome = control.get('nomeTerceirizado').value;
-                funcionario.cpf = control.get('cpf').value;
+                funcionario.cpf = this.unmask(control.get('cpf').value);
                 funcionario.ativo = control.get('ativo').value;
                 this.listaTerceirizados.push(funcionario);
             }
             if (this.listaTerceirizados.length === 1) {
                 this.terceirizadoService.cadastraTerceirizado(this.listaTerceirizados[0]).subscribe(res => {
-                  if (res.success) {
-                   this.openModal();
-                }else {
-                  this.openModal2();
-                }
+                    if (res.success) {
+                        this.openModal();
+                    }else {
+                        this.openModal2();
+                    }
                 });
             }else {
                 this.terceirizadoService.cadastraTerceirizados(this.listaTerceirizados).subscribe(res => {
@@ -194,7 +247,6 @@ export class CadastrarTerceirizadoComponent implements OnInit {
             }
         }
     }
-
     private mascararCPF() {
         let value = '';
         for (let i = 0; i < this.funcionario.cpf.length; i++) {
@@ -209,7 +261,7 @@ export class CadastrarTerceirizadoComponent implements OnInit {
         this.editaTerceirizadoForm.get('cpf').setValue(value);
     }
     activateButton() {
-        const cpfUnmasked = this.unmask();
+        const cpfUnmasked = this.unmask(this.editaTerceirizadoForm.get('cpf').value);
         this.editaTerceirizadoForm.get('cpf').updateValueAndValidity();
         this.editaTerceirizadoForm.get('nomeTerceirizado').updateValueAndValidity();
         this.editaTerceirizadoForm.get('ativo').updateValueAndValidity();
@@ -226,7 +278,7 @@ export class CadastrarTerceirizadoComponent implements OnInit {
     }
     voltar() {
         if (this.editaTerceirizadoForm.get('nomeTerceirizado').value !== this.funcionario.nome ||
-            this.unmask() !== this.funcionario.cpf ||
+            this.unmask(this.editaTerceirizadoForm.get('cpf').value) !== this.funcionario.cpf ||
             this.editaTerceirizadoForm.get('ativo').value !== this.funcionario.ativo) {
             this.openModal3();
         }else {
@@ -243,7 +295,7 @@ export class CadastrarTerceirizadoComponent implements OnInit {
         if (this.editaTerceirizadoForm.valid) {
             const terceirizado: Funcionario = new Funcionario();
             terceirizado.nome = this.editaTerceirizadoForm.get('nomeTerceirizado').value;
-            terceirizado.cpf = this.unmask();
+            terceirizado.cpf = this.unmask(this.editaTerceirizadoForm.get('cpf').value);
             terceirizado.ativo = this.editaTerceirizadoForm.get('ativo').value;
             terceirizado.codigo = this.funcionario.codigo;
             this.terceirizadoService.updateTerceirizado(terceirizado).subscribe(res => {
@@ -256,8 +308,8 @@ export class CadastrarTerceirizadoComponent implements OnInit {
         }
     }
 
-    private unmask() {
-        let partes: string[] = this.editaTerceirizadoForm.get('cpf').value.split('.');
+    private unmask(cpf: string): string {
+        let partes: string[] = cpf.split('.');
         let value = '';
         for (const parte  of partes) {
             value = value + parte;

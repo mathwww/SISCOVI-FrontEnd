@@ -67,6 +67,59 @@
                 </div>
             </form>
         </div>
+        <div class="row" *ngIf="listaTerceirizados">
+            <div class="col" *ngIf="listaTerceirizados.length > 0">
+                <form [formGroup]="terceirizadosPlanilhaForm">
+                    <div formArrayName="terceirizados">
+                        <table materialize class="centered">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>CPF</th>
+                                    <th>Ativo</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr materialize *ngFor="let terceirizado of terceirizadosPlanilha.controls; let i = index" [formGroupName]="i">
+                                    <td>
+                                        <div  class="row">
+                                            <div class=" input-field col">
+                                                <input type="text" formControlName="nomeTerceirizado" class="validate" id="nome-planilha">
+                                                <label for="nome-planilha">Nome</label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div  class="row">
+                                            <div class=" input-field col">
+                                                <input type="text" formControlName="cpf" id="cpf_planilha" class="validate">
+                                                <label for="cpf_planilha">CPF</label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div  class="row">
+                                            <div class=" input-field col">
+                                                <select  materialize="material_select" formControlName="ativo" id="selecao_planilha">
+                                                    <option disabled>Selecione uma opção</option>
+                                                    <option value="S">Sim</option>
+                                                    <option value="N">Não</option>
+                                                </select>
+                                                <label for="selecao_planilha">Terceirizado está no tribunal ?</label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+                <div class="center-align">
+                    <button class="center center-align btn waves-effect" (click)="cadastroTerceirizadosPlanilha()">Cadastrar Terceirizados</button>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row" *ngIf="opcao == 1">
         <div class="center-align">
@@ -81,8 +134,8 @@
         <p>Deseja cadastrar mais usuários ?</p>
     </div>
     <div class="modal-footer">
-        <button class="waves-effect waves-green btn-flat" (click)="closeModal()">Sim</button>
-        <button class="modal-action modal-close waves-effect waves-green btn-flat" [routerLink]="['/terceirizados']">Não</button>
+        <button class="waves-effect btn right" (click)="closeModal()">Sim</button>
+        <button class="waves-effect btn  left" (click)="navTer()">Não</button>
     </div>
 </div>
 <div id="modal2" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions2">
@@ -91,7 +144,9 @@
         <h5 class="bold">Ocorreu um erro ao tentar cadastrar o(s) Terceirizado(s) !</h5>
     </div>
     <div class="modal-footer">
-        <button class="waves-effect waves-green btn-flat btn" (click)="closeModal2()">Ok</button>
+        <div class="center-align">
+            <button class="waves-effect btn" (click)="closeModal2()">Ok</button>
+        </div>
     </div>
 </div>
 <div class="container" *ngIf="id">

@@ -8,7 +8,8 @@ import {Usuario} from '../../usuarios/usuario';
 
 @Component({
     selector: 'app-cadastrar-gestor-contrato-component',
-    templateUrl: './cadastrar-gestor-contrato.component.html'
+    templateUrl: './cadastrar-gestor-contrato.component.html',
+    styleUrls: ['./cadastrar-gestor-contrato.component.scss']
 })
 export class CadastrarGestorContratoComponent implements OnInit {
     gestorContratoForm: FormGroup;
