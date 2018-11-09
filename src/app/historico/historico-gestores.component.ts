@@ -26,4 +26,8 @@ export class HistoricoGestoresComponent {
     cadastroGestorContrato() {
         this.router.navigate(['./cadastro-gestor-contrato'], {relativeTo: this.route});
     }
+
+    editarHistoricoGestaoContrato(id: number) {
+        this.router.navigate(['historico-gestores', id], {skipLocationChange: true});
+    }
 }

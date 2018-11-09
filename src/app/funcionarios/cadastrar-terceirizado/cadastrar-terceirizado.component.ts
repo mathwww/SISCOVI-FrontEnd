@@ -30,6 +30,7 @@ export class CadastrarTerceirizadoComponent implements OnInit {
     terceirizadosPlanilhaForm: FormGroup;
     constructor(private fb: FormBuilder, private  terceirizadoService: FuncionariosService, private  route: ActivatedRoute, private router: Router, private ref: ChangeDetectorRef) {
         this.route.params.subscribe(params => {
+            console.log(params);
           if (!isNaN(params['id'])) {
             this.id = params['id'];
           }
@@ -289,6 +290,7 @@ export class CadastrarTerceirizadoComponent implements OnInit {
         this.closeModal3();
         this.closeModal4();
         this.closeModal5();
+        this.modalActions.emit({action: 'modal', params: ['close']});
         this.router.navigate(['terceirizados']);
     }
     salvarAlteracoes() {

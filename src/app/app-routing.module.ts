@@ -27,6 +27,7 @@ import {RescisaoComponent} from './rescisao/rescisao.component';
 import {RecalculoTotalMensalComponent} from './totalMensal/recalculo-total-mensal/recalculo-total-mensal.component';
 import {CadastrarTerceirizadoComponent} from './funcionarios/cadastrar-terceirizado/cadastrar-terceirizado.component';
 import {CadastrarGestorContratoComponent} from "./historico/cadastrar-gestor/cadastrar-gestor-contrato.component";
+import {GerenciarCargosTerceirizadosComponent} from "./cargos/gerenciar-cargos-terceirizados/gerenciar-cargos-terceirizados.component";
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'home'},
@@ -61,7 +62,9 @@ const routes: Routes = [
       {path: 'percentEst', component: PercentuaisEstaticosComponent, canActivate: [LoggedInGuard, ProfileGuard]},
       {path: 'ajustes-contratuais', component: AjusteContratoComponent, canActivate: [LoggedInGuard]},
       {path: 'historico-gestores', component: HistoricoGestoresComponent, canActivate: [LoggedInGuard]},
+      {path: 'historico-gestores/:id', component: CadastrarGestorContratoComponent, canActivate: [LoggedInGuard]},
       {path: 'historico-gestores/cadastro-gestor-contrato', component: CadastrarGestorContratoComponent, canActivate: [LoggedInGuard]},
+      {path: 'funcoes-dos-terceirizados/gerenciar-cargos-terceirizados', component: GerenciarCargosTerceirizadosComponent, canActivate: [LoggedInGuard]},
     ]}
 ];
 @NgModule({

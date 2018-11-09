@@ -95,3 +95,11 @@ table.highlight tbody tr:hover .total-calculo{
   visibility: visible;
   opacity: 100;
 }
+.mensagem-erro {
+  color: red;
+  font-size: 1em;
+}
+.validate.ng-dirty.ng-invalid {
+  border-bottom: 1px solid red;
+  box-shadow: 0 1px 0 0 red;
+}
