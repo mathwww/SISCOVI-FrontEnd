@@ -57,6 +57,12 @@ export class CargoService {
       const data = this.config.user;
         return this.http.post(url, data).map(res => res.json());
     }
+
+    getTerceirizadosFuncao(codigoContrato: number) {
+      const url = this.config.myApi + '/cargo/getTerceirizadosFuncao/' + codigoContrato;
+      const data = this.config.user;
+      return this.http.post(url, data).map(res => res.json());
+    }
 }
 export class ListaCargos {
     currentUser: string;

@@ -19,7 +19,7 @@
     </div>
     <div class="row" *ngIf="terceirizados && modoOperacao">
         <div *ngIf="modoOperacao === 'ALOCAÇÃO'">
-            <div class="divider"></div>
+            <div class="center-align divider"></div>
             <br>
             <div class="center-align">
                 <button class="btn waves-effect" (click)="adicionaGerenciar()">Adicionar Linha</button>
@@ -75,7 +75,28 @@
     </div>
     <div class="row" *ngIf="terceirizados && modoOperacao">
         <div *ngIf="modoOperacao === 'ALTERAÇÃO'">
-
+            <div class="center-align divider"></div>
+            <br>
+            <form>
+                <div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Terceirizado</th>
+                            <th>Função</th>
+                            <th>Data de Início</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let lista of listaCargosFuncionarios">
+                                <td>{{lista.cargosFuncionarios[0].funcionario.nome}}</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
         </div>
     </div>
 </div>
