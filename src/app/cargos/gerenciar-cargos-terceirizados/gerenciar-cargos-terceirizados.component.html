@@ -1,6 +1,7 @@
 <h2 class="center">Gerenciar Cargos</h2>
 <div class="container">
     <div class="row">
+
         <div class="input-field col l7">
             <select id="selecao_contrato"materialize="material_select" [materializeSelectOptions]="contratos" (change)="defineCodigoContrato($event.target.value)">
                 <option disabled>Selecione um Contrato</option>
@@ -16,17 +17,65 @@
             </select>
         </div>
     </div>
-    <div class="row" *ngIf="terceirizados">
-        <div class="divider"></div>
-        <br>
-        <form>
-            <div class="input-field col s6">
-                <select id="terceirizado_nao_alocado" materialize="material_select">
-                    <option disabled>Selecione um Terceirizado</option>
-                    <option *ngFor="let terceirizado of terceirizados" [value]="terceirizado.codigo">{{terceirizado.nome}} - CPF: {{terceirizado.cpf}}</option>
-                </select>
-                <label for="terceirizado_nao_alocado">Terceirizados Não Alocados</label>
+    <div class="row" *ngIf="terceirizados && modoOperacao">
+        <div *ngIf="modoOperacao === 'ALOCAÇÃO'">
+            <div class="divider"></div>
+            <br>
+            <div class="center-align">
+                <button class="btn waves-effect" (click)="adicionaGerenciar()">Adicionar Linha</button>
+                <button class="btn waves-effect" (click)="removerGerenciar()" [disabled]="!(gerenciar.length > 1)">Remover Linha</button>
             </div>
-        </form>
+            <br>
+            <form [formGroup]="gerenciaForm">
+                <div formArrayName="gerenciarTerceirizados">
+                    <table class="centered highlight hoverable">
+                        <thead>
+                            <tr>
+                                <th>Terceirizado</th>
+                                <th>Função</th>
+                                <th>Data de Início</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let formulario of gerenciar.controls; let i = index" [formGroupName]="i">
+                                <td>
+                                    <div class="input-field col">
+                                        <select id="terceirizado_nao_alocado" materialize="material_select" [materializeSelectOptions]="terceirizados" formControlName="terceirizado">
+                                            <option disabled>Selecione um Terceirizado</option>
+                                            <option *ngFor="let terceirizado of terceirizados" [value]="terceirizado.codigo">{{terceirizado.nome}} - CPF: {{terceirizado.cpf | cpfPipe}}</option>
+                                        </select>
+                                        <label for="terceirizado_nao_alocado">Terceirizados Não Alocados</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-field col">
+                                        <select id="funcoes_contrato" materialize="material_select" [materializeSelectOptions]="funcoes" formControlName="funcao">
+                                            <option disabled>Selecione um Terceirizado</option>
+                                            <option *ngFor="let funcao of funcoes" [value]="funcao.codigo">{{funcao.nome}}</option>
+                                        </select>
+                                        <label for="funcoes_contrato">Funções do Contrato</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-field col">
+                                        <input id="data_inicio_funcao" formControlName="dataInicio" class="validate" type="text" appMaskDate required maxlength="10" minlength="10">
+                                        <label for="data_inicio_funcao">Data de Início na Função</label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+            <br>
+            <div class="center-align">
+                <button class="btn waves-effect" [disabled]="!gerenciaForm.valid">Alocar</button>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="terceirizados && modoOperacao">
+        <div *ngIf="modoOperacao === 'ALTERAÇÃO'">
+
+        </div>
     </div>
 </div>
