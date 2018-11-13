@@ -7,7 +7,7 @@ import {CargoService} from '../cargo.service';
 import {Funcionario} from '../../funcionarios/funcionario';
 import {Cargo} from '../cargo';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {ListaCargosFuncionarios} from '../cargos-dos-funcionarios/lista.cargos.funcionarios';
+import {CargosFuncionarios} from '../cargos-dos-funcionarios/cargos.funcionarios';
 
 @Component({
     selector: 'app-gerenciar-cargos-terceirizados-component',
@@ -21,7 +21,8 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit{
     terceirizados: Funcionario[];
     funcoes: Cargo[];
     gerenciaForm: FormGroup;
-    listaCargosFuncionarios: ListaCargosFuncionarios;
+    listaCargosFuncionarios: CargosFuncionarios[];
+    isSelected = false;
     constructor(private contServ: ContratosService, private funcServ: FuncionariosService, private cargosService: CargoService, private ref: ChangeDetectorRef, private fb: FormBuilder) {
         this.contServ.getContratosDoUsuario().subscribe(res => {
             this.contratos = res;
@@ -68,21 +69,16 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit{
                     this.terceirizados = res;
                     this.ref.markForCheck();
                 });
-                this.cargosService.getFuncoesContrato(this.codigo).subscribe(res => {
-                    this.funcoes = res;
-                    this.ref.markForCheck();
-                });
             }
             if (this.modoOperacao === 'ALTERAÇÃO') {
-                this.cargosService.getCargosFuncionarios(this.codigo).subscribe(res => {
+                this.cargosService.getTerceirizadosFuncao(this.codigo).subscribe(res => {
                     this.listaCargosFuncionarios = res;
-                    this.ref.markForCheck();
-                });
-                this.cargosService.getFuncoesContrato(this.codigo).subscribe(res => {
-                    this.funcoes = res;
-                    this.ref.markForCheck();
                 });
             }
+            this.cargosService.getFuncoesContrato(this.codigo).subscribe(res => {
+                this.funcoes = res;
+                this.ref.markForCheck();
+            });
         }
     }
 
@@ -95,21 +91,16 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit{
                         this.terceirizados = res;
                         this.ref.markForCheck();
                     });
-                    this.cargosService.getFuncoesContrato(this.codigo).subscribe(res => {
-                        this.funcoes = res;
-                        this.ref.markForCheck();
-                    });
                 }
                 if (this.modoOperacao === 'ALTERAÇÃO') {
-                    this.cargosService.getCargosFuncionarios(this.codigo).subscribe(res => {
+                    this.cargosService.getTerceirizadosFuncao(this.codigo).subscribe(res => {
                         this.listaCargosFuncionarios = res;
-                        this.ref.markForCheck();
-                    });
-                    this.cargosService.getFuncoesContrato(this.codigo).subscribe(res => {
-                        this.funcoes = res;
-                        this.ref.markForCheck();
                     });
                 }
+                this.cargosService.getFuncoesContrato(this.codigo).subscribe(res => {
+                    this.funcoes = res;
+                    this.ref.markForCheck();
+                });
             }
         }
 

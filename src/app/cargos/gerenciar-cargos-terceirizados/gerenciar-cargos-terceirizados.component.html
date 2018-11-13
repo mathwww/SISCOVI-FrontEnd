@@ -73,25 +73,52 @@
             </div>
         </div>
     </div>
-    <div class="row" *ngIf="terceirizados && modoOperacao">
+    <div class="row" *ngIf="listaCargosFuncionarios && modoOperacao">
         <div *ngIf="modoOperacao === 'ALTERAÇÃO'">
             <div class="center-align divider"></div>
             <br>
             <form>
                 <div>
-                    <table>
+                    <table class="hoverable centered highlight">
                         <thead>
-                        <tr>
-                            <th>Terceirizado</th>
-                            <th>Função</th>
-                            <th>Data de Início</th>
-                        </tr>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="test6" (change)="isSelected = !isSelected"/>
+                                    <label for="test6"></label>
+                                </th>
+                                <th>Terceirizado</th>
+                                <th>Função</th>
+                                <th>Data de Início</th>
+                            </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let lista of listaCargosFuncionarios">
-                                <td>{{lista.cargosFuncionarios[0].funcionario.nome}}</td>
-                                <td></td>
-                                <td></td>
+                            <tr *ngFor="let lista of listaCargosFuncionarios; let k = index">
+                                <td>
+                                    <div >
+                                        <input type="checkbox" [checked]="isSelected" [ngModel]="isSelected"  id="{{k}}" [ngModelOptions]="{standalone: true}"/>
+                                        <label for="{{k}}"></label>
+                                    </div>
+                                </td>
+                                <td><b>{{lista.funcionario.nome}}</b></td>
+                                <td>
+                                    <div class="row">
+                                        <div class="input-field col">
+                                            <select id="funcoes_alteracao"  materialize="material_select" [materializeSelectOptions]="funcoes">
+                                                <option disabled>Selecione um Terceirizado</option>
+                                                <option *ngFor="let funcao of funcoes" [value]="funcao.codigo" [selected]="funcao.nome == lista.funcao.nome">{{funcao.nome}}</option>
+                                            </select>
+                                            <label for="funcoes_alteracao">Selecione uma nova função</label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <div class="input-field col  center-align">
+                                            <input id="data_inicio_nova_funcao"  class="validate center" type="text" appMaskDate required maxlength="10" minlength="10">
+                                            <label for="data_inicio_nova_funcao">Data de Início na Nova Função</label>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
