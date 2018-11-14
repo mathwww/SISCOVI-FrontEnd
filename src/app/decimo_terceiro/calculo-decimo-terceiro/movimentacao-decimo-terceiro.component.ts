@@ -29,7 +29,7 @@ export class MovimentacaoDecimoTerceiroComponent implements  OnInit {
     protected diasConcedidos: number[] = [];
     @Output() navegaParaViewDeCalculos = new EventEmitter();
     primeiroItemErrado: number;
-    constructor(private fb: FormBuilder, private decimoTerceiroService: DecimoTerceiroService) { }
+    constructor(private fb: FormBuilder, private decimoTerceiroService: DecimoTerceiroService) {}
     ngOnInit() {
         this.formInit();
     }
