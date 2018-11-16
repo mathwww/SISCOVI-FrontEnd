@@ -21,6 +21,7 @@ export class CalculoFeriasComponent {
             this.contratos = res;
         });
     }
+
     defineCodigoContrato(codigoContrato: number): void {
         this.codigo = codigoContrato;
         if (this.codigo && this.tipoRestituicao) {
@@ -38,6 +39,7 @@ export class CalculoFeriasComponent {
             });
         }
     }
+
     eventNav(codigo: number): void {
         console.log(codigo);
         this.navegaParaViewDeCalculos.emit(codigo);

@@ -379,6 +379,7 @@ export class MovimentacaoFeriasComponent implements  OnInit {
             this.openModal3();
         }
     }
+
     getDiasConcedidos(inicioFerias, fimFerias, diasVendidos, indice) {
         let dia = inicioFerias.split('/')[0];
         let mes = inicioFerias.split('/')[1] - 1;

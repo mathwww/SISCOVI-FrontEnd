@@ -69,7 +69,7 @@
             </form>
             <br>
             <div class="center-align">
-                <button class="btn waves-effect" [disabled]="!gerenciaForm.valid" (click)="verificarFormulario()">Alocar</button>
+                <button class="btn waves-effect" [disabled]="!gerenciaForm.valid" (click)="verificarFormularioGerencia()">Alocar</button>
             </div>
         </div>
     </div>
@@ -77,8 +77,8 @@
         <div *ngIf="modoOperacao === 'ALTERAÇÃO'">
             <div class="center-align divider"></div>
             <br>
-            <form>
-                <div>
+            <form [formGroup]="alteracaoForm">
+                <div formArrayName="alterarFuncoesTerceirizados">
                     <table class="hoverable centered highlight">
                         <thead>
                             <tr>
@@ -94,16 +94,20 @@
                         <tbody>
                             <tr *ngFor="let lista of listaCargosFuncionarios; let k = index">
                                 <td>
-                                    <div >
-                                        <input type="checkbox" [checked]="isSelected" [ngModel]="isSelected"  id="{{k}}" [ngModelOptions]="{standalone: true}"/>
-                                        <label for="{{k}}"></label>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div [formGroupName]="k">
+                                                <input type="checkbox" [checked]="isSelected" [ngModel]="isSelected"  id="{{k}}" formControlName="selected"/>
+                                                <label for="{{k}}"></label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
                                 <td><b>{{lista.funcionario.nome}}</b></td>
                                 <td>
-                                    <div class="row">
+                                    <div class="row" [formGroupName]="k">
                                         <div class="input-field col">
-                                            <select id="funcoes_alteracao"  materialize="material_select" [materializeSelectOptions]="funcoes">
+                                            <select id="funcoes_alteracao" formControlName="funcao"  materialize="material_select" [materializeSelectOptions]="funcoes">
                                                 <option disabled>Selecione um Terceirizado</option>
                                                 <option *ngFor="let funcao of funcoes" [value]="funcao.codigo" [selected]="funcao.nome == lista.funcao.nome">{{funcao.nome}}</option>
                                             </select>
@@ -112,9 +116,9 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="row">
+                                    <div class="row" [formGroupName]="k">
                                         <div class="input-field col  center-align">
-                                            <input id="data_inicio_nova_funcao"  class="validate center" type="text" appMaskDate required maxlength="10" minlength="10">
+                                            <input id="data_inicio_nova_funcao"  class="validate center" type="text" appMaskDate required maxlength="10" minlength="10" formControlName="dataInicio">
                                             <label for="data_inicio_nova_funcao">Data de Início na Nova Função</label>
                                         </div>
                                     </div>
@@ -124,6 +128,38 @@
                     </table>
                 </div>
             </form>
+            <br>
+            <div class="row">
+                <div class="col center-align">
+                   <button class="btn waves-effect" (click)="verificaFormularioAlteracao()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal1" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
+    <div class="modal-content">
+        <h4 class="center">Atenção</h4>
+        <div class="center-align">
+            <p>Selecione no mínimo um terceirizado</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class=" col center-align">
+            <button class="btn waves-effect" (click)="closeModal()">Ok</button>
+        </div>
+    </div>
+</div>
+<div id="modal2" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
+    <div class="modal-content">
+        <h4 class="center">Confirmar</h4>
+        <div class="center-align">
+            <p>Deseja realizar as alterações ?</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class=" col center-align">
+            <button class="btn waves-effect" (click)="closeModal2()">Cancelar</button>
         </div>
     </div>
 </div>
