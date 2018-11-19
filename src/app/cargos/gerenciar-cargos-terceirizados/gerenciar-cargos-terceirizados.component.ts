@@ -50,6 +50,10 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
                 });
                 this.alteracao.push(formGroup);
             }
+            for (let i = 0; i < this.listaCargosFuncionarios.length; i++) {
+                this.alteracao.get('' + i).get('funcao').setValidators([this.alterarFuncaoTerceirizadoValidator.bind(this)]);
+                this.alteracao.get('' + i).get('dataInicio').setValidators([this.validateDataInicioFuncao.bind(this)]);
+            }
         }
     }
 
@@ -106,6 +110,10 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
                             });
                             this.alteracao.push(formGroup);
                         }
+                        for (let i = 0; i < this.listaCargosFuncionarios.length; i++) {
+                            this.alteracao.get('' + i).get('funcao').setValidators([this.alterarFuncaoTerceirizadoValidator.bind(this)]);
+                            this.alteracao.get('' + i).get('dataInicio').setValidators([this.validateDataInicioFuncao.bind(this)]);
+                        }
                     }
                 });
             }
@@ -134,10 +142,14 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
                                 const formGroup = this.fb.group({
                                     selected: new FormControl(this.isSelected),
                                     terceirizado: new FormControl(this.listaCargosFuncionarios[i].funcionario),
-                                    funcao: new FormControl(this.listaCargosFuncionarios[i].funcao.codigo, [Validators.required, this.alterarFuncaoTerceirizadoValidator]),
+                                    funcao: new FormControl(this.listaCargosFuncionarios[i].funcao.codigo, [Validators.required]),
                                     dataInicio: new FormControl('', [Validators.required, this.myDateValidator])
                                 });
                                 this.alteracao.push(formGroup);
+                            }
+                            for (let i = 0; i < this.listaCargosFuncionarios.length; i++) {
+                               this.alteracao.get('' + i).get('funcao').setValidators([this.alterarFuncaoTerceirizadoValidator.bind(this)]);
+                                this.alteracao.get('' + i).get('dataInicio').setValidators([this.validateDataInicioFuncao.bind(this)]);
                             }
                         }
                     });
@@ -264,14 +276,45 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
 
     public alterarFuncaoTerceirizadoValidator(control: AbstractControl): {[key: string]: any} {
         const val = Number(control.value);
+        const formGroup = control.parent as FormGroup;
         const mensagem = [];
-        console.log(control.parent);
         if (control.parent) {
-            /*const terceirirzado: Funcionario = control.parent.get('terceirizado').value as Funcionario;
-            console.log(this.listaCargosFuncionarios.findIndex(item => {
-                return item.funcionario.codigo === terceirirzado.codigo;
-            }));*/
-            // const funcaoTerceirizado =
+          if (formGroup.controls.terceirizado) {
+              const indice = this.listaCargosFuncionarios.findIndex(a => {
+                  const funcionario = formGroup.get('terceirizado').value as Funcionario;
+                  return a.funcionario.codigo === Number(funcionario.codigo);
+              });
+              if (this.listaCargosFuncionarios[indice].funcao.codigo === val) {
+                  mensagem.push('A função escolhida deve ser diferente da anterior');
+              }
+          }
+        }
+        return (mensagem.length > 0) ? {'mensagem': [mensagem]} : null;
+    }
+
+    public validateDataInicioFuncao(control: AbstractControl): {[key: string]: any} {
+        let valor: Date;
+        if (control.value.length === 10) {
+            const val: number[] = control.value.split('/');
+            valor  = new Date(val[2],  val[1] - 1, val[0]);
+        }
+        const formGroup = control.parent as FormGroup;
+        const mensagem = [];
+        if (control.parent) {
+            if (formGroup.controls.terceirizado) {
+                if (control.value.length === 10) {
+                    const indice = this.listaCargosFuncionarios.findIndex(a => {
+                        const funcionario = formGroup.get('terceirizado').value as Funcionario;
+                        return a.funcionario.codigo === Number(funcionario.codigo);
+                    });
+                    const val2: any[] = this.listaCargosFuncionarios[indice].dataDisponibilizacao.toString().split('-');
+                    const date: Date = new Date(Number(val2[0]), Number(val2[1]) - 1, Number(val2[2]));
+                    console.log(date > valor));
+                    if (date > valor) {
+                        mensagem.push('A data de início na nova função deve ser posterior  à data de início na função anterior');
+                    }
+                }
+            }
         }
         return (mensagem.length > 0) ? {'mensagem': [mensagem]} : null;
     }
