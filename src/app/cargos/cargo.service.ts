@@ -3,7 +3,7 @@ import {Http, Headers, RequestOptions} from '@angular/http';
 import {ConfigService} from '../_shared/config.service';
 import {Contrato} from '../contratos/contrato';
 import {Cargo} from './cargo';
-import {CargosFuncionarios} from "./cargos-dos-funcionarios/cargos.funcionarios";
+import {CargosFuncionarios} from './cargos-dos-funcionarios/cargos.funcionarios';
 
 @Injectable()
 export class CargoService {
