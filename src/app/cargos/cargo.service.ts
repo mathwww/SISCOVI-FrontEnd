@@ -79,6 +79,18 @@ export class CargoService {
         });
       return this.http.post(url, data).map(res => res.json());
     }
+
+    alterarFuncaoTerceirizado(confirmarAlteracao: CargosFuncionarios[]) {
+      const url = this.config.myApi + 'cargo/alterarFuncaoTerceirizado';
+      const data = [];
+      for (let i = 0; i < confirmarAlteracao.length; i++) {
+          const info = {
+
+          };
+      }
+      return this.http.post(url, confirmarAlteracao).map(res => res.json());
+
+    }
 }
 export class ListaCargos {
     currentUser: string;

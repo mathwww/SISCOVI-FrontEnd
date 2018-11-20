@@ -27,6 +27,7 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
     confirmarAlteracao: CargosFuncionarios[];
     modalActions = new EventEmitter<string | MaterializeAction>();
     modalActions2 = new EventEmitter<string | MaterializeAction>();
+    modalActions3 = new EventEmitter<string | MaterializeAction>();
     constructor(private contServ: ContratosService, private funcServ: FuncionariosService, private cargosService: CargoService, private ref: ChangeDetectorRef, private fb: FormBuilder) {
         this.contServ.getContratosDoUsuario().subscribe(res => {
             this.contratos = res;
@@ -52,7 +53,7 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
             }
             for (let i = 0; i < this.listaCargosFuncionarios.length; i++) {
                 this.alteracao.get('' + i).get('funcao').setValidators([this.alterarFuncaoTerceirizadoValidator.bind(this)]);
-                this.alteracao.get('' + i).get('dataInicio').setValidators([this.validateDataInicioFuncao.bind(this)]);
+                this.alteracao.get('' + i).get('dataInicio').setValidators([this.validateDataInicioFuncao.bind(this), this.myDateValidator]);
             }
         }
     }
@@ -100,7 +101,11 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
             if (this.modoOperacao === 'ALTERAÇÃO') {
                 this.cargosService.getTerceirizadosFuncao(this.codigo).subscribe(res => {
                     this.listaCargosFuncionarios = res;
+                    this.ref.markForCheck();
                     if (this.listaCargosFuncionarios) {
+                        this.alteracaoForm = this.fb.group({
+                            alterarFuncoesTerceirizados: this.fb.array([])
+                        });
                         for (let i = 0; i < this.listaCargosFuncionarios.length; i++) {
                             const formGroup = this.fb.group({
                                 selected: new FormControl(this.isSelected),
@@ -109,10 +114,12 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
                                 dataInicio: new FormControl('', [Validators.required, this.myDateValidator])
                             });
                             this.alteracao.push(formGroup);
+                            this.ref.markForCheck();
                         }
+                        this.ref.markForCheck();
                         for (let i = 0; i < this.listaCargosFuncionarios.length; i++) {
                             this.alteracao.get('' + i).get('funcao').setValidators([this.alterarFuncaoTerceirizadoValidator.bind(this)]);
-                            this.alteracao.get('' + i).get('dataInicio').setValidators([this.validateDataInicioFuncao.bind(this)]);
+                            this.alteracao.get('' + i).get('dataInicio').setValidators([this.validateDataInicioFuncao.bind(this), this.myDateValidator]);
                         }
                     }
                 });
@@ -138,6 +145,9 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
                     this.cargosService.getTerceirizadosFuncao(this.codigo).subscribe(res => {
                         this.listaCargosFuncionarios = res;
                         if (this.listaCargosFuncionarios) {
+                            this.alteracaoForm = this.fb.group({
+                                alterarFuncoesTerceirizados: this.fb.array([])
+                            });
                             for (let i = 0; i < this.listaCargosFuncionarios.length; i++) {
                                 const formGroup = this.fb.group({
                                     selected: new FormControl(this.isSelected),
@@ -149,7 +159,7 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
                             }
                             for (let i = 0; i < this.listaCargosFuncionarios.length; i++) {
                                this.alteracao.get('' + i).get('funcao').setValidators([this.alterarFuncaoTerceirizadoValidator.bind(this)]);
-                                this.alteracao.get('' + i).get('dataInicio').setValidators([this.validateDataInicioFuncao.bind(this)]);
+                                this.alteracao.get('' + i).get('dataInicio').setValidators([this.validateDataInicioFuncao.bind(this), this.myDateValidator]);
                             }
                         }
                     });
@@ -212,6 +222,13 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
     closeModal2() {
         this.modalActions2.emit({action: 'modal', params: ['close']});
     }
+    openModal3() {
+        this.modalActions3.emit({action: 'modal', params: ['open']});
+    }
+
+    closeModal3() {
+        this.modalActions3.emit({action: 'modal', params: ['close']});
+    }
 
     public myDateValidator(control: AbstractControl): {[key: string]: any} {
         const val = control.value;
@@ -244,6 +261,7 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
         let aux = 0;
         const lista: CargosFuncionarios[] = [];
         for (let i = 0; i < this.alteracao.length; i++) {
+            console.log(this.alteracaoForm.get('alterarFuncoesTerceirizados').get('' + i).get('selected').value);
             if (this.alteracaoForm.get('alterarFuncoesTerceirizados').get('' + i).get('selected').value) {
                 if (this.alteracaoForm.get('alterarFuncoesTerceirizados').get('' + i).valid) {
                     aux++;
@@ -261,7 +279,13 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
                     ft.dataDisponibilizacao = dataInicio;
                     lista.push(ft);
                 } else {
-                    // não adicione terceirizados inválidos à lista
+                    aux++;
+                    this.alteracaoForm.get('alterarFuncoesTerceirizados').get('' + i).get('funcao').markAsDirty();
+                    this.alteracaoForm.get('alterarFuncoesTerceirizados').get('' + i).get('funcao').markAsTouched();
+                    this.alteracaoForm.get('alterarFuncoesTerceirizados').get('' + i).get('dataInicio').markAsTouched();
+                    this.alteracaoForm.get('alterarFuncoesTerceirizados').get('' + i).get('dataInicio').markAsDirty();
+                    this.ref.markForCheck();
+                    this.openModal3();
                 }
             }
         }
@@ -309,13 +333,18 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
                     });
                     const val2: any[] = this.listaCargosFuncionarios[indice].dataDisponibilizacao.toString().split('-');
                     const date: Date = new Date(Number(val2[0]), Number(val2[1]) - 1, Number(val2[2]));
-                    console.log(date > valor);
-                    if (date > valor) {
+                    if (date >= valor) {
                         mensagem.push('A data de início na nova função deve ser posterior  à data de início na função anterior');
                     }
                 }
             }
         }
         return (mensagem.length > 0) ? {'mensagem': [mensagem]} : null;
+    }
+
+    salvarAlteracoesFuncaoTerceirizado() {
+        this.cargosService.alterarFuncaoTerceirizado(this.confirmarAlteracao).subscribe(res => {
+
+        });
     }
 }
