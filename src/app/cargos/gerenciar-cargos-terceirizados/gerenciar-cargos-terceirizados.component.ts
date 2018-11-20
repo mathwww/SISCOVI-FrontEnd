@@ -309,7 +309,7 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
                     });
                     const val2: any[] = this.listaCargosFuncionarios[indice].dataDisponibilizacao.toString().split('-');
                     const date: Date = new Date(Number(val2[0]), Number(val2[1]) - 1, Number(val2[2]));
-                    console.log(date > valor));
+                    console.log(date > valor);
                     if (date > valor) {
                         mensagem.push('A data de início na nova função deve ser posterior  à data de início na função anterior');
                     }
