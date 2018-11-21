@@ -279,7 +279,7 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
                     ft.dataDisponibilizacao = dataInicio;
                     lista.push(ft);
                 } else {
-                    aux++;
+                    aux = undefined;
                     this.alteracaoForm.get('alterarFuncoesTerceirizados').get('' + i).get('funcao').markAsDirty();
                     this.alteracaoForm.get('alterarFuncoesTerceirizados').get('' + i).get('funcao').markAsTouched();
                     this.alteracaoForm.get('alterarFuncoesTerceirizados').get('' + i).get('dataInicio').markAsTouched();
@@ -292,7 +292,7 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
         if (aux === 0) {
             this.openModal();
         }
-        if ((aux !== 0) && lista.length > 0 ) {
+        if ((aux > 0) && lista.length > 0 ) {
            this.openModal2();
             this.confirmarAlteracao = lista;
         }
@@ -343,7 +343,7 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
     }
 
     salvarAlteracoesFuncaoTerceirizado() {
-        this.cargosService.alterarFuncaoTerceirizado(this.confirmarAlteracao).subscribe(res => {
+        this.cargosService.alterarFuncaoTerceirizado(this.confirmarAlteracao, this.codigo).subscribe(res => {
 
         });
     }

@@ -80,15 +80,19 @@ export class CargoService {
       return this.http.post(url, data).map(res => res.json());
     }
 
-    alterarFuncaoTerceirizado(confirmarAlteracao: CargosFuncionarios[]) {
-      const url = this.config.myApi + 'cargo/alterarFuncaoTerceirizado';
+    alterarFuncaoTerceirizado(confirmarAlteracao: CargosFuncionarios[], codigoContrato: number) {
+      const url = this.config.myApi + '/cargo/alterarFuncaoTerceirizado/' + codigoContrato + '/' + this.config.user.username;
       const data = [];
       for (let i = 0; i < confirmarAlteracao.length; i++) {
+          const date = confirmarAlteracao[i].dataDisponibilizacao.toISOString().split('T');
           const info = {
-
+              funcionario: confirmarAlteracao[i].funcionario,
+              dataDisponibilizacao: date,
+              funcao: confirmarAlteracao[i].funcao
           };
+          data.push(info);
       }
-      return this.http.post(url, confirmarAlteracao).map(res => res.json());
+      return this.http.post(url, data).map(res => res.json());
 
     }
 }
