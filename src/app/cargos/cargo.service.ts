@@ -87,11 +87,12 @@ export class CargoService {
           const date = confirmarAlteracao[i].dataDisponibilizacao.toISOString().split('T');
           const info = {
               funcionario: confirmarAlteracao[i].funcionario,
-              dataDisponibilizacao: date,
+              dataDisponibilizacao: date[0],
               funcao: confirmarAlteracao[i].funcao
           };
           data.push(info);
       }
+      console.log(data);
       return this.http.post(url, data).map(res => res.json());
 
     }

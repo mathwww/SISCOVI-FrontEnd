@@ -261,7 +261,6 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
         let aux = 0;
         const lista: CargosFuncionarios[] = [];
         for (let i = 0; i < this.alteracao.length; i++) {
-            console.log(this.alteracaoForm.get('alterarFuncoesTerceirizados').get('' + i).get('selected').value);
             if (this.alteracaoForm.get('alterarFuncoesTerceirizados').get('' + i).get('selected').value) {
                 if (this.alteracaoForm.get('alterarFuncoesTerceirizados').get('' + i).valid) {
                     aux++;
