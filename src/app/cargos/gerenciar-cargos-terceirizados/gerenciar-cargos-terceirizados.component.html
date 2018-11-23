@@ -226,3 +226,31 @@
         </div>
     </div>
 </div>
+<div id="modal4" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions4">
+    <div class="modal-content">
+        <h4 class="center green-text">Sucesso</h4>
+        <div class="center-align">
+            <p>As informações foram alteradas com sucesso !</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class=" col center-align">
+            <button class="btn waves-effect" (click)="closeModal4()">Ok</button>
+        </div>
+    </div>
+</div>
+<div id="modal5" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions5">
+    <div class="modal-content">
+        <h4 class="center red-text">Erro</h4>
+        <div class="center-align">
+            <p><b>Ocorreu algum erro !</b></p>
+            <br>
+            <p>Tente novamente mais tarde ou entre em contato com o admnistrador do sistema !</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class=" col center-align">
+            <button class="btn waves-effect" (click)="closeModal5()">Ok</button>
+        </div>
+    </div>
+</div>

@@ -28,6 +28,8 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
     modalActions = new EventEmitter<string | MaterializeAction>();
     modalActions2 = new EventEmitter<string | MaterializeAction>();
     modalActions3 = new EventEmitter<string | MaterializeAction>();
+    modalActions4 = new EventEmitter<string | MaterializeAction>();
+    modalActions5 = new EventEmitter<string | MaterializeAction>();
     constructor(private contServ: ContratosService, private funcServ: FuncionariosService, private cargosService: CargoService, private ref: ChangeDetectorRef, private fb: FormBuilder) {
         this.contServ.getContratosDoUsuario().subscribe(res => {
             this.contratos = res;
@@ -229,7 +231,20 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
     closeModal3() {
         this.modalActions3.emit({action: 'modal', params: ['close']});
     }
+    openModal4() {
+        this.modalActions4.emit({action: 'modal', params: ['open']});
+    }
 
+    closeModal4() {
+        this.modalActions4.emit({action: 'modal', params: ['close']});
+    }
+    openModal5() {
+        this.modalActions5.emit({action: 'modal', params: ['open']});
+    }
+
+    closeModal5() {
+        this.modalActions5.emit({action: 'modal', params: ['close']});
+    }
     public myDateValidator(control: AbstractControl): {[key: string]: any} {
         const val = control.value;
         const mensagem = [];
@@ -343,7 +358,13 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
 
     salvarAlteracoesFuncaoTerceirizado() {
         this.cargosService.alterarFuncaoTerceirizado(this.confirmarAlteracao, this.codigo).subscribe(res => {
-
+            if (res.success) {
+               this.closeModal2();
+               this.openModal4();
+            }else {
+                this.closeModal2();
+                this.openModal5();
+            }
         });
     }
 }
