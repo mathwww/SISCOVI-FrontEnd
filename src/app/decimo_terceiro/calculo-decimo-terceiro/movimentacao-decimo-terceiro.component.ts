@@ -120,7 +120,7 @@ export class MovimentacaoDecimoTerceiroComponent implements  OnInit {
                         this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('inicioContagem').value,
                         this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('valorMovimentado').value,
                         this.decimoTerceiroForm.get('calcularTerceirizados').get('' + i).get('parcelas').value);
-                    objeto.tipoRestituicao = this.tipoRestituicao;
+                    objeto.tipoRestituicao = 'MOVIMENTAÇÃO';
                     if (this.terceirizados[i].valorMovimentado) {
 
                     }

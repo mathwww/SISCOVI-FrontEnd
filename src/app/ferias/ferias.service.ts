@@ -52,7 +52,7 @@ export class FeriasService {
     }
 
     getValoresFeriasTerceirizado(feriasCalcular: FeriasCalcular) {
-        const url = this.config.myApi + '/ferias/getValorRestituicaoFeriasModel';
+        const url = this.config.myApi + '/ferias/getValorRestituicaoFerias';
         const inicioFerias = this.encapsulaDatas(feriasCalcular.getInicioFerias());
         const fimFerias = this.encapsulaDatas(feriasCalcular.getFimFerias());
         const data = {

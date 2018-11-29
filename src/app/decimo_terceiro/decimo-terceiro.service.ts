@@ -60,7 +60,7 @@ export class DecimoTerceiroService {
     registrarCalculoDecimoTerceiro(calculosDecimoTerceiro: TerceirizadoDecimoTerceiro[]) {
         const url = this.config.myApi + '/decimo-terceiro/registrarCalculoDecimoTerceiro';
         calculosDecimoTerceiro.forEach(item => {
-            item.id = this.config.user.username;
+            item.setId(this.config.user.username);
         });
         const data = calculosDecimoTerceiro;
         const headers = new Headers({'Content-type': 'application/json'});
