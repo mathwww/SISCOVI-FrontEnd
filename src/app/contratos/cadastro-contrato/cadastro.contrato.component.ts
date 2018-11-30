@@ -8,7 +8,9 @@ import {UserService} from '../../users/user.service';
 import {ConfigService} from '../../_shared/config.service';
 import {Usuario} from '../../usuarios/usuario';
 import {FormularioCadastroContrato} from './formulario.cadastro.contrato';
-import {MaterializeAction} from "angular2-materialize";
+import {MaterializeAction} from 'angular2-materialize';
+import {Contrato} from '../contrato';
+import {HistoricoGestor} from "../../historico/historico-gestor";
 
 @Component({
   selector: 'app-cadastro-contrato',
@@ -70,7 +72,7 @@ export class CadastroContratoComponent implements OnInit {
             nomeGestor: new FormControl('', [Validators.required, this.nameValidator]),
             nomeEmpresa: new FormControl('', [Validators.required, this.nameValidator]),
             cnpj: new FormControl('', [Validators.required, this.cnpjValidator]),
-            ativo: new FormControl('SIM', [Validators.required]),
+            ativo: new FormControl('S', [Validators.required]),
             objeto: new FormControl(''),
             percentualFerias: new FormControl('', [Validators.required]),
             percentualDecimoTerceiro: new FormControl('', [Validators.required]),
@@ -139,37 +141,17 @@ export class CadastroContratoComponent implements OnInit {
         return (mensagem.length > 0) ? {'mensagem': [mensagem]} : null;
     }
     public percentualValidator(control: AbstractControl): {[key: string]: any} {
-        const val = control.value.split('%')[0];
+        const val = control.value;
         const mensagem = [];
         if (control.value) {
-            if ((Number(val.replace(',', '.'))) === 0) {
+            if (val === 0) {
                 mensagem.push('Digite um valor para o percentual de incidência. Valores comuns para este percentual são  36,8 e 35,6');
             }
         }
         return (mensagem.length > 0) ? {'mensagem': [mensagem]} : null;
     }
     isValid() {
-        if (this.myForm2.valid && this.myForm.valid) {
-           this.contratoService.formValido = true;
-           const formCadastroContrato = new FormularioCadastroContrato();
-           formCadastroContrato.nomeGestor = this.myForm2.get('nomeGestor').value;
-           formCadastroContrato.nomePrimeiroSubstituto = this.myForm2.get('primeiroSubstituto').value;
-           formCadastroContrato.nomeSegundoSubstituto = this.myForm2.get('segundoSubstituto').value;
-           formCadastroContrato.cnpj = this.myForm2.get('cnpj').value;
-           formCadastroContrato.numeroContrato = this.myForm2.get('numeroContrato').value;
-           formCadastroContrato.ativo = this.myForm2.get('ativo').value;
-           formCadastroContrato.objeto = this.myForm2.get('objeto').value;
-           formCadastroContrato.inicioVigencia = this.myForm2.get('inicioVigencia').value;
-           formCadastroContrato.fimVigencia = this.myForm2.get('fimVigencia').value;
-           formCadastroContrato.assinatura = this.myForm2.get('assinatura').value;
-           formCadastroContrato.percentualFerias = this.myForm2.get('percentualFerias').value;
-           formCadastroContrato.percentualDecimoTerceiro = this.myForm2.get('percentualDecimoTerceiro').value;
-           formCadastroContrato.percentualIncidencia = this.myForm2.get('percentualIncidencia').value;
-           formCadastroContrato.cargos = this.myForm.get('cargos').value;
-           this.contratoService.formCadContr = formCadastroContrato;
-        }else {
-            this.contratoService.formValido = false;
-        }
+
     }
     formArrayLength() {
         const control = <FormArray>this.myForm.controls.cargos;
@@ -207,5 +189,28 @@ export class CadastroContratoComponent implements OnInit {
             mensagem.push('CNPJ inválido');
         }
         return (mensagem.length > 0) ? {'mensagem': [mensagem]} : null;
+    }
+    enviarCadastroContrato() {
+        const historicoGestao = [];
+        const funcoes = [];
+        const contrato = new Contrato(this.myForm.get('nomeEmpresa').value, this.myForm.get('cnpj').value, 0, this.myForm.get('numeroContrato').value, 0,
+            this.myForm.get('inicioVigencia').value, this.myForm.get('fimVigencia').value, this.myForm.get('objeto').value, this.myForm.get('ativo').value, historicoGestao, funcoes);
+
+        /*
+        *  inicioVigencia: new FormControl('', [Validators.required, this.myDateValidator]),
+            fimVigencia: new FormControl('', [Validators.required, this.myDateValidator]),
+            assinatura: new FormControl('', [Validators.required, this.myDateValidator]),
+            nomeGestor: new FormControl('', [Validators.required, this.nameValidator]),
+            nomeEmpresa: new FormControl('', [Validators.required, this.nameValidator]),
+            cnpj: new FormControl('', [Validators.required, this.cnpjValidator]),
+            ativo: new FormControl('SIM', [Validators.required]),
+            objeto: new FormControl(''),
+            percentualFerias: new FormControl('', [Validators.required]),
+            percentualDecimoTerceiro: new FormControl('', [Validators.required]),
+            percentualIncidencia: new FormControl('', [Validators.required, this.percentualValidator]),
+            numeroContrato: new FormControl('', [Validators.required]),
+            primeiroSubstituto: new FormControl(''),
+            segundoSubstituto: new FormControl('')
+        * */
     }
 }

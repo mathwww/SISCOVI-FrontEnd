@@ -54,8 +54,8 @@
              <div class="input-field col">
                  <select materialize="material_select" formControlName="ativo" (change)="isValid()" (blur)="isValid()">
                      <option disabled>Selecione uma Opção</option>
-                     <option selected>SIM</option>
-                     <option>NÃO</option>
+                     <option selected value="S">SIM</option>
+                     <option value="N">NÃO</option>
                  </select>
                  <label>Ativo<span class="mensagem-erro">*</span></label>
              </div>
@@ -147,7 +147,8 @@
                  <label>Percentual de Décimo Terceiro<span class="mensagem-erro">*</span></label>
              </div>
              <div class="input-field col l2">
-                 <input placeholder="Submódulo 4.1"  id="percentual_incidencia" type="text" class="validate" formControlName="percentualIncidencia" appMaskPercentual
+                 <input placeholder="Submódulo 4.1"  id="percentual_incidencia" type="text" class="validate" formControlName="percentualIncidencia" currencyMask
+                        [options]="{ prefix: '', thousands: '.', decimal: ',', allowNegative: 'false', suffix: '%'}"
                         (input)="isValid()" (blur)="isValid()">
                  <label for="percentual_incidencia">Percentual de Incidência<span class="mensagem-erro">*</span></label>
                  <div *ngIf="myForm2.get('percentualIncidencia').invalid && (myForm2.get('percentualIncidencia').dirty || myForm2.get('percentualIncidencia').touched)">
@@ -174,7 +175,7 @@
                                  <p class="white-text ">Cargo {{i + 1}}</p>
                              </div>
                              <div class=" valign-wrapper col offset-l11">
-                                 <h6 class="botao-fechar" (click)="removeCargo(i)" *ngIf="formArrayLength() > 1"><a class="black-text"><i class="material-icons">close</i></a></h6>
+                                 <h6 class="botao-fechar" (click)="removeCargo(i)" *ngIf="formArrayLength() > 1"><a class="white-text"><i class="material-icons">close</i></a></h6>
                              </div>
                          </div>
                      </div>
@@ -207,11 +208,18 @@
                      <div class="input-field col l12 form-group">
                          <textarea placeholder="Descrição" class="materialize-textarea" data-length="200" id="textarea2" formControlName="descricao" (input)="isValid()"></textarea>
                          <label for="textarea2">Descrição do Cargo</label>
-                         <div class="divider"></div>
                      </div>
                  </div>
              </div>
          </div>
-         <button class="btn waves-effect waves-light" (click)="adicionaCargo(); $event.preventDefault();">Adicionar Outro Cargo</button>
+         <button class="btn waves-effect waves-light" (click)="adicionaCargo(); $event.preventDefault();"><a class="white-text">Adicionar Outro Cargo</a><i class="material-icons left">add</i></button>
      </form>
+    <br>
+    <div class="divider"></div>
+    <br>
+    <div class="row">
+        <div class="center-align">
+            <button class="btn waves-effect" [disabled]="!(myForm.valid && myForm2.valid)">Cadastrar</button>
+        </div>
+    </div>
  </div>
