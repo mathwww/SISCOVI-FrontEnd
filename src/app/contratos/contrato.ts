@@ -1,3 +1,6 @@
+import {HistoricoGestor} from '../historico/historico-gestor';
+import {Cargo} from '../cargos/cargo';
+
 export class Contrato {
   public cnpj: string;
   public codigo: number;
@@ -8,9 +11,11 @@ export class Contrato {
   public dataFim: Date;
   public objeto: string;
   public seAtivo: string;
+  public historicoGestao: HistoricoGestor[];
+  public funcoes: Cargo[];
 
-  constructor(nomeDaEmpresa: string, cnpj: string, codigo: number, numeroDoContrato: string,
-              anoDoContrato: number, dataInicio: Date, dataFim: Date, objeto: string, seAtivo: string) {
+  constructor(nomeDaEmpresa: string, cnpj: string, codigo: number, numeroDoContrato: string, anoDoContrato: number, dataInicio: Date, dataFim: Date, objeto: string,
+              seAtivo: string, historicoGestao: HistoricoGestor[], funcoes: Cargo[]) {
     this.nomeDaEmpresa = nomeDaEmpresa;
     this.cnpj = cnpj;
     this.codigo = codigo;
@@ -20,5 +25,7 @@ export class Contrato {
     this.dataFim = dataFim;
     this.objeto = objeto;
     this.seAtivo = seAtivo;
+    this.historicoGestao = historicoGestao;
+    this.funcoes = funcoes;
   }
 }

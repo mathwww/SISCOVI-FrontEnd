@@ -71,7 +71,7 @@ export class DecimoTerceiroService {
                 parcelas: item.parcelas,
                 valoresDecimoTerceiro: item.valoresDecimoTerceiro,
                 nomeCargo: item.nomeCargo,
-                fimContagem: item.inicioContagem,
+                fimContagem: item.fimContagem,
                 id: this.config.user.username
             };
             data.push(info);

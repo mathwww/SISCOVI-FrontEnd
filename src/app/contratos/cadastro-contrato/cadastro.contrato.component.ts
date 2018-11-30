@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CargoService} from '../../cargos/cargo.service';
@@ -8,6 +8,7 @@ import {UserService} from '../../users/user.service';
 import {ConfigService} from '../../_shared/config.service';
 import {Usuario} from '../../usuarios/usuario';
 import {FormularioCadastroContrato} from './formulario.cadastro.contrato';
+import {MaterializeAction} from "angular2-materialize";
 
 @Component({
   selector: 'app-cadastro-contrato',
@@ -40,6 +41,7 @@ export class CadastroContratoComponent implements OnInit {
         {valor: 11, mes: 'Novembro'},
         {valor: 12, mes: 'Dezembro'}
     ];
+    modalActions = new EventEmitter<string | MaterializeAction>();
     constructor(router: Router, carSer: CargoService, fb: FormBuilder, fb1: FormBuilder, contratoService: ContratosService, userService: UserService, config: ConfigService) {
         this.router = router;
         this.fb = fb;
@@ -95,6 +97,12 @@ export class CadastroContratoComponent implements OnInit {
             // dia: new FormControl('', [Validators.required]),
             // mes: new FormControl('', [Validators.required])
         });
+    }
+    openModal() {
+        this.modalActions.emit({action: 'modal', params: ['open']});
+    }
+    closeModal() {
+        this.modalActions.emit({action: 'modal', params: ['close']});
     }
     adicionaCargo(): void {
         const control = <FormArray>this.myForm.controls.cargos;
