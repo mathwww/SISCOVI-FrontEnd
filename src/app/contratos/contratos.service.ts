@@ -24,6 +24,7 @@ export class ContratosService {
     const url = this.config.myApi + '/contrato/cadastrarContrato/' + this.config.user.username;
     const historico = [];
     const percentuais = [];
+    const funcoes = [];
     contrato.historicoGestao.forEach(item => {
        const hist = {
         gestor: item.gestor,
@@ -42,6 +43,24 @@ export class ContratosService {
         };
         percentuais.push(perc);
     });
+    contrato.funcoes.forEach( funcao => {
+        const func = {
+            codigo: funcao.codigo,
+            nome: funcao.nome,
+            descricao: funcao.descricao,
+            remuneracao: funcao.remuneracao,
+            adicionais: funcao.adicionais,
+            trienios: funcao.trienios,
+        convencao: {
+            codigo: funcao.convencao.codigo,
+            nome: funcao.convencao.nome,
+            dataBase: this.convertDate(funcao.convencao.dataBase),
+            descricao: funcao.convencao.descricao,
+            sigla: funcao.convencao.sigla
+            }
+        };
+        funcoes.push(func);
+    });
     const data = {
        cnpj: contrato.cnpj,
        dataInicio: this.convertDate(contrato.dataInicio),
@@ -50,12 +69,13 @@ export class ContratosService {
        objeto: contrato.objeto,
        seAtivo: contrato.seAtivo,
        historicoGestao: historico,
-       funcoes: contrato.funcoes,
+       funcoes: funcoes,
        dataAssinatura: this.convertDate(contrato.dataAssinatura),
        percentuais: percentuais,
        numeroProcessoSTJ: contrato.numeroProcessoSTJ,
+        dataFim: this.convertDate(contrato.dataFim)
     };
-    console.log(data);
+    console.log(JSON.stringify(data));
     return this.http.post(url, data).map(res => res.json());
   }
 

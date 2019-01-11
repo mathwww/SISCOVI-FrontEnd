@@ -12,10 +12,10 @@ export class AjusteContratoComponent {
     contratos: Contrato[];
     modalActions = new EventEmitter<string | MaterializeAction>();
     render = false;
-    constructor(/*private contratosService: ContratosService*/) {
-        /* this.contratosService.getContratosDoUsuario().subscribe(res => {
+    constructor(private contratosService: ContratosService) {
+        this.contratosService.getContratosDoUsuario().subscribe(res => {
             this.contratos = res;
-        });*/
+        });
     }
     openModal() {
         this.render = true;

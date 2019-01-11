@@ -14,6 +14,7 @@ declare var $: any;
 export class FooterComponent {
   title: string = this.configService.title;
   subtitle: string = this.configService.subtitle;
+  year = new Date().getFullYear();
   constructor(
     private configService: ConfigService,
     private router: Router

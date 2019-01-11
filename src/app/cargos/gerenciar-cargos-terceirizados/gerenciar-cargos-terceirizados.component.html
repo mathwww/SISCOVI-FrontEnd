@@ -50,7 +50,7 @@
                                 <td>
                                     <div class="input-field col">
                                         <select id="funcoes_contrato" materialize="material_select" [materializeSelectOptions]="funcoes" formControlName="funcao">
-                                            <option disabled>Selecione um Terceirizado</option>
+                                            <option disabled>Selecione uma Função para o Terceirizado</option>
                                             <option *ngFor="let funcao of funcoes" [value]="funcao.codigo">{{funcao.nome}}</option>
                                         </select>
                                         <label for="funcoes_contrato">Funções do Contrato</label>

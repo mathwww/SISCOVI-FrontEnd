@@ -13,7 +13,7 @@ import {HistoricoGestor} from '../../historico/historico-gestor';
 import {Percentual} from '../../percentuais/percentual';
 import {Rubrica} from '../../rubricas/rubrica';
 import {Convencao} from '../../convencoes-coletivas/convencao';
-import {ConvencaoService} from "../../convencoes-coletivas/convencao.service";
+import {ConvencaoService} from '../../convencoes-coletivas/convencao.service';
 
 @Component({
   selector: 'app-cadastro-contrato',
@@ -208,7 +208,11 @@ export class CadastroContratoComponent implements OnInit {
         const funcoes: Cargo[] = this.criaFuncoes();
         const percentuais: Percentual[] = this.criaPercentuais();
         const contrato: Contrato = new Contrato(this.myForm2.get('nomeEmpresa').value, this.myForm2.get('cnpj').value, 0, this.myForm2.get('numeroContrato').value, 0,
-            this.converteDateFormat(this.myForm2.get('inicioVigencia').value), this.converteDateFormat(this.myForm2.get('fimVigencia').value), this.myForm2.get('objeto').value, this.myForm2.get('ativo').value, historicoGestao, funcoes);
+            this.converteDateFormat(this.myForm2.get('inicioVigencia').value),
+            this.converteDateFormat(this.myForm2.get('fimVigencia').value), this.myForm2.get('objeto').value,
+            this.myForm2.get('ativo').value,
+            historicoGestao,
+            funcoes);
         contrato.dataAssinatura = this.converteDateFormat(this.myForm2.get('assinatura').value);
         contrato.numeroProcessoSTJ = this.myForm2.get('numeroProcessoSTJ').value;
         contrato.percentuais = percentuais;
@@ -259,10 +263,24 @@ export class CadastroContratoComponent implements OnInit {
             funcao.nome = this.myForm.get('cargos').get('' + i).get('nome').value;
             funcao.remuneracao = this.myForm.get('cargos').get('' + i).get('remuneracao').value;
             funcao.descricao = this.myForm.get('cargos').get('' + i).get('descricao').value;
-            const index = this.cargosCadastrados.findIndex(item => item.nome === this.myForm.get('cargos').get('' + i).get('nome').value);
+            funcao.adicionais = this.myForm.get('cargos').get('' + i).get('adicionais').value;
+            funcao.trienios = this.myForm.get('cargos').get('' + i).get('trienios').value;
+            const convencao: Convencao = this.convencoesColetivas.find( item => {
+                if (item.codigo === Number(this.myForm.get('cargos').get('' + i).get('convencao').value)) {
+                    return true;
+                }
+            });
+            convencao.dataBase = this.converteDateFormat(this.myForm.get('cargos').get('' + i).get('dataBase').value);
+            const currentName: string =  this.myForm.get('cargos').get('' + i).get('nome').value;
+            const index = this.cargosCadastrados.findIndex(item => {
+                if (item.nome === currentName) {
+                    return true;
+                }
+            });
             if (index >= 0) {
                 funcao.codigo = this.cargosCadastrados[index].codigo;
             }
+            funcao.convencao = convencao;
             funcoes.push(funcao);
         }
         return funcoes;
