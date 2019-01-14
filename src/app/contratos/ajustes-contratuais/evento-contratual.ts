@@ -1,11 +1,12 @@
 export class EventoContratual {
 
-    private  codigo: number;
-    private prorrogacao: string;
-    private assunto: string;
-    private dataInicioVigencia: Date;
-    private dataFimVigencia: Date;
-    private dataAssinatura: Date;
-    private loginAtualizacao: string;
-    private dataAtualizacao: Date;
+    codigo: number;
+    tipo: string;
+    prorrogacao: string;
+    assunto: string;
+    dataInicioVigencia: Date;
+    dataFimVigencia: Date;
+    dataAssinatura: Date;
+    loginAtualizacao: string;
+    dataAtualizacao: Date;
 }
