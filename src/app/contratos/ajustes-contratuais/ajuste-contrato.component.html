@@ -3,13 +3,17 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="center-align input field col s6 offset-s3">
-            <select materialize="material_select" [materializeSelectOptions]="contratos" (change)="onChange($event.target.value)">
-                <option disabled>Selecione um Contrato</option>
-                <option *ngFor="let contrato of contratos" [value]="contrato.codigo">{{contrato.nomeDaEmpresa}} - Contrato Nº: {{contrato.numeroDoContrato}}/{{contrato.anoDoContrato}}</option>
-            </select>
+        <div class="valign-wrapper col s12 m12 l12">
+            <div class="left col">
+                <button materialize class="btn waves-effect right" (click)="openModal()">Cadastrar Ajuste</button>
+            </div>
+            <div id="select-options-ajuste" class="center input-field col s7 l7 m7">
+                <select materialize="material_select" [materializeSelectOptions]="contratos" (change)="onChange($event.target.value)">
+                    <option disabled>Selecione um Contrato</option>
+                    <option *ngFor="let contrato of contratos" [value]="contrato.codigo">{{contrato.nomeDaEmpresa}} - Contrato Nº: {{contrato.numeroDoContrato}}/{{contrato.anoDoContrato}}</option>
+                </select>
+            </div>
         </div>
-        <button materialize class="btn waves-effect right" (click)="openModal()">Cadastrar Ajuste</button>
         <div id="modal1" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
             <div class="modal-content">
                 <app-cadastrar-ajustes *ngIf="render"></app-cadastrar-ajustes>
