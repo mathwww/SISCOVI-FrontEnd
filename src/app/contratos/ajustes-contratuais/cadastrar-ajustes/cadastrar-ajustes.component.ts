@@ -22,8 +22,8 @@ export class CadastrarAjustesComponent {
     cargosCadastrados: Cargo[];
     myForm: FormGroup;
     fb: FormBuilder;
-    nomeGesorContrato: string;
-    constructor(private contratoService: ContratosService, private userService: UserService, config: ConfigService, fb: FormBuilder, private cargoService: CargoService, private percentualService: PercentualService) {
+    nomeGestorContrato: string;
+    constructor(private contratoService: ContratosService, private userService: UserService, config: ConfigService, fb: FormBuilder) {
         this.fb = fb;
         this.config = config;
         this.contratoService.getContratosDoUsuario().subscribe(res => {
@@ -60,8 +60,10 @@ export class CadastrarAjustesComponent {
     enableField(codigo: number) {
         this.field = true;
         this.contratoService.getNomeDoGestor(codigo).subscribe(res => {
-            if ( res === 'Este contrato não existe !') {} else {
-                this.nomeGesorContrato = res;
+            if ( res === 'Este contrato não existe !') {
+
+            } else {
+                this.nomeGestorContrato = res;
             }
         });
 
@@ -91,16 +93,18 @@ export class CadastrarAjustesComponent {
                     objeto: new FormControl('')
                 });
                 this.adicionaCargo();
-                this.cargoService.getAllCargos().subscribe(resposta => {
+                /* this.cargoService.getAllCargos().subscribe(resposta => {
                     this.cargosCadastrados = resposta;
                     this.initCargos();
-                });
+                }); */
+                this.initCargos(); // deixar assim por enquanto
                if (contrato.seAtivo === 'S' || contrato.seAtivo === 'SIM' || contrato.seAtivo.toLowerCase() === 'sim') {
                    this.myForm.controls.ativo.setValue('Sim');
                }else {
                    this.myForm.controls.ativo.setValue('Não');
                }
                this.myForm.controls.objeto.setValue(contrato.objeto);
+               this.myForm.controls.gestor.setValue(this.nomeGestorContrato);
             }
         });
     }

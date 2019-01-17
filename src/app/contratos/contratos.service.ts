@@ -90,4 +90,9 @@ export class ContratosService {
         const url = this.config.myApi + '/contrato/getEventosContratuais/' + this.config.user.username +  '/' + value;
         return this.http.get(url).map(res => res.json());
     }
+
+    getContratoCompletoUsuario(value: number) {
+        const url = this.config.myApi + '/contrato/getContratoCompleto/' + this.config.user.username + '/' + value;
+        return this.http.get(url).map(res => res.json());
+    }
 }
