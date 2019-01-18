@@ -35,7 +35,7 @@
                 <div class="input-field col s4">
                     <select materialize="material_select" id="nome_gestor" [materializeSelectOptions]="usuarios" formControlName="gestor">
                         <option disabled>Selecione o Nome do Gestor</option>
-                        <option *ngFor="let usuario of usuarios" [value]="usuario.nome" [selected]="usuario.nome == nomeGesorContrato ">{{usuario.nome}}</option>
+                        <option *ngFor="let usuario of usuarios" [value]="usuario.nome" [selected]="usuario.nome == nomeGestorContrato ">{{usuario.nome}}</option>
                     </select>
                     <label for="nome_gestor">Nome Do Gestor</label>
                 </div>
@@ -103,18 +103,17 @@
             <h5 class="left-align">Percentuais</h5>
             <div class="row">
                 <div class="input-field col s4">
-                    <select id="percentual_ferias" materialize="material_select" formControlName="percentualFerias">
+                    <select id="percentual_ferias" materialize="material_select" formControlName="percentualFerias"  [materializeSelectOptions]="percentuaisFerias">
                         <option disabled>Selecione um percentual para Férias</option>
-                        <option value="1/12">8,33%</option>
-                        <option value="1/11">9,09%</option>
+                        <option *ngFor="let percentual of percentuaisFerias" [value]="percentual.percentual" [selected]="percentual.percentual == percentualFerias">{{percentual.percentual}}%</option>
                     </select>
                     <label for="percentual_ferias">Percentual de Férias</label>
                 </div>
                 <div class="input-field col s5">
-                    <select id="percentual_decimo_terceiro" materialize="material_select" formControlName="percentualDecimoTerceiro">
+                    <select id="percentual_decimo_terceiro" materialize="material_select" formControlName="percentualDecimoTerceiro" [materializeSelectOptions]="percentuaisDecimoTerceiro">
                         <option disabled>Selecione um percentual para Décimo Terceiro</option>
-                        <option value="1/12">8,33%</option>
-                        <option value="1/11">9,09%</option>
+                        <option *ngFor="let percentual of percentuaisDecimoTerceiro" [value]="percentual.percentual"
+                                [selected]="percentual.percentual == percentualDecimoTerceiro">{{percentual.percentual}}%</option>
                     </select>
                     <label for="percentual_decimo_terceiro">Percentual de Décimo Terceiro</label>
                 </div>
@@ -147,6 +146,26 @@
                         <div class="input-field col form-group">
                             <input id="remuneracao_field" formControlName="remuneracao" type="text" currencyMask [options]="{prefix: 'R$', thousands: '.', decimal: ',', allowNegative: 'false'}" required>
                             <label for="remuneracao_field">Remuneração<span class="mensagem-erro">*</span></label>
+                        </div>
+                        <div class="input-field col form-group">
+                            <input id="trienios_field" formControlName="trienios" type="text" currencyMask [options]="{prefix: 'R$', thousands: '.', decimal: ',', allowNegative: 'false'}" required>
+                            <label for="trienios_field">Triênios<span class="mensagem-erro">*</span></label>
+                        </div>
+                        <div class="input-field col form-group">
+                            <input id="adicionais_field" formControlName="adicionais" type="text" currencyMask [options]="{prefix: 'R$', thousands: '.', decimal: ',', allowNegative: 'false'}" required>
+                            <label for="adicionais_field">Adicionais<span class="mensagem-erro">*</span></label>
+                        </div>
+                        <div class="col s12">
+                            <div class="row">
+                                <div class="input-field col s8 form-group">
+                                    <select [materializeSelectOptions]="convencoesColetivas" formControlName="convencao" materialize="material_select" class="cargos validate"
+                                            [ngModel]="cargosCadastrados">
+                                        <option disabled>Selecione uma convenção</option>
+                                        <option *ngFor="let convencao of convencoesColetivas" [value]="convencao.codigo">{{convencao.nome}} - {{convencao.sigla}}</option>
+                                    </select>
+                                    <label>Convenção Coletiva<span class="mensagem-erro">*</span></label>
+                                </div>
+                            </div>
                         </div>
                         <div class="input-field col l12 form-group">
                             <textarea placeholder="Descrição" class="materialize-textarea" data-length="200" id="textarea2" formControlName="descricao"></textarea>
