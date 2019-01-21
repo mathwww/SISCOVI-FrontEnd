@@ -17,6 +17,8 @@ export class Contrato {
   public dataAssinatura: Date;
   public percentuais: Percentual[];
   public numeroProcessoSTJ: string;
+  public loginAtualizacao: string;
+  public dataAtualizacao: Date;
 
   constructor(nomeDaEmpresa: string, cnpj: string, codigo: number, numeroDoContrato: string, anoDoContrato: number, dataInicio: Date, dataFim: Date, objeto: string,
               seAtivo: string, historicoGestao: HistoricoGestor[], funcoes: Cargo[]) {

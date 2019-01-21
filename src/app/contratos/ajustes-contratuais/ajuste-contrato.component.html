@@ -16,7 +16,7 @@
         </div>
         <div id="modal1" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
             <div class="modal-content">
-                <app-cadastrar-ajustes *ngIf="render"></app-cadastrar-ajustes>
+                <app-cadastrar-ajustes *ngIf="render" [contratos]="contratos" ></app-cadastrar-ajustes>
             </div>
             <div class="modal-footer">
                 <button class="btn waves-effect left" (click)="closeModal()">Cancelar</button>

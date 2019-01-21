@@ -93,7 +93,8 @@ import {RetencoesDecimoTerceiroComponent} from './decimo_terceiro/relatorio-rete
 import {RescisaoPendenteComponent} from './rescisao/rescisoes-pendentes/rescisao-pendente.component';
 import {CadastrarTerceirizadoComponent} from './funcionarios/cadastrar-terceirizado/cadastrar-terceirizado.component';
 import {CadastrarGestorContratoComponent} from './historico/cadastrar-gestor/cadastrar-gestor-contrato.component';
-import {GerenciarCargosTerceirizadosComponent} from "./cargos/gerenciar-cargos-terceirizados/gerenciar-cargos-terceirizados.component";
+import {GerenciarCargosTerceirizadosComponent} from './cargos/gerenciar-cargos-terceirizados/gerenciar-cargos-terceirizados.component';
+import {CadastroAjusteFormComponent} from './contratos/ajustes-contratuais/cadastrar-ajustes/cadastro-ajuste-form.component';
 
 @NgModule({
   declarations: [
@@ -166,7 +167,8 @@ import {GerenciarCargosTerceirizadosComponent} from "./cargos/gerenciar-cargos-t
     RescisaoPendenteComponent,
     CadastrarTerceirizadoComponent,
     CadastrarGestorContratoComponent,
-    GerenciarCargosTerceirizadosComponent
+    GerenciarCargosTerceirizadosComponent,
+    CadastroAjusteFormComponent
   ],
   imports: [
     BrowserModule,
