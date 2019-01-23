@@ -31,8 +31,8 @@
         <td>{{contrato.numeroDoContrato}}</td>
         <td>{{contrato.anoDoContrato}}</td>
         <td>{{contrato.objeto}}</td>
-        <td>{{contrato.dataInicio}}</td>
-        <td>{{contrato.dataFim | datePipe}}</td>
+        <td>{{contrato.dataInicio | date: 'shortDate'}}</td>
+        <td>{{contrato.dataFim | date: 'shortDate'}}</td>
         <td>{{contrato.seAtivo}}</td>
       </tr>
     </tbody>

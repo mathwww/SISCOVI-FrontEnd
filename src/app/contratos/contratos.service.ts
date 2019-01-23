@@ -3,6 +3,7 @@ import {ConfigService} from '../_shared/config.service';
 import {Http, Headers} from '@angular/http';
 import {Contrato} from './contrato';
 import {FormularioCadastroContrato} from './cadastro-contrato/formulario.cadastro.contrato';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class ContratosService {
@@ -91,8 +92,8 @@ export class ContratosService {
         return this.http.get(url).map(res => res.json());
     }
 
-    getContratoCompletoUsuario(value: number) {
+    getContratoCompletoUsuario(value: number): Observable<Contrato> {
         const url = this.config.myApi + '/contrato/getContratoCompleto/' + this.config.user.username + '/' + value;
-        return this.http.get(url).map(res => res.json());
+        return this.http.get(url).map(res => res.json() as Contrato);
     }
 }

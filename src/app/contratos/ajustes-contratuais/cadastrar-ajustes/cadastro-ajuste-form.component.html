@@ -1,4 +1,4 @@
-<div class="row" >
+<div class="row" *ngIf="contrato">
     <form [formGroup]="myForm"  materialize class="col s12">
         <h5 class="left-align">Informações Gerais</h5>
         <div class="row">
@@ -31,14 +31,14 @@
             <div class="input-field col s4">
                 <select materialize="material_select" id="nome_substituto_1" [materializeSelectOptions]="usuarios" formControlName="primeiroSubstituto">
                     <option disabled>Opcional</option>
-                    <option *ngFor="let usuario of usuarios" [value]="usuario.nome">{{usuario.nome}}</option>
+                    <option *ngFor="let usuario of usuarios" [value]="usuario.nome" [selected]="usuario.nome == primeiroSubstituto">{{usuario.nome}}</option>
                 </select>
                 <label for="nome_substituto_1">Primeiro Substituto</label>
             </div>
             <div class="input-field col s4">
-                <select materialize="material_select" id="nome_substituto_2" class="validate" [materializeSelectOptions]="usuarios" formControlName="segundoSubstituto">
+                <select materialize="material_select" id="nome_substituto_2" class="validate" [materializeSelectOptions]="usuarios"  formControlName="segundoSubstituto">
                     <option disabled>Opcional</option>
-                    <option *ngFor="let usuario of usuarios" [value]="usuario.nome">{{usuario.nome}}</option>
+                    <option *ngFor="let usuario of usuarios" [value]="usuario.nome" [selected]="usuario.nome == segundoSubstituto">{{usuario.nome}}</option>
                 </select>
                 <label for="nome_substituto_2">Segundo Substituto</label>
             </div>
@@ -79,7 +79,7 @@
         </div>
         <div class="row">
             <div class="input-field col s12">
-                <textarea disabled materialize id="objeto" data-length="200" formControlName="objeto" class="materialize-textarea" disabled></textarea>
+                <textarea  materialize id="objeto" data-length="200" formControlName="objeto" class="materialize-textarea" disabled></textarea>
                 <label for="objeto">Objeto</label>
             </div>
         </div>
@@ -94,7 +94,8 @@
             <div class="input-field col s4">
                 <select id="percentual_ferias" materialize="material_select" formControlName="percentualFerias"  [materializeSelectOptions]="percentuaisFerias">
                     <option disabled>Selecione um percentual para Férias</option>
-                    <option *ngFor="let percentual of percentuaisFerias" [value]="percentual.percentual" [selected]="percentual.percentual == percentualFerias">{{percentual.percentual}}%</option>
+                    <option *ngFor="let percentual of percentuaisFerias" [value]="percentual.percentual"
+                            [selected]="percentual.percentual == percentualFerias">{{percentual.percentual / 100 | percent}}</option>
                 </select>
                 <label for="percentual_ferias">Percentual de Férias</label>
             </div>
@@ -102,13 +103,14 @@
                 <select id="percentual_decimo_terceiro" materialize="material_select" formControlName="percentualDecimoTerceiro" [materializeSelectOptions]="percentuaisDecimoTerceiro">
                     <option disabled>Selecione um percentual para Décimo Terceiro</option>
                     <option *ngFor="let percentual of percentuaisDecimoTerceiro" [value]="percentual.percentual"
-                            [selected]="percentual.percentual == percentualDecimoTerceiro">{{percentual.percentual}}%</option>
+                            [selected]="percentual.percentual == percentualDecimoTerceiro">{{percentual.percentual / 100 | percent}}</option>
                 </select>
                 <label for="percentual_decimo_terceiro">Percentual de Décimo Terceiro</label>
             </div>
             <div class="input-field col s3">
-                <input id="percentual_incidencia" class="validate" appMaskPercentual type="text" formControlName="percentualIncidencia">
-                <label for="percentual_incidencia">Percentual de Incidência</label>
+                <input id="percentual_incidencia" class="validate" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',', allowNegative: 'false', suffix: '%'}"
+                       type="text" formControlName="percentualIncidencia">
+                <label for="percentual_incidencia">Percentual de Incidência do Submódulo 4.1</label>
             </div>
         </div>
         <h5 class="left-align">Cargos do Contrato</h5>
@@ -126,7 +128,7 @@
                         </div>
                     </div>
                     <div class="input-field col l3 form-group">
-                        <select formControlName="nome" materialize="material_select" class="cargos validate"  [ngModel]="cargosCadastrados" >
+                        <select formControlName="nome" materialize="material_select" class="cargos validate"  [materializeSelectOptions]="cargosCadastrados" >
                             <option disabled>Selecione um cargo</option>
                             <option *ngFor="let cargoCadastrado of cargosCadastrados" [value]="cargoCadastrado.nome">{{cargoCadastrado.nome}}</option>
                         </select>
@@ -134,7 +136,7 @@
                     </div>
                     <div class="input-field col form-group">
                         <input id="remuneracao_field" formControlName="remuneracao" type="text" currencyMask [options]="{prefix: 'R$', thousands: '.', decimal: ',', allowNegative: 'false'}" required>
-                        <label for="remuneracao_field">Remuneração<span class="mensagem-erro">*</span></label>
+                        <label for="remuneracao_field">Salário Base<span class="mensagem-erro">*</span></label>
                     </div>
                     <div class="input-field col form-group">
                         <input id="trienios_field" formControlName="trienios" type="text" currencyMask [options]="{prefix: 'R$', thousands: '.', decimal: ',', allowNegative: 'false'}" required>

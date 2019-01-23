@@ -9,8 +9,9 @@
     </div>
 </div>
 <div class="container" >
-    <app-cadastro-ajuste-form-component *ngIf="field" [contrato]="contrato" [nomeGestorContrato]="nomeGestorContrato" [percentuaisDecimoTerceiro]="percentualDecimoTerceiro"
-                                        [percentuaisFerias]="percentuaisFerias" [cargosCadastrados]="cargosCadastrados" [convencoesColetivas]="convencoesColetivas" [usuarios]="usuarios"
+    <app-cadastro-ajuste-form-component *ngIf="field" [codigo]="cod" (ngModelChange)="cod = $event" [nomeGestorContrato]="nomeGestorContrato" [percentuaisDecimoTerceiro]="percentuaisDecimoTerceiro"
+                                        [percentuaisFerias]="percentuaisFerias" [cargosCadastrados]="cargosCadastrados" [convencoesColetivas]="convencoesColetivas"
+                                        [usuarios]="usuarios">
 
-    ></app-cadastro-ajuste-form-component>
+    </app-cadastro-ajuste-form-component>
 </div>

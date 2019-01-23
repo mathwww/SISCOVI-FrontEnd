@@ -1,29 +1,44 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {Contrato} from '../../contrato';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Percentual} from '../../../percentuais/percentual';
 import {Usuario} from '../../../usuarios/usuario';
 import {Convencao} from '../../../convencoes-coletivas/convencao';
 import {Cargo} from '../../../cargos/cargo';
+import {ContratosService} from '../../contratos.service';
 
 @Component({
     selector: 'app-cadastro-ajuste-form-component',
-    templateUrl: './cadastro-ajuste-form.component.html'
+    templateUrl: './cadastro-ajuste-form.component.html',
+    styleUrls: ['./cadastrar-ajustes.component.scss']
 })
 export class CadastroAjusteFormComponent implements OnInit {
-    @Input() contrato: Contrato;
+    contrato: Contrato;
     @Input() nomeGestorContrato: string;
     @Input() usuarios: Usuario[];
     @Input() convencoesColetivas: Convencao[];
     @Input() cargosCadastrados: Cargo[];
     @Input() percentuaisFerias: Percentual[];
     @Input() percentuaisDecimoTerceiro: Percentual[];
+    @Input() codigo: number;
     myForm: FormGroup;
     percentualFerias: number;
     percentualDecimoTerceiro: number;
     percentualIncidencia: number;
-    constructor(private fb: FormBuilder) {}
+    primeiroSubstituto: string;
+    segundoSubstituto: string;
+    constructor(private fb: FormBuilder, private ref: ChangeDetectorRef, private contrService: ContratosService) {}
     ngOnInit() {
+        this.contrService.getContratoCompletoUsuario(this.codigo).subscribe(res => {
+                this.contrato = res;
+            },
+            error => {
+                console.log(error);
+            },
+            () => {
+                this.startView();
+            }
+        );
         this.initForm();
     }
     getFormArrayItems() {
@@ -55,7 +70,7 @@ export class CadastroAjusteFormComponent implements OnInit {
             ativo: new FormControl('', [Validators.required]),
             objeto: new FormControl('', [Validators.required])
         });
-        this.startView();
+        this.initCargos();
     }
     adicionaCargo(): void {
         const control = <FormArray>this.myForm.controls.cargos;
@@ -78,38 +93,61 @@ export class CadastroAjusteFormComponent implements OnInit {
         });
     }
     startView() {
-        // this.adicionaCargo();
-        /* this.cargoService.getAllCargos().subscribe(resposta => {
-            this.cargosCadastrados = resposta;
-            this.initCargos();
-        }); */
-        console.log(this.contrato);
-        this.myForm.controls.numeroContrato.setValue(this.contrato.numeroDoContrato);
-        this.myForm.controls.nomeEmpresa.setValue(this.contrato.nomeDaEmpresa);
-        this.myForm.controls.cnpj.setValue(this.contrato.cnpj);
-        this.myForm.controls.objeto.setValue(this.contrato.objeto);
-        this.initCargos(); // deixar assim por enquanto
-        if (this.contrato.seAtivo === 'S' || this.contrato.seAtivo === 'SIM') {
-            this.myForm.controls.ativo.setValue('Sim');
-        } else {
-            this.myForm.controls.ativo.setValue('Não');
-        }
-        this.myForm.controls.objeto.setValue(this.contrato.objeto);
-        this.myForm.controls.gestor.setValue(this.nomeGestorContrato);
-        for (let i = 0; i < this.contrato.percentuais.length; i++) {
-            const percentual: Percentual = this.contrato.percentuais[i];
-            if (percentual.nome.includes('Férias')) {
-                this.percentualFerias = percentual.percentual;
-                this.myForm.controls.percentualFerias.setValue(percentual.percentual);
+        if (this.contrato) {
+            this.myForm.controls.numeroContrato.setValue(this.contrato.numeroDoContrato);
+            this.myForm.controls.nomeEmpresa.setValue(this.contrato.nomeDaEmpresa);
+            this.myForm.controls.cnpj.setValue(this.contrato.cnpj);
+            this.myForm.controls.objeto.setValue(this.contrato.objeto);
+            if (this.contrato.seAtivo === 'S' || this.contrato.seAtivo === 'SIM') {
+                this.myForm.controls.ativo.setValue('Sim');
+            } else {
+                this.myForm.controls.ativo.setValue('Não');
             }
-            if (percentual.nome.includes('Décimo terceiro')) {
-                this.percentualDecimoTerceiro = percentual.percentual;
-                this.myForm.controls.percentualDecimoTerceiro.setValue(percentual.percentual);
+            this.myForm.controls.objeto.setValue(this.contrato.objeto);
+            this.myForm.controls.gestor.setValue(this.nomeGestorContrato);
+            if (this.contrato.percentuais) {
+                for (let i = 0; i < this.contrato.percentuais.length; i++) {
+                    const percentual: Percentual = this.contrato.percentuais[i];
+                    if (percentual.nome.includes('Férias')) {
+                        this.percentualFerias = percentual.percentual;
+                        this.myForm.controls.percentualFerias.setValue(percentual.percentual);
+                    }
+                    if (percentual.nome.includes('Décimo terceiro')) {
+                        this.percentualDecimoTerceiro = percentual.percentual;
+                        this.myForm.controls.percentualDecimoTerceiro.setValue(percentual.percentual);
+                    }
+                    if (percentual.nome.includes('Incidência')) {
+                        this.percentualIncidencia = percentual.percentual;
+                        this.myForm.controls.percentualIncidencia.setValue(percentual.percentual);
+                    }
+                }
             }
-            if (percentual.nome.includes('Incidência')) {
-                this.percentualIncidencia = percentual.percentual;
-                this.myForm.controls.percentualIncidencia.setValue(percentual.percentual);
+            if (this.contrato.historicoGestao.length > 1) {
+               if (this.contrato.historicoGestao[1]) {
+                    this.primeiroSubstituto = this.contrato.historicoGestao[1].gestor;
+                    this.myForm.controls.primeiroSubstituto.setValue(this.primeiroSubstituto);
+               }
+               if (this.contrato.historicoGestao[2]) {
+                  this.segundoSubstituto = this.contrato.historicoGestao[2].gestor;
+                   this.myForm.controls.segundoSubstituto.setValue(this.segundoSubstituto);
+               }
             }
+            this.contrato.funcoes.forEach(funcao => {
+                const control = <FormArray>this.myForm.controls.cargos;
+                const addCtrl = this.initCargos();
+                addCtrl.controls.nome.setValue(funcao.nome);
+                    addCtrl.controls.remuneracao.setValue(funcao.remuneracao);
+                    addCtrl.controls.descricao.setValue(funcao.descricao);
+                    addCtrl.controls.trienios.setValue(funcao.trienios);
+                    addCtrl.controls.adicionais.setValue(funcao.adicionais);
+                    if (funcao.convencao) {
+                        addCtrl.controls.convencao.setValue(funcao.convencao.codigo);
+                    }
+                control.push(addCtrl);
+            });
+            this.myForm.updateValueAndValidity();
+            this.ref.markForCheck();
+            this.ref.detectChanges();
         }
     }
 }

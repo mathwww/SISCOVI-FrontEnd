@@ -10,6 +10,7 @@ import {PercentualService} from '../../../percentuais/percentual.service';
 import {Percentual} from '../../../percentuais/percentual';
 import {Convencao} from '../../../convencoes-coletivas/convencao';
 import {ConvencaoService} from '../../../convencoes-coletivas/convencao.service';
+import {CargoService} from "../../../cargos/cargo.service";
 
 @Component({
     selector: 'app-cadastrar-ajustes',
@@ -23,8 +24,6 @@ export class CadastrarAjustesComponent {
     cargosCadastrados: Cargo[];
     myForm: FormGroup;
     nomeGestorContrato: string;
-    primeiroSubstituto: string;
-    segundoSubstituto: string;
     percentualDecimoTerceiro: number;
     percentualFerias: number;
     percentualIncidencia: number;
@@ -32,9 +31,9 @@ export class CadastrarAjustesComponent {
     percentuaisDecimoTerceiro: Percentual[] = [];
     convencoesColetivas: Convencao[] = [];
     contrato: Contrato;
-    percentuais: Percentual[] = [];
+    cod: number;
     constructor(private contratoService: ContratosService, private userService: UserService, private config: ConfigService, private  fb: FormBuilder, private percentService: PercentualService,
-                private convService: ConvencaoService, private ref: ChangeDetectorRef) {
+                private convService: ConvencaoService, private ref: ChangeDetectorRef, private cargoService: CargoService) {
         this.percentService.getPercentuaisFerias().subscribe(res => {
             if (!res.error) {
                this.percentuaisFerias = res;
@@ -59,22 +58,22 @@ export class CadastrarAjustesComponent {
                 this.usuarios = res3;
             });
         }
+
+        this.cargoService.getAllCargos().subscribe(res => {
+            this.cargosCadastrados = res;
+        }, error2 => {
+            console.log(error2);
+        });
     }
     enableField(codigo: number) {
         this.field = false;
-        this.contratoService.getContratoCompletoUsuario(codigo).subscribe(res => {
-            this.contrato = res;
-            this.field = true;
-        }, error => {
-            console.log(error);
-        });
+        this.cod = codigo;
         this.contratoService.getNomeDoGestor(codigo).subscribe(res => {
             if ( res === 'Este contrato não existe !') {
-
             } else {
                 this.nomeGestorContrato = res;
+                this.field = true;
             }
         });
-        this.field = true;
     }
 }
