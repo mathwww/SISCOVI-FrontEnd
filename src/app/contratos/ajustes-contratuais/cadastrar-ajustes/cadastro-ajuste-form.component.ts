@@ -88,8 +88,8 @@ export class CadastroAjusteFormComponent implements OnInit {
             descricao: new FormControl(''),
             trienios: new FormControl(''),
             adicionais: new FormControl(''),
-            convencao: new FormControl('')
-            // mes: new FormControl('', [Validators.required])
+            convencao: new FormControl(''),
+            dataBase: new FormControl('')
         });
     }
     startView() {
@@ -136,13 +136,15 @@ export class CadastroAjusteFormComponent implements OnInit {
                 const control = <FormArray>this.myForm.controls.cargos;
                 const addCtrl = this.initCargos();
                 addCtrl.controls.nome.setValue(funcao.nome);
-                    addCtrl.controls.remuneracao.setValue(funcao.remuneracao);
-                    addCtrl.controls.descricao.setValue(funcao.descricao);
-                    addCtrl.controls.trienios.setValue(funcao.trienios);
-                    addCtrl.controls.adicionais.setValue(funcao.adicionais);
-                    if (funcao.convencao) {
-                        addCtrl.controls.convencao.setValue(funcao.convencao.codigo);
-                    }
+                addCtrl.controls.nome.disable();
+                addCtrl.controls.remuneracao.setValue(funcao.remuneracao);
+                addCtrl.controls.descricao.setValue(funcao.descricao);
+                addCtrl.controls.trienios.setValue(funcao.trienios);
+                addCtrl.controls.adicionais.setValue(funcao.adicionais);
+                if (funcao.convencao) {
+                    addCtrl.controls.convencao.setValue(funcao.convencao.codigo);
+                    addCtrl.controls.dataBase.setValue(funcao.convencao.dataBase);
+                }
                 control.push(addCtrl);
             });
             this.myForm.updateValueAndValidity();

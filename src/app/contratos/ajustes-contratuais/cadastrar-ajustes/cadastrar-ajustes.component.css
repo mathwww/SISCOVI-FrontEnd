@@ -59,4 +59,40 @@ textarea[type="text"][disabled] {
   text-decoration: solid;
   font-weight: bold; }
 
+div .col .offset-l11 {
+  margin-top: 0 !important;
+  margin-left: 85vh; }
+
+h6 {
+  margin-top: 0 !important; }
+
+.titulo-modal {
+  margin-left: 0.5em;
+  min-width: 5em; }
+
+.mensagem-erro {
+  color: red;
+  font-size: 1em; }
+
+.validate.ng-dirty.ng-invalid {
+  border-bottom: 1px solid red;
+  box-shadow: 0 1px 0 0 red; }
+
+.input-field input[type=text].invalid {
+  border-bottom: 1px solid red;
+  box-shadow: 0 1px 0 0 red; }
+
+.input-field input[type=text].valid.ng-invalid {
+  border-bottom: 1px solid red;
+  box-shadow: 0 1px 0 0 red; }
+
+/* icon prefix focus color */
+.input-field .prefix.active {
+  color: red; }
+
+select[disabled] {
+  color: black !important;
+  text-decoration: solid !important;
+  font-weight: bold !important; }
+
 /*# sourceMappingURL=cadastrar-ajustes.component.css.map */

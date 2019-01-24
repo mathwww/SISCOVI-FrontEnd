@@ -113,21 +113,23 @@
                 <label for="percentual_incidencia">Percentual de Incidência do Submódulo 4.1</label>
             </div>
         </div>
-        <h5 class="left-align">Cargos do Contrato</h5>
+        <h5 class="left-align">Funções do Contrato</h5>
         <div formArrayName="cargos" class="row">
             <div *ngFor="let cargo of getFormArrayItems(); let i = index">
                 <div [formGroupName]="i">
                     <div class="row">
-                        <div class="col l12 panel-content darken-1">
-                            <div class=" row titulo-modal">
-                                <p class="white-text ">Cargo {{i + 1}}</p>
-                            </div>
-                            <div class=" valign-wrapper col offset-l11">
-                                <h6 class="botao-fechar" (click)="removeCargo(i)" *ngIf="formArrayLength() > 1"><a class="black-text"><i class="material-icons">close</i></a></h6>
+                        <div class="col s12 panel-content darken-1">
+                            <div class="valign-wrapper">
+                                <div class="titulo-modal">
+                                    <p class="white-text ">Função {{i + 1}}</p>
+                                </div>
+                                <div class=" col offset-l11">
+                                    <h6 class="botao-fechar" (click)="removeCargo(i)" *ngIf="formArrayLength() > 1"><a class="white-text"><i class="material-icons right">close</i></a></h6>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="input-field col l3 form-group">
+                    <div class="input-field col s5 form-group">
                         <select formControlName="nome" materialize="material_select" class="cargos validate"  [materializeSelectOptions]="cargosCadastrados" >
                             <option disabled>Selecione um cargo</option>
                             <option *ngFor="let cargoCadastrado of cargosCadastrados" [value]="cargoCadastrado.nome">{{cargoCadastrado.nome}}</option>
@@ -146,13 +148,18 @@
                         <input id="adicionais_field" formControlName="adicionais" type="text" currencyMask [options]="{prefix: 'R$', thousands: '.', decimal: ',', allowNegative: 'false'}" required>
                         <label for="adicionais_field">Adicionais<span class="mensagem-erro">*</span></label>
                     </div>
+                    <div class="input-field col form-group">
+                        <input class="validate" placeholder="Ex.:01/01/2000" id="data-base" formControlName="dataBase" type="text" appMaskDate required>
+                        <label for="data-base">Data Base<span class="mensagem-erro">*</span></label>
+                    </div>
                     <div class="col s12">
                         <div class="row">
                             <div class="input-field col s8 form-group">
                                 <select [materializeSelectOptions]="convencoesColetivas" formControlName="convencao" materialize="material_select" class="cargos validate"
                                         [ngModel]="cargosCadastrados">
                                     <option disabled>Selecione uma convenção</option>
-                                    <option *ngFor="let convencao of convencoesColetivas" [value]="convencao.codigo">{{convencao.nome}} - {{convencao.sigla}}</option>
+                                    <option *ngFor="let convencao of convencoesColetivas" [value]="convencao.codigo" [selected]="convencao.codigo == this.myForm.get('cargos').get('' + i).get('convencao').value"
+                                    >{{convencao.nome}} - {{convencao.sigla}}</option>
                                 </select>
                                 <label>Convenção Coletiva<span class="mensagem-erro">*</span></label>
                             </div>

@@ -34,9 +34,9 @@ div .mes {
 .row .col {
   margin-top: 0.5em !important; }
 
-form p {
-  margin-top: 0 !important; }
-
+/*form p {
+  margin-top: 0 !important;
+}
 .panel-content {
   width: 80rem;
   height: 2em;
@@ -47,14 +47,8 @@ form p {
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
   -webkit-perspective: -15em;
   -webkit-transform-style: preserve-3d;
-  background-color: #404f54; }
-
-select > .cargos {
-  max-height: 0.5em !important; }
-
-p .white-text {
-  padding-bottom: 0.5em; }
-
+  background-color: rgb(64,79,84);
+}*/
 div > .valign-wrapper > .col > .offset-l11 {
   margin-top: 0 !important; }
 
