@@ -100,3 +100,8 @@ input .select-dropdown{
   text-decoration: solid !important;
   font-weight: bold !important;
 }
+input[type="text"][disabled] {
+  color: black !important;
+  text-decoration: solid !important;
+  font-weight: bold !important;
+}
