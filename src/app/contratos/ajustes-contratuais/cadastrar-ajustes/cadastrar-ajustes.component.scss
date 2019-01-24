@@ -90,7 +90,12 @@ h6{
 .input-field .prefix.active {
   color: red;
 }
-select[disabled]{
+input .select-dropdown{
+  color: black !important;
+  text-decoration: solid !important;
+  font-weight: bold !important;
+}
+.select-dropdown{
   color: black !important;
   text-decoration: solid !important;
   font-weight: bold !important;

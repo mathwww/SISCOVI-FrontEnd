@@ -22,5 +22,7 @@ export class TerceirizadoDecimoTerceiro {
     public setNomeTerceirizado(nomeTerceirizado: string) {
         this.nomeTerceirizado = nomeTerceirizado;
     }
-
+    public setValoresDecimoTerceiro(valores: ValorDecimoTerceiro) {
+        this.valoresDecimoTerceiro = valores;
+    }
 }

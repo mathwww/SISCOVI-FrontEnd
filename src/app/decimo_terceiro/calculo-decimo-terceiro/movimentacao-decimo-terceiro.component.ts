@@ -1,12 +1,10 @@
-import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {FeriasCalcular} from '../../ferias/ferias-calcular';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {TerceirizadoDecimoTerceiro} from '../terceirizado-decimo-terceiro';
 import {MaterializeAction} from 'angular2-materialize';
 import {DecimoTerceiroService} from '../decimo-terceiro.service';
-import {Observable} from 'rxjs/Observable';
-import {map} from 'rxjs/operators';
 import 'rxjs/add/observable/of';
+import {ValorDecimoTerceiro} from '../valor-decimo-terceiro';
 
 @Component({
     selector: 'app-movimentacao-decimo-terceiro-component',
@@ -131,6 +129,9 @@ export class MovimentacaoDecimoTerceiroComponent implements  OnInit {
                         }
                     }
                     objeto.setNomeTerceirizado(this.terceirizados[i].nomeTerceirizado);
+                    const valor = new ValorDecimoTerceiro();
+                    valor.valorDecimoTerceiro = this.terceirizados[i].valorDisponivel;
+                    objeto.setValoresDecimoTerceiro(valor);
                     if (index === -1) {
                         this.calculosDecimoTerceiro.push(objeto);
                     } else {
@@ -153,9 +154,13 @@ export class MovimentacaoDecimoTerceiroComponent implements  OnInit {
         }
         if ((this.calculosDecimoTerceiro.length > 0) && aux) {
             this.diasConcedidos = [];
-            for (let i = 0; i < this.calculosDecimoTerceiro.length; i++) {
-
-            }
+            this.decimoTerceiroService.calculaDecimoTerceiroTerceirizados(this.calculosDecimoTerceiro).subscribe(res => {
+                if (!res.error) {
+                    this.calculosDecimoTerceiro = res;
+                    this.openModal3();
+                    this.vmsm = true;
+                }
+            });
             this.openModal3();
         }
     }
