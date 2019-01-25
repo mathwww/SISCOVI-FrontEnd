@@ -5,6 +5,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MaterializeAction} from 'angular2-materialize';
 import {TotalMensalService} from '../total-mensal.service';
 import {TotalMensal} from '../totalMensal';
+import {Mes} from './mes';
 
 @Component({
   templateUrl: './total-mensal-calculo.component.html',
@@ -13,20 +14,7 @@ import {TotalMensal} from '../totalMensal';
 })
 export class TotalMensalCalculoComponent {
   contratos: Contrato[] = [];
-  meses = [
-      {valor: 1, mes: 'Janeiro'},
-      {valor: 2, mes: 'Fevereiro'},
-      {valor: 3, mes: 'Março'},
-      {valor: 4, mes: 'Abril'},
-      {valor: 5, mes: 'Maio'},
-      {valor: 6, mes: 'Junho'},
-      {valor: 7, mes: 'Julho'},
-      {valor: 8, mes: 'Agosto'},
-      {valor: 9, mes: 'Setembro'},
-      {valor: 10, mes: 'Outubro'},
-      {valor: 11, mes: 'Novembro'},
-      {valor: 12, mes: 'Dezembro'}
-    ];
+  meses: Mes[];
   years: number[] = [];
   currentYear = new Date().getFullYear();
   anoDoContratoMaisAntigo: number;
