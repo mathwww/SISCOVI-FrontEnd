@@ -15,6 +15,7 @@ export class AjusteContratoComponent {
     render = false;
     eventos: EventoContratual[] = [];
     valid = false;
+    validForm = false;
     constructor(private contratosService: ContratosService) {
         this.contratosService.getContratosDoUsuario().subscribe(res => {
             this.contratos = res;
@@ -33,5 +34,8 @@ export class AjusteContratoComponent {
     closeModal() {
         this.render = false;
         this.modalActions.emit({action: 'modal', params: ['close']});
+    }
+    cadastrarAjuste(value) {
+      console.log(value);
     }
 }

@@ -1,7 +1,7 @@
-import { BrowserModule } from '@angular/platform-browser';
+import {BrowserModule} from '@angular/platform-browser';
 import {LOCALE_ID, NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
 import {HttpModule} from '@angular/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterializeModule} from 'angular2-materialize';
@@ -45,7 +45,7 @@ import {CargosDosFuncionariosComponent} from './cargos/cargos-dos-funcionarios/c
 import {CadastroContratoComponent} from './contratos/cadastro-contrato/cadastro.contrato.component';
 import {CadastroUsuarioComponent} from './usuarios/cadastro-usuario/cadastro-usuario.component';
 import {CadastroUsuarioService} from './usuarios/cadastro-usuario/cadastro-usuario.service';
-import { CurrencyMaskModule } from 'ng2-currency-mask';
+import {CurrencyMaskModule} from 'ng2-currency-mask';
 import {CadastroPercentuaisComponent} from './percentuais/cadastro-percentuais/cadastro-percentuais.component';
 import {MaskPercentageDirective} from './_shared/mask-percentage.directive';
 import {CadastrarRubricaComponent} from './rubricas/cadastrar-rubrica/cadastrar-rubrica.component';
@@ -94,7 +94,6 @@ import {RescisaoPendenteComponent} from './rescisao/rescisoes-pendentes/rescisao
 import {CadastrarTerceirizadoComponent} from './funcionarios/cadastrar-terceirizado/cadastrar-terceirizado.component';
 import {CadastrarGestorContratoComponent} from './historico/cadastrar-gestor/cadastrar-gestor-contrato.component';
 import {GerenciarCargosTerceirizadosComponent} from './cargos/gerenciar-cargos-terceirizados/gerenciar-cargos-terceirizados.component';
-import {CadastroAjusteFormComponent} from './contratos/ajustes-contratuais/cadastrar-ajustes/cadastro-ajuste-form.component';
 import {SaldoTotalComponent} from './saldo/total/saldo-total.component';
 import {SaldoService} from './saldo/saldo.service';
 import {SaldoIndividualComponent} from './saldo/individual/saldo-individual-component';
@@ -171,7 +170,6 @@ import {SaldoIndividualComponent} from './saldo/individual/saldo-individual-comp
     CadastrarTerceirizadoComponent,
     CadastrarGestorContratoComponent,
     GerenciarCargosTerceirizadosComponent,
-    CadastroAjusteFormComponent,
     SaldoTotalComponent,
     SaldoIndividualComponent,
   ],
