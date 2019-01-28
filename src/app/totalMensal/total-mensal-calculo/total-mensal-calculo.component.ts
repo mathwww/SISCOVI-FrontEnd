@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ContratosService} from '../../contratos/contratos.service';
 import {Contrato} from '../../contratos/contrato';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -12,7 +12,7 @@ import {Mes} from './mes';
   selector: 'app-total-mensal-calculo',
   styleUrls: ['./total-mensal-calculo.component.scss']
 })
-export class TotalMensalCalculoComponent {
+export class TotalMensalCalculoComponent implements OnInit {
   contratos: Contrato[] = [];
   meses: Mes[];
   years: number[] = [];
@@ -28,6 +28,7 @@ export class TotalMensalCalculoComponent {
   tmService: TotalMensalService;
   resultado: TotalMensal[];
   @Output() close = new EventEmitter();
+    private anoSelecionado: number;
   constructor(contServ: ContratosService, fb: FormBuilder, tmService: TotalMensalService) {
       this.tmService = tmService;
       this.fb = fb;
@@ -46,21 +47,27 @@ export class TotalMensalCalculoComponent {
       this.anoDoContratoMaisRecente = this.getAnoDoContratoMaisRecente(this.contratos);
       this.years = this.preencheListaDeAnos(this.anoDoContratoMaisAntigo, this.anoDoContratoMaisRecente);
     }
-      this.myForm = this.fb.group({
-          contrato: new FormControl(this.codigoContrato, [Validators.required]),
-          mes: new FormControl(this.currentMonth, [Validators.required]),
-          ano: new FormControl(this.currentYear, [Validators.required])
-      });
     // this.normalizaDataFim();
   }
+  ngOnInit() {
+      this.myForm = this.fb.group({
+          contrato: new FormControl(this.codigoContrato, [Validators.required]),
+          mes: new FormControl('', [Validators.required]),
+          ano: new FormControl(this.currentYear, [Validators.required])
+      });
+  }
   getAnoDoContratoMaisAntigo(contratos: Contrato[]): number {
-    let anoDoCMA: number;
+    let anoDoCMA: number = contratos[0].anoDoContrato;
     if (contratos.length > 1) {
       for (let i = 1; i < contratos.length; i++) {
         if (contratos[i].anoDoContrato < contratos[i - 1].anoDoContrato) {
-          anoDoCMA = contratos[i].anoDoContrato;
+            if (contratos[i].anoDoContrato < anoDoCMA) {
+                anoDoCMA = contratos[i].anoDoContrato;
+            }
         } else {
-          anoDoCMA = contratos[i - 1].anoDoContrato;
+            if (contratos[i - 1].anoDoContrato < anoDoCMA) {
+                anoDoCMA = contratos[i - 1].anoDoContrato;
+            }
         }
       }
     } else {
@@ -105,22 +112,40 @@ export class TotalMensalCalculoComponent {
     years.sort((a, b) => (a - b));
     return years;
   }
-  onChange(value): void {
+  onChange(value: number): void {
     this.codigoContrato = value;
      if (value) {
        this.validate = false;
      }
+     if (this.codigoContrato && this.anoSelecionado) {
+         this.tmService.getMesesCalculoValidos(value, this.codigoContrato).subscribe(res => {
+             this.meses = res;
+         });
+     }
+  }
+  otherChange(value: number): void {
+      this.anoSelecionado = value;
+      if (value && this.codigoContrato) {
+         this.tmService.getMesesCalculoValidos(value, this.codigoContrato).subscribe(res => {
+             this.meses = res;
+         });
+      }
   }
   calculoTotalMensal() {
-      this.tmService.calcularTotalMensal(this.myForm.get('contrato').value, this.myForm.get('mes').value, this.myForm.get('ano').value).subscribe(res => {
-          if (!res.error) {
-              this.resultado = res;
-              this.openModal();
-          } else {
-              this.myForm.setErrors({'mensagem': res.error});
-          }
+      if (this.myForm.valid) {
+          this.tmService.calcularTotalMensal(this.myForm.get('contrato').value, this.myForm.get('mes').value, this.myForm.get('ano').value).subscribe(res => {
+              if (!res.error) {
+                  this.resultado = res;
+                  this.openModal();
+              } else {
+                  this.myForm.setErrors({'mensagem': res.error});
+              }
 
-      });
+          });
+      }else {
+          this.myForm.get('mes').updateValueAndValidity();
+          this.myForm.get('mes').markAsTouched();
+      }
   }
   openModal() {
       this.modalActions.emit({action: 'modal', params: ['open']});

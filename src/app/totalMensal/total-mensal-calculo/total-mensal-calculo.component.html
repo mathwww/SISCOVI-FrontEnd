@@ -14,19 +14,33 @@
           </div>
         </div>
         <div class="row">
+            <div class="input-field col l2  center-align">
+                <select class="center center-align centered" name="ano" id="select-year" materialize="material_select" formControlName="ano" [materializeSelectOptions]="years"
+                        required (change)="otherChange($event.target.value)">
+                    <option *ngFor="let year of years" class="center-align center" [value]="year" [selected]="year === currentYear">{{year}}</option>
+                </select>
+                <label style="font-size: 0.85vw">Selecione um ano</label>
+            </div>
+        </div>
+        <div class="row">
           <div class="input-field col l4 center-align">
-            <select name="mes" materialize="material_select" formControlName="mes" required>
+            <select name="mes" materialize="material_select" formControlName="mes" required [materializeSelectOptions]="meses">
               <option *ngFor="let mes of meses" [value]="mes.valor" [selected]="mes.valor === currentMonth">{{ mes.mes }}</option>
             </select>
             <label style="font-size: 0.85vw">Selecione um mês</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col l2  center-align">
-            <select class="center center-align centered" name="ano" id="select-year" materialize="material_select" formControlName="ano" [materializeSelectOptions]="years" required>
-              <option *ngFor="let year of years" class="center-align center" [value]="year" [selected]="year === currentYear">{{year}}</option>
-            </select>
-            <label style="font-size: 0.85vw">Selecione um ano</label>
+              <div *ngIf="myForm.get('mes').invalid &&
+                                        (myForm.get('mes').dirty ||
+                                        myForm.get('mes').touched)">
+                  <div *ngIf="myForm.getError('mensagem') &&
+                                          !myForm.get('mes').errors.required">
+                      <div *ngFor="let msg of myForm.get('mes').getError('mensagem')[0]">
+                          <span class="mensagem-erro">{{msg}}</span>
+                      </div>
+                  </div>
+                  <div *ngIf="myForm.get('mes').getError('required')">
+                      <span class="mensagem-erro">Você deve selecionar um mês para o cálculo</span>
+                  </div>
+              </div>
           </div>
         </div>
     </form>

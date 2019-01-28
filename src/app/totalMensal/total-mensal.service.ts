@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {ConfigService} from '../_shared/config.service';
-import {TotalMensalPendente} from "./total-mensal-pendente";
+import {TotalMensalPendente} from './total-mensal-pendente';
 
 @Injectable()
 export class TotalMensalService {
@@ -48,7 +48,7 @@ export class TotalMensalService {
             const totaiMensais = {
                 dataReferencia: item.totaisMensais.dataReferencia,
                 totais: valor
-            }
+            };
             const object1 = {
                 observacoes: JSON.parse(JSON.stringify(item.observacoes)),
                 status: JSON.parse(JSON.stringify(item.status)),
@@ -60,7 +60,7 @@ export class TotalMensalService {
             totalMensalPendenteModels: val,
             codigoContrato: codigoContrato,
             user: this.configService.user
-        }
+        };
         const url = this.configService.myApi + '/total-mensal-a-reter/enviarAvaliacaoCalculosTotalMensal';
         return this.http.post(url, object).map(res => res.json());
     }
@@ -85,7 +85,7 @@ export class TotalMensalService {
             const totaiMensais = {
                 dataReferencia: item.totaisMensais.dataReferencia,
                 totais: valor
-            }
+            };
             const object1 = {
                 observacoes: JSON.parse(JSON.stringify(item.observacoes)),
                 status: JSON.parse(JSON.stringify(item.status)),
@@ -97,8 +97,13 @@ export class TotalMensalService {
             totalMensalPendenteModels: val,
             codigoContrato: codigoContrato,
             user: this.configService.user
-        }
+        };
         const url = this.configService.myApi + '/total-mensal-a-reter/enviarAvaliacaoCalculosExecutadosTotalMensal';
         return this.http.post(url, object).map(res => res.json());
+    }
+
+    getMesesCalculoValidos(ano: number, codigoContrato: number) {
+        const url = this.configService.myApi + '/total-mensal-a-reter/getMesesCalculo/' + ano + '/' + codigoContrato;
+        return this.http.get(url).map(res => res.json());
     }
 }
