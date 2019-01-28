@@ -67,7 +67,7 @@ const routes: Routes = [
       {path: 'historico-gestores', component: HistoricoGestoresComponent, canActivate: [LoggedInGuard]},
       {path: 'historico-gestores/:id', component: CadastrarGestorContratoComponent, canActivate: [LoggedInGuard]},
       {path: 'historico-gestores/cadastro-gestor-contrato', component: CadastrarGestorContratoComponent, canActivate: [LoggedInGuard]},
-      {path: 'funcoes-dos-terceirizados/gerenciar-cargos-terceirizados', component: GerenciarCargosTerceirizadosComponent, canActivate: [LoggedInGuard]},
+      {path: 'funcoes-dos-terceirizados/gerenciar-funcoes-terceirizados', component: GerenciarCargosTerceirizadosComponent, canActivate: [LoggedInGuard]},
       {path: 'contratos/cadastro-contrato', component: CadastroContratoComponent, canActivate: [LoggedInGuard]},
       {path: 'saldo/individual', component: SaldoIndividualComponent, canActivate: [LoggedInGuard]},
       {path: 'saldo/total', component: SaldoTotalComponent, canActivate: [LoggedInGuard]}

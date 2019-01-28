@@ -56,4 +56,9 @@ export class FuncionariosService {
         const url = this.config.myApi + '/funcionarios/getTerceirizadosNaoAlocados';
         return this.http.get(url).map(res => res.json());
     }
+
+  verificaTerceirizadoContrato(cpf: string) {
+    const url = this.config.myApi + 'funcionarios';
+    return this.http.get(url).map(res => res.json());
+  }
 }

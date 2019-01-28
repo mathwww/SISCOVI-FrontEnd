@@ -1,4 +1,4 @@
-<h2 class="center">Gerenciar Cargos</h2>
+<h2 class="center">Gerenciar Funções</h2>
 <div class="container">
     <div class="row">
 
@@ -31,7 +31,9 @@
                     <table class="centered highlight hoverable">
                         <thead>
                             <tr>
-                                <th>Terceirizado</th>
+                                <th>CPF do Terceirizado</th>
+                                <th>Nome do Terceirizado</th>
+                                <th>Ativo</th>
                                 <th>Função</th>
                                 <th>Data de Início</th>
                             </tr>
@@ -39,28 +41,65 @@
                         <tbody>
                             <tr *ngFor="let formulario of gerenciar.controls; let i = index" [formGroupName]="i">
                                 <td>
-                                    <div class="input-field col">
-                                        <select id="terceirizado_nao_alocado" materialize="material_select" [materializeSelectOptions]="terceirizados" formControlName="terceirizado">
-                                            <option disabled>Selecione um Terceirizado</option>
-                                            <option *ngFor="let terceirizado of terceirizados" [value]="terceirizado.codigo">{{terceirizado.nome}} - CPF: {{terceirizado.cpf | cpfPipe}}</option>
-                                        </select>
-                                        <label for="terceirizado_nao_alocado">Terceirizados Não Alocados</label>
+                                    <div class="row">
+                                      <div class="input-field col">
+                                          <input id="cpf_terceirizado_nao_alocado" placeholder="Digite o CPF" type="text" class="validate" formControlName="cpfTerceirizado"
+                                                 appKzMask="999.999.999-99" required autocomplete="off">
+                                          <label for="cpf_terceirizado_nao_alocado">CPF<span class="mensagem-erro">*</span></label>
+                                        <div *ngIf="gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').invalid &&
+                                        (gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').dirty ||
+                                        gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').touched)">
+                                          <div *ngIf="gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').getError('mensagem') &&
+                                          !gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').errors.required">
+                                            <div *ngFor="let msg of gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').getError('mensagem')[0]">
+                                              <span class="mensagem-erro">{{msg}}</span>
+                                            </div>
+                                          </div>
+                                          <div *ngIf="gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').getError('required')">
+                                            <span class="mensagem-erro">Você deve digitar um CPF</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </td>
+                              <td>
+                                <div class="row">
+                                  <div class="input-field col">
+                                    <input materialize id="nome_terceirizado" type="text" class="validate" formControlName="nomeTerceirizado" placeholder="" required>
+                                    <label for="nome_terceirizado">Nome Terceirizado<span class="mensagem-erro">*</span></label>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="row">
+                                  <div class="input-field col">
+                                    <select id="terceirizado_ativo" formControlName="ativo" materialize="material_select" required>
+                                      <option disabled>Selecione uma opção</option>
+                                      <option value="S" selected >Sim</option>
+                                      <option value="N">Não</option>
+                                    </select>
+                                    <label for="terceirizado_ativo">Ativo<span class="mensagem-erro">*</span></label>
+                                  </div>
+                                </div>
+                              </td>
+                                <td>
+                                    <div class="row">
+                                      <div class="input-field col s12">
+                                          <select id="funcoes_contrato" materialize="material_select" [materializeSelectOptions]="funcoes" formControlName="funcao" required>
+                                              <option disabled>Selecione uma Função para o Terceirizado</option>
+                                              <option *ngFor="let funcao of funcoes" [value]="funcao.codigo">{{funcao.nome}}</option>
+                                          </select>
+                                          <label for="funcoes_contrato">Funções do Contrato<span class="mensagem-erro">*</span></label>
+                                      </div>
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="input-field col">
-                                        <select id="funcoes_contrato" materialize="material_select" [materializeSelectOptions]="funcoes" formControlName="funcao">
-                                            <option disabled>Selecione uma Função para o Terceirizado</option>
-                                            <option *ngFor="let funcao of funcoes" [value]="funcao.codigo">{{funcao.nome}}</option>
-                                        </select>
-                                        <label for="funcoes_contrato">Funções do Contrato</label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-field col">
-                                        <input id="data_inicio_funcao" formControlName="dataInicio" class="validate" type="text" appMaskDate required maxlength="10" minlength="10">
-                                        <label for="data_inicio_funcao">Data de Início na Função</label>
-                                    </div>
+                                  <div class="row">
+                                      <div class="input-field col">
+                                          <input id="data_inicio_funcao" formControlName="dataInicio" class="validate" type="text" appMaskDate required maxlength="10" minlength="10">
+                                          <label for="data_inicio_funcao">Data de Início na Função<span class="mensagem-erro">*</span></label>
+                                      </div>
+                                  </div>
                                 </td>
                             </tr>
                         </tbody>

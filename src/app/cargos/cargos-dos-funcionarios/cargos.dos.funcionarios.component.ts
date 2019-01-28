@@ -34,7 +34,7 @@ export class CargosDosFuncionariosComponent {
         });
     }
     goToGerenciarCargos() {
-        this.router.navigate(['./gerenciar-cargos-terceirizados'], {relativeTo: this.route});
+        this.router.navigate(['./gerenciar-funcoes-terceirizados'], {relativeTo: this.route});
     }
     openModal() {
         this.modalActions.emit({action: 'modal', params: ['open']});

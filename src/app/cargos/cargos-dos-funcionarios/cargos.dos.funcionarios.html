@@ -1,7 +1,7 @@
 <div class="container">
   <h2 class="center-align">Funções Dos Terceirizados</h2>
     <div class="row">
-        <button class="btn waves-effect" (click)="goToGerenciarCargos()">Gerenciar Cargo do terceirizado</button>
+        <button class="btn waves-effect" (click)="goToGerenciarCargos()">Gerenciar Função do Terceirizado</button>
     </div>
   <div class="row">
         <div class="input-field col s12 xl4 l5 m12">
@@ -21,7 +21,7 @@
 <div class="container" *ngIf="valid">
     <div class="row" *ngIf="listaCargosFuncionarios.length === 0">
         <div class="col s12 grey lighten-4">
-            <h5 class="center-align">Não há funcionários cadastrados nos cargos ainda <i class="small material-icons">mood_bad</i>. Por favor aloque funcionários nas funções !</h5>
+            <h5 class="center-align">Não há funcionários cadastrados nas funções ainda <i class="small material-icons">mood_bad</i>. Por favor aloque funcionários nas funções !</h5>
         </div>
     </div>
   <ul materialize="collapsible" class="collapsible" data-collapsible="accordion" id="cargos-funcionarios" *ngIf="listaCargosFuncionarios.length > 0">

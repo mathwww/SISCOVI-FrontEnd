@@ -40,6 +40,8 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
         this.gerenciaForm = this.fb.group({
             gerenciarTerceirizados: this.fb.array([this.createGerencia()])
         });
+        this.gerenciaForm.get('gerenciarTerceirizados').get('0').get('nomeTerceirizado').disable();
+        this.gerenciaForm.get('gerenciarTerceirizados').get('0').get('ativo').disable();
         this.alteracaoForm = this.fb.group({
             alterarFuncoesTerceirizados: this.fb.array([])
         });
@@ -62,7 +64,10 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
 
     createGerencia(): FormGroup {
         return this.fb.group({
-            terceirizado: new FormControl('', [Validators.required]),
+            cpfTerceirizado: new FormControl('', [Validators.required, Validators.maxLength(11), Validators.minLength(11)],
+              this.cpfAsyncValidator.bind(this)),
+            nomeTerceirizado: new FormControl('', [Validators.required]).disable(),
+            ativo: new FormControl('', [Validators.required]).disable(),
             funcao: new FormControl('', [Validators.required]),
             dataInicio: new FormControl('', [Validators.required, this.myDateValidator])
         });
@@ -85,7 +90,10 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
 
     adicionaGerenciar() {
         this.gerenciar.push(this.fb.group({
-            terceirizado: new FormControl(),
+            cpfTerceirizado: new FormControl('', [Validators.required, Validators.maxLength(11), Validators.minLength(11)]
+            , this.cpfAsyncValidator.bind(this)),
+            nomeTerceirizado: new FormControl('', [Validators.required]).disable(),
+            ativo: new FormControl('', [Validators.required]).disable(),
             funcao: new FormControl(),
             dataInicio: new FormControl()
         }));
@@ -366,5 +374,22 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
                 this.openModal5();
             }
         });
+    }
+    cpfAsyncValidator(control: AbstractControl) {
+      const cpf: string = control.value;
+      const mensagem = [];
+      if (cpf.length === 11 && control.valid) {
+        this.funcServ.verificaTerceirizadoContrato(cpf).subscribe(res => {
+
+        });
+
+      }
+      return (mensagem.length > 0) ? {'mensagem': [mensagem]} : null;
+    }
+    getTerceirizado(indice: number) {
+      const cpf: string = this.gerenciaForm.get('gerenciarTerceirizados').get('' + indice).get('cpfTerceirizado').value;
+      if (cpf.length === 11 && this.gerenciaForm.get('gerenciarTerceirizados').get('' + indice).get('cpfTerceirizado').valid) {
+
+      }
     }
 }
