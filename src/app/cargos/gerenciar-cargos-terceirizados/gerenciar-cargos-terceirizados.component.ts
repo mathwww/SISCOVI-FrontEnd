@@ -8,6 +8,7 @@ import {Cargo} from '../cargo';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CargosFuncionarios} from '../cargos-dos-funcionarios/cargos.funcionarios';
 import {MaterializeAction} from 'angular2-materialize';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
     selector: 'app-gerenciar-cargos-terceirizados-component',
@@ -375,17 +376,29 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
             }
         });
     }
+
     cpfAsyncValidator(control: AbstractControl) {
       const cpf: string = control.value;
       const mensagem = [];
-      if (cpf.length === 11 && control.valid) {
+      if (cpf.length === 11) {
         this.funcServ.verificaTerceirizadoContrato(cpf).subscribe(res => {
+            console.log(res);
+            const terceirizado: Funcionario = res;
+            if (terceirizado) {
+               control.parent.get('nomeTerceirizado').enable();
+                control.parent.get('nomeTerceirizado').setValue(terceirizado.nome);
+                control.parent.get('ativo').enable();
 
-        });
+            }
+        },
+            error => {
+                mensagem.push(error);
+            });
 
       }
-      return (mensagem.length > 0) ? {'mensagem': [mensagem]} : null;
+      return Observable.of((mensagem.length > 0) ? {'mensagem': [mensagem]} : null);
     }
+
     getTerceirizado(indice: number) {
       const cpf: string = this.gerenciaForm.get('gerenciarTerceirizados').get('' + indice).get('cpfTerceirizado').value;
       if (cpf.length === 11 && this.gerenciaForm.get('gerenciarTerceirizados').get('' + indice).get('cpfTerceirizado').valid) {

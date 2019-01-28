@@ -58,7 +58,7 @@ export class FuncionariosService {
     }
 
   verificaTerceirizadoContrato(cpf: string) {
-    const url = this.config.myApi + 'funcionarios';
+    const url = this.config.myApi + '/funcionarios/verificaExistenciaTerceirizado/' + cpf;
     return this.http.get(url).map(res => res.json());
   }
 }
