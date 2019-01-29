@@ -31,3 +31,13 @@
 .input-field .prefix.active {
   color: red;
 }
+input[type="text"][disabled] {
+  color: black;
+  text-decoration: solid;
+  font-weight: bold;
+}
+textarea[type="text"][disabled] {
+  color: black;
+  text-decoration: solid;
+  font-weight: bold;
+}

@@ -387,7 +387,7 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
       control.parent.get('nomeTerceirizado').reset();
       control.parent.get('ativo').reset();
       if (cpf.length === 11) {
-        this.funcServ.verificaTerceirizadoContrato(cpf).subscribe(res => {
+        this.funcServ.verificaTerceirizadoContrato(cpf, this.codigo).subscribe(res => {
             const terceirizado: Funcionario = res;
             if (terceirizado) {
                // control.parent.get('nomeTerceirizado').enable();
@@ -420,12 +420,5 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
       return Observable.of((mensagem.length > 0 ) ? mensagem : null).pipe(
         map(result => (mensagem.length > 0) ? {'mensagem': mensagem} : null)
       );
-    }
-
-    getTerceirizado(indice: number) {
-      const cpf: string = this.gerenciaForm.get('gerenciarTerceirizados').get('' + indice).get('cpfTerceirizado').value;
-      if (cpf.length === 11 && this.gerenciaForm.get('gerenciarTerceirizados').get('' + indice).get('cpfTerceirizado').valid) {
-
-      }
     }
 }

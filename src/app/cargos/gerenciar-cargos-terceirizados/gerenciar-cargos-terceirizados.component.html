@@ -14,6 +14,7 @@
                 <option disabled>Selecione uma opção</option>
                 <option value="ALOCAÇÃO">Alocar novo terceirizado</option>
                 <option value="ALTERAÇÃO">Alteração de função</option>
+                <option value="DESATIVAÇÃO">Desativação de Terceirizado</option>
             </select>
         </div>
     </div>
@@ -33,7 +34,6 @@
                             <tr>
                                 <th>CPF do Terceirizado</th>
                                 <th>Nome do Terceirizado</th>
-                                <th>Ativo</th>
                                 <th>Função</th>
                                 <th>Data de Início</th>
                             </tr>
@@ -42,13 +42,13 @@
                             <tr *ngFor="let formulario of gerenciar.controls; let i = index" [formGroupName]="i">
                                 <td>
                                     <div class="row">
-                                      <div class="input-field col">
+                                      <div class="input-field col s8">
                                           <input id="cpf_terceirizado_nao_alocado" placeholder="Digite o CPF" type="text" class="validate" formControlName="cpfTerceirizado"
                                                  appKzMask="999.999.999-99" required autocomplete="off">
                                           <label for="cpf_terceirizado_nao_alocado">CPF<span class="mensagem-erro">*</span></label>
                                         <div *ngIf="gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').invalid &&
                                         (gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').dirty)">
-                                          <div *ngIf="gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').errors">
+                                          <div *ngIf="gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').hasError('0')">
                                             <div *ngFor="let msg of gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').errors">
                                               <span class="mensagem-erro">{{msg}}</span>
                                             </div>
@@ -62,7 +62,7 @@
                                 </td>
                               <td>
                                 <div class="row">
-                                  <div class="input-field col">
+                                  <div class="input-field col s8">
                                     <input materialize id="nome_terceirizado" type="text" class="validate" formControlName="nomeTerceirizado" placeholder="" required>
                                     <label for="nome_terceirizado">Nome Terceirizado<span class="mensagem-erro">*</span></label>
                                     <div *ngIf="gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('nomeTerceirizado').invalid &&
@@ -81,7 +81,7 @@
                                   </div>
                                 </div>
                               </td>
-                              <td>
+                              <!--<td>
                                 <div class="row">
                                   <div class="input-field col">
                                     <select id="terceirizado_ativo" formControlName="ativo" materialize="material_select" required>
@@ -100,12 +100,12 @@
                                         </div>
                                       </div>
                                       <div *ngIf="gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('ativo').getError('required')">
-                                        <span class="mensagem-erro">Selecione se o status do terceirizado no contrato</span>
+                                        <span class="mensagem-erro">Selecione o status do terceirizado no contrato</span>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                              </td>
+                              </td> -->
                                 <td>
                                     <div class="row">
                                       <div class="input-field col s12">
@@ -119,7 +119,7 @@
                                 </td>
                                 <td>
                                   <div class="row">
-                                      <div class="input-field col">
+                                      <div class="input-field col s8">
                                           <input id="data_inicio_funcao"  formControlName="dataInicio" class="validate" type="text" appMaskDate required maxlength="10" minlength="10">
                                           <label for="data_inicio_funcao">Data de Início na Função<span class="mensagem-erro">*</span></label>
                                       </div>
