@@ -9,6 +9,8 @@ import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validat
 import {CargosFuncionarios} from '../cargos-dos-funcionarios/cargos.funcionarios';
 import {MaterializeAction} from 'angular2-materialize';
 import {Observable} from 'rxjs/Observable';
+import {map} from 'rxjs/operators';
+import {Error} from '../../_shared/error';
 
 @Component({
     selector: 'app-gerenciar-cargos-terceirizados-component',
@@ -382,17 +384,20 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
       const mensagem = [];
       control.parent.get('nomeTerceirizado').disable();
       control.parent.get('ativo').disable();
+      control.parent.get('nomeTerceirizado').reset();
+      control.parent.get('ativo').reset();
       if (cpf.length === 11) {
         this.funcServ.verificaTerceirizadoContrato(cpf).subscribe(res => {
-            console.log(res);
             const terceirizado: Funcionario = res;
             if (terceirizado) {
-               control.parent.get('nomeTerceirizado').enable();
+               // control.parent.get('nomeTerceirizado').enable();
                 control.parent.get('nomeTerceirizado').setValue(terceirizado.nome);
-                control.parent.get('ativo').enable();
+               // control.parent.get('ativo').enable();
                 control.parent.get('ativo').setValue(terceirizado.ativo);
 
             } else {
+              control.parent.get('ativo').setValue('');
+              control.parent.get('nomeTerceirizado').setValue('');
               control.parent.get('nomeTerceirizado').enable();
               control.parent.get('ativo').enable();
               control.parent.get('ativo').updateValueAndValidity();
@@ -404,11 +409,17 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
             }
         },
             error => {
-                mensagem.push(error);
+                const serverError: Error = error.json();
+                mensagem.push(serverError.error);
+                control.setErrors(mensagem);
+                control.parent.get('ativo').setValue('');
+                control.parent.get('nomeTerceirizado').setValue('');
             });
 
       }
-      return Observable.of((mensagem.length > 0) ? {'mensagem': [mensagem]} : null);
+      return Observable.of((mensagem.length > 0 ) ? mensagem : null).pipe(
+        map(result => (mensagem.length > 0) ? {'mensagem': mensagem} : null)
+      );
     }
 
     getTerceirizado(indice: number) {

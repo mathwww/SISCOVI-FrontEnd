@@ -47,11 +47,9 @@
                                                  appKzMask="999.999.999-99" required autocomplete="off">
                                           <label for="cpf_terceirizado_nao_alocado">CPF<span class="mensagem-erro">*</span></label>
                                         <div *ngIf="gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').invalid &&
-                                        (gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').dirty ||
-                                        gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').touched)">
-                                          <div *ngIf="gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').getError('mensagem') &&
-                                          !gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').errors.required">
-                                            <div *ngFor="let msg of gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').getError('mensagem')[0]">
+                                        (gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').dirty)">
+                                          <div *ngIf="gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').errors">
+                                            <div *ngFor="let msg of gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('cpfTerceirizado').errors">
                                               <span class="mensagem-erro">{{msg}}</span>
                                             </div>
                                           </div>
@@ -122,7 +120,7 @@
                                 <td>
                                   <div class="row">
                                       <div class="input-field col">
-                                          <input id="data_inicio_funcao" formControlName="dataInicio" class="validate" type="text" appMaskDate required maxlength="10" minlength="10">
+                                          <input id="data_inicio_funcao"  formControlName="dataInicio" class="validate" type="text" appMaskDate required maxlength="10" minlength="10">
                                           <label for="data_inicio_funcao">Data de Início na Função<span class="mensagem-erro">*</span></label>
                                       </div>
                                   </div>
