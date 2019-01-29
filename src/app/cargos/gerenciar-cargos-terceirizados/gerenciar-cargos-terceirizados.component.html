@@ -67,6 +67,19 @@
                                   <div class="input-field col">
                                     <input materialize id="nome_terceirizado" type="text" class="validate" formControlName="nomeTerceirizado" placeholder="" required>
                                     <label for="nome_terceirizado">Nome Terceirizado<span class="mensagem-erro">*</span></label>
+                                    <div *ngIf="gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('nomeTerceirizado').invalid &&
+                                        (gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('nomeTerceirizado').dirty ||
+                                        gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('nomeTerceirizado').touched)">
+                                      <div *ngIf="gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('nomeTerceirizado').getError('mensagem') &&
+                                          !gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('nomeTerceirizado').errors.required">
+                                        <div *ngFor="let msg of gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('nomeTerceirizado').getError('mensagem')[0]">
+                                          <span class="mensagem-erro">{{msg}}</span>
+                                        </div>
+                                      </div>
+                                      <div *ngIf="gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('nomeTerceirizado').getError('required')">
+                                        <span class="mensagem-erro">Você deve digitar um nome !</span>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </td>
@@ -79,6 +92,19 @@
                                       <option value="N">Não</option>
                                     </select>
                                     <label for="terceirizado_ativo">Ativo<span class="mensagem-erro">*</span></label>
+                                    <div *ngIf="gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('ativo').invalid &&
+                                        (gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('ativo').dirty ||
+                                        gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('ativo').touched)">
+                                      <div *ngIf="gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('ativo').getError('mensagem') &&
+                                          !gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('ativo').errors.required">
+                                        <div *ngFor="let msg of gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('ativo').getError('mensagem')[0]">
+                                          <span class="mensagem-erro">{{msg}}</span>
+                                        </div>
+                                      </div>
+                                      <div *ngIf="gerenciaForm.get('gerenciarTerceirizados').get('' + i).get('ativo').getError('required')">
+                                        <span class="mensagem-erro">Selecione se o status do terceirizado no contrato</span>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </td>

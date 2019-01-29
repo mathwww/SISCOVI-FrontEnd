@@ -380,6 +380,8 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
     cpfAsyncValidator(control: AbstractControl) {
       const cpf: string = control.value;
       const mensagem = [];
+      control.parent.get('nomeTerceirizado').disable();
+      control.parent.get('ativo').disable();
       if (cpf.length === 11) {
         this.funcServ.verificaTerceirizadoContrato(cpf).subscribe(res => {
             console.log(res);
@@ -388,7 +390,17 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
                control.parent.get('nomeTerceirizado').enable();
                 control.parent.get('nomeTerceirizado').setValue(terceirizado.nome);
                 control.parent.get('ativo').enable();
+                control.parent.get('ativo').setValue(terceirizado.ativo);
 
+            } else {
+              control.parent.get('nomeTerceirizado').enable();
+              control.parent.get('ativo').enable();
+              control.parent.get('ativo').updateValueAndValidity();
+              control.parent.get('nomeTerceirizado').updateValueAndValidity();
+              control.parent.get('nomeTerceirizado').markAsTouched();
+              control.parent.get('ativo').markAsTouched();
+              control.parent.get('nomeTerceirizado').markAsDirty();
+              control.parent.get('ativo').markAsDirty();
             }
         },
             error => {
