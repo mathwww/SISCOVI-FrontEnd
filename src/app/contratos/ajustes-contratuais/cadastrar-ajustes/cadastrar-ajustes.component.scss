@@ -105,3 +105,8 @@ input[type="text"][disabled] {
   text-decoration: solid !important;
   font-weight: bold !important;
 }
+div .select-wrapper input .select-dropdown.disabled.initialized:disabled {
+  color: black !important;
+  text-decoration: solid !important;
+  font-weight: bold !important;
+}
