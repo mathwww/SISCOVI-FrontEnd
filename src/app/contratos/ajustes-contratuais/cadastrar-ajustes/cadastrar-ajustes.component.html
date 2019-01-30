@@ -5,8 +5,8 @@
         <select materialize="material_select" [materializeSelectOptions]="contratos"
                 (change)="enableField($event.target.value)">
             <option disabled>Selecione um Contrato</option>
-            <option *ngFor="let contrato of contratos" [value]="contrato.codigo">{{contrato.nomeDaEmpresa}} - Contrato
-                Nº: {{contrato.numeroDoContrato}}/{{contrato.anoDoContrato}}
+            <option *ngFor="let contrato of contratos" [value]="contrato.codigo">
+                {{contrato.nomeDaEmpresa}} - Contrato Nº: {{contrato.numeroDoContrato}}/{{contrato.anoDoContrato}}
             </option>
         </select>
     </div>
@@ -195,11 +195,11 @@
                                 <div class="input-field col s12 form-group">
                                     <select [materializeSelectOptions]="convencoesColetivas" formControlName="convencao"
                                             materialize="material_select" class="cargos validate"
-                                            [ngModel]="cargosCadastrados" (change)="selectConvencao($event.target.value, i)">
+                                            (change)="selectConvencao($event.target.value, i)">
                                         <option disabled>Selecione uma convenção</option>
                                         <option *ngFor="let convencao of convencoesColetivas" [value]="convencao.codigo"
                                                 [selected]="convencao.codigo == this.myForm.get('cargos').get('' + i).get('convencao').value"
-                                        >{{convencao.nome}} - {{convencao.sigla}}
+                                        >{{convencao.sigla}} - {{convencao.nome}}
                                         </option>
                                     </select>
                                     <label>Convenção Coletiva<span class="mensagem-erro">*</span></label>

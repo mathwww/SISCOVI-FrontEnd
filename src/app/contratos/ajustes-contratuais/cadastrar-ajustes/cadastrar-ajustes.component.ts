@@ -151,7 +151,7 @@ export class CadastrarAjustesComponent {
         if (this.contrato) {
             this.myForm.controls.numeroContrato.setValue(this.contrato.numeroDoContrato);
             this.myForm.controls.nomeEmpresa.setValue(this.contrato.nomeDaEmpresa);
-            this.myForm.controls.cnpj.setValue(this.contrato.cnpj);
+            this.myForm.controls.cnpj.setValue(this.formaCNPJ(this.contrato.cnpj));
             this.myForm.controls.objeto.setValue(this.contrato.objeto);
             if (this.contrato.seAtivo === 'S' || this.contrato.seAtivo === 'SIM') {
                 this.myForm.controls.ativo.setValue('Sim');
@@ -198,7 +198,7 @@ export class CadastrarAjustesComponent {
                 addCtrl.controls.adicionais.setValue(funcao.adicionais);
                 if (funcao.convencao) {
                     addCtrl.controls.convencao.setValue(funcao.convencao.codigo);
-                    addCtrl.controls.dataBase.setValue(funcao.convencao.dataBase);
+                    addCtrl.controls.dataBase.setValue(this.dateToString(funcao.convencao.dataBase));
                 }
                 control.push(addCtrl);
             });
@@ -214,15 +214,24 @@ export class CadastrarAjustesComponent {
         }
     }
 
-    selectConvencao(codConvencao: number, indexForm: number): void {
+   protected selectConvencao(codConvencao: number, indexForm: number): void {
         const i: number = this.convencoesColetivas.findIndex(item => item.codigo === Number(codConvencao));
         if (i !== -1) {
             this.getFormArrayItems()[indexForm].get('dataBase').setValue(this.dateToString(this.convencoesColetivas[i].dataBase));
         }
     }
 
-    dateToString(value: any): string {
+    private dateToString(value: any): string {
         const date: string[] = value.split('-');
         return date[2] + '/' + date[1] + '/' + date['0'];
+    }
+
+    private formaCNPJ(value: string): string {
+        const firstString: string = value.substring(0, 2);
+        const secondString: string = value.substring(2, 5);
+        const thirdString: string = value.substring(5, 8);
+        const fourthString: string = value.substring(8, 12);
+        const fifthString: string = value.substring(12);
+        return firstString + '.' + secondString + '.' + thirdString + '/' + fourthString + '-' + fifthString;
     }
 }
