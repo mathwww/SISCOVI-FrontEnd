@@ -17,21 +17,21 @@
             <h5 class="left-align">Informações Gerais</h5>
             <div class="row">
                 <div class="input-field col s5">
-                    <select materialize="material_select" id="tipo_ajuste" formControlName="tipoAjuste">
+                    <select materialize="material_select" id="tipo_ajuste" formControlName="tipoAjuste" required>
                         <option disabled>Selecione o tipo de Ajuste</option>
                         <option value="Apostilamento">Apostilamento</option>
                         <option value="Termo Aditivo">Termo Aditivo</option>
                     </select>
-                    <label for="tipo_ajuste">Tipo de Ajuste</label>
+                    <label for="tipo_ajuste">Tipo de Ajuste<span class="mensagem-erro">*</span></label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s5">
-                    <select materialize="material_select" id="prorrogacao" formControlName="prorrogacao">
+                    <select materialize="material_select" id="prorrogacao" formControlName="prorrogacao" required>
                         <option selected>Não</option>
                         <option>Sim</option>
                     </select>
-                    <label for="prorrogacao">Prorrogação</label>
+                    <label for="prorrogacao">Prorrogação<span class="mensagem-erro">*</span></label>
                 </div>
             </div>
             <div class="row">
@@ -181,7 +181,7 @@
                         <div class="input-field col form-group">
                             <input id="trienios_field" formControlName="trienios" type="text" currencyMask
                                    [options]="{prefix: 'R$', thousands: '.', decimal: ',', allowNegative: 'false'}"
-                                   required>
+                                   >
                             <label for="trienios_field">Triênios</label>
                         </div>
                         <div class="input-field col form-group">

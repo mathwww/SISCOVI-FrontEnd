@@ -113,14 +113,14 @@ export class CadastrarAjustesComponent {
             inicioVigencia: new FormControl('', [Validators.required]),
             fimVigencia: new FormControl('', [Validators.required]),
             assunto: new FormControl(''),
-            percentualFerias: new FormControl(''),
-            percentualDecimoTerceiro: new FormControl(''),
+            percentualFerias: new FormControl('', [Validators.required]),
+            percentualDecimoTerceiro: new FormControl('', [Validators.required]),
             percentualIncidencia: new FormControl(''),
             numeroContrato: new FormControl('', [Validators.required]),
             nomeEmpresa: new FormControl('', [Validators.required]),
             cnpj: new FormControl('', [Validators.required]),
             ativo: new FormControl('', [Validators.required]),
-            objeto: new FormControl('', [Validators.required])
+            objeto: new FormControl('')
         });
         this.initCargos();
     }
