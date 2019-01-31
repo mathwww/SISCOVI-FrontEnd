@@ -31,6 +31,7 @@ import {GerenciarCargosTerceirizadosComponent} from './cargos/gerenciar-cargos-t
 import {CadastroContratoComponent} from './contratos/cadastro-contrato/cadastro.contrato.component';
 import {SaldoTotalComponent} from './saldo/total/saldo-total.component';
 import {SaldoIndividualComponent} from './saldo/individual/saldo-individual-component';
+import {CadastrarAjustesComponent} from './contratos/ajustes-contratuais/cadastrar-ajustes/cadastrar-ajustes.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'home'},
@@ -64,13 +65,14 @@ const routes: Routes = [
       {path: 'saldoConta', component: InicioComponent, canActivate: [LoggedInGuard]},
       {path: 'percentEst', component: PercentuaisEstaticosComponent, canActivate: [LoggedInGuard, ProfileGuard]},
       {path: 'ajustes-contratuais', component: AjusteContratoComponent, canActivate: [LoggedInGuard]},
+      {path: 'ajustes-contratuais/cadastrar-ajuste', component: CadastrarAjustesComponent, canActivate: [LoggedInGuard]},
       {path: 'historico-gestores', component: HistoricoGestoresComponent, canActivate: [LoggedInGuard]},
       {path: 'historico-gestores/:id', component: CadastrarGestorContratoComponent, canActivate: [LoggedInGuard]},
       {path: 'historico-gestores/cadastro-gestor-contrato', component: CadastrarGestorContratoComponent, canActivate: [LoggedInGuard]},
       {path: 'funcoes-dos-terceirizados/gerenciar-funcoes-terceirizados', component: GerenciarCargosTerceirizadosComponent, canActivate: [LoggedInGuard]},
       {path: 'contratos/cadastro-contrato', component: CadastroContratoComponent, canActivate: [LoggedInGuard]},
       {path: 'saldo/individual', component: SaldoIndividualComponent, canActivate: [LoggedInGuard]},
-      {path: 'saldo/total', component: SaldoTotalComponent, canActivate: [LoggedInGuard]}
+      {path: 'saldo/total', component: SaldoTotalComponent, canActivate: [LoggedInGuard]},
     ]}
 ];
 @NgModule({
