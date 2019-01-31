@@ -43,3 +43,6 @@ Thumbs.db
 package-lock.json
 package.json
 src/app/_shared/config.service.ts
+package-lock.json
+package.json
+src/app/_shared/config.service.ts
