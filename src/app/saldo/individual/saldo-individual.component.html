@@ -21,12 +21,12 @@
     <tr>
       <th >Terceirizado</th>
       <th >CPF</th>
-      <th >Férias retido</th>
-      <th >Terço constitucional retido</th>
-      <th >Décimo terceiro retido</th>
-      <th >Incidência retido</th>
-      <th >MULTA do FGTS retido</th>
-      <th >Férias restituído</th>
+      <th >Férias</th>
+      <th >Terço constitucional</th>
+      <th >Décimo terceiro</th>
+      <th >Incidência</th>
+      <th >MULTA do FGTS</th>
+      <!--
       <th >Terço const. restituído</th>
       <th >Incid. de férias restituído</th>
       <th >Incid. de terço restituído</th>
@@ -36,6 +36,7 @@
       <th >Total de 13º restituído</th>
       <th >Total retido</th>
       <th >Total restituído</th>
+      -->
       <th >Saldo</th>
     </tr>
     </thead>
@@ -43,11 +44,12 @@
     <tr *ngFor="let saldo of saldos; let k = index">
       <td >{{saldo.nomeFuncionario}}</td>
       <td >{{saldo.Cpf}}</td>
-      <td >{{saldo.feriasRetido | currency:'BRL':true:'1.2-2'}}</td>
-      <td >{{saldo.tercoRetido | currency:'BRL':true:'1.2-2'}}</td>
-      <td >{{saldo.decimoTerceiroRetido | currency:'BRL':true:'1.2-2'}}</td>
-      <td >{{saldo.incidenciaRetido | currency:'BRL':true:'1.2-2'}}</td>
+      <td >{{saldo.feriasRetido - saldo.feriasRestituido | currency:'BRL':true:'1.2-2'}}</td>
+      <td >{{saldo.tercoRetido - saldo.tercoRestituido | currency:'BRL':true:'1.2-2'}}</td>
+      <td >{{saldo.decimoTerceiroRetido - saldo.decimoTerceiroRestituido | currency:'BRL':true:'1.2-2'}}</td>
+      <td >{{saldo.incidenciaRetido - saldo.incidenciaFeriasRestituido - saldo.incidenciaTercoRestituido - saldo.incidenciaDecimoTerceiroRestituido | currency:'BRL':true:'1.2-2'}}</td>
       <td >{{saldo.multaFgtsRetido | currency:'BRL':true:'1.2-2'}}</td>
+      <!--
       <td >{{saldo.feriasRestituido | currency:'BRL':true:'1.2-2'}}</td>
       <td >{{saldo.tercoRestituido | currency:'BRL':true:'1.2-2'}}</td>
       <td >{{saldo.incidenciaFeriasRestituido | currency:'BRL':true:'1.2-2'}}</td>
@@ -58,6 +60,7 @@
       <td >{{saldo.totalDecimoTerceiroRestituido | currency:'BRL':true:'1.2-2'}}</td>
       <td >{{saldo.totalRetido | currency:'BRL':true:'1.2-2'}}</td>
       <td >{{saldo.totalRestituido | currency:'BRL':true:'1.2-2'}}</td>
+      -->
       <td >{{saldo.saldo | currency:'BRL':true:'1.2-2'}}</td>
     </tr>
     </tbody>

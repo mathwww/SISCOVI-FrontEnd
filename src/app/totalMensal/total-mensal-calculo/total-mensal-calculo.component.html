@@ -88,7 +88,18 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn waves-effect left" (click)="closeModal()">Confirmar cálculo</button>
-        <button class="btn waves-effect right" (click)="apagarCalculo()">Cancelar</button>
+        <button class="btn waves-effect left" (click)="apagarCalculo()">Cancelar</button>
+        <button class="btn waves-effect right" (click)="closeModal()">Confirmar cálculo</button>
     </div>
+</div>
+
+<div id="modal2" class="modal" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions2">
+  <div class="modal-content">
+    <h4 class="center">Sucesso</h4>
+    <br>
+    <h5 class=" center">Os cálculos foram realizados com sucesso</h5>
+  </div>
+  <div class="modal-footer">
+    <button class="btn waves-effect center"  (click)="navegaViewAprov()">Ok</button>
+  </div>
 </div>

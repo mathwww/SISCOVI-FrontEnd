@@ -25,9 +25,11 @@ export class TotalMensalCalculoComponent implements OnInit {
   currentMonth = new Date().getMonth() + 1;
   fb: FormBuilder;
   modalActions = new EventEmitter<string | MaterializeAction>();
+  modalActions2 = new EventEmitter<string| MaterializeAction>();
   tmService: TotalMensalService;
   resultado: TotalMensal[];
   @Output() close = new EventEmitter();
+  @Output() navegaParaViewDeCalculos = new EventEmitter();
     private anoSelecionado: number;
   constructor(contServ: ContratosService, fb: FormBuilder, tmService: TotalMensalService) {
       this.tmService = tmService;
@@ -154,7 +156,21 @@ export class TotalMensalCalculoComponent implements OnInit {
       this.modalActions.emit({action: 'modal', params: ['close']});
       if (this.resultado) {
           this.close.emit(this.myForm.get('contrato').value);
+          this.openModal2();
       }
   }
-  apagarCalculo() { }
+  openModal2() {
+    this.modalActions2.emit({action: 'modal', params: ['open']});
+  }
+  closeModal2() {
+    this.modalActions2.emit({action: 'modal', params: ['close']});
+  }
+  apagarCalculo() {
+    this.modalActions.emit({action: 'modal', params: ['close']});
+  }
+
+  navegaViewAprov() {
+    this.closeModal2();
+    this.navegaParaViewDeCalculos.emit(this.codigoContrato);
+  }
 }
