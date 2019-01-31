@@ -11,6 +11,8 @@ import {Percentual} from '../../../percentuais/percentual';
 import {Convencao} from '../../../convencoes-coletivas/convencao';
 import {ConvencaoService} from '../../../convencoes-coletivas/convencao.service';
 import {CargoService} from '../../../cargos/cargo.service';
+import {EventoContratual} from '../evento-contratual';
+import {TipoEventoContratual} from '../tipo-evento-contratual';
 
 @Component({
   selector: 'app-cadastrar-ajustes',
@@ -34,6 +36,7 @@ export class CadastrarAjustesComponent {
   primeiroSubstituto: string;
   segundoSubstituto: string;
   cadastroAjuste = new EventEmitter();
+  tiposEventosContratuais: TipoEventoContratual[] = [];
 
   constructor(private contratoService: ContratosService, private userService: UserService, private config: ConfigService, private  fb: FormBuilder, private percentService: PercentualService,
               private convService: ConvencaoService, private ref: ChangeDetectorRef, private cargoService: CargoService) {
@@ -69,6 +72,9 @@ export class CadastrarAjustesComponent {
       this.cargosCadastrados = res;
     }, error2 => {
       console.log(error2);
+    });
+    this.contratoService.getTiposEventosContratuais().subscribe(res => {
+        this.tiposEventosContratuais = res;
     });
   }
 
@@ -237,4 +243,20 @@ export class CadastrarAjustesComponent {
     const fifthString: string = value.substring(12);
     return firstString + '.' + secondString + '.' + thirdString + '/' + fourthString + '-' + fifthString;
   }
+
+    verificaAjusteASerCadastrado() {
+        const contrato: Contrato = this.contrato;
+        this.tiposEventosContratuais.findIndex(item => item.cod === Number(this.myForm.get('gerenciaContrato').get('tipo').value));
+        const eventoContratual: EventoContratual = new EventoContratual();
+    }
+    public findInvalidControls() {
+        const invalid = [];
+        const controls = this.myForm.controls;
+        for (const name in controls) {
+            if (controls[name].invalid) {
+                invalid.push({nome: name, error: [controls[name].errors]});
+            }
+        }
+        return invalid;
+    }
 }
