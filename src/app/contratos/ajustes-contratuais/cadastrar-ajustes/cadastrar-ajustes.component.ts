@@ -74,7 +74,7 @@ export class CadastrarAjustesComponent {
       console.log(error2);
     });
     this.contratoService.getTiposEventosContratuais().subscribe(res => {
-        this.tiposEventosContratuais = res;
+      this.tiposEventosContratuais = res;
     });
   }
 
@@ -114,7 +114,7 @@ export class CadastrarAjustesComponent {
     this.myForm = this.fb.group({
       cargos: this.fb.array([]),
       tipoAjuste: new FormControl('', [Validators.required]),
-      prorrogacao: new FormControl('Não', [Validators.required]),
+      prorrogacao: new FormControl('N', [Validators.required]),
       gestor: new FormControl('', [Validators.required]),
       primeiroSubstituto: new FormControl(''),
       segundoSubstituto: new FormControl(''),
@@ -244,19 +244,37 @@ export class CadastrarAjustesComponent {
     return firstString + '.' + secondString + '.' + thirdString + '/' + fourthString + '-' + fifthString;
   }
 
-    verificaAjusteASerCadastrado() {
-        const contrato: Contrato = this.contrato;
-        this.tiposEventosContratuais.findIndex(item => item.cod === Number(this.myForm.get('gerenciaContrato').get('tipo').value));
-        const eventoContratual: EventoContratual = new EventoContratual();
+  verificaAjusteASerCadastrado() {
+    const contrato: Contrato = this.contrato;
+    const eventoContratual: EventoContratual = new EventoContratual();
+    const index: number = this.tiposEventosContratuais.findIndex(item => item.cod === Number(this.myForm.get('tipoAjuste').value));
+    if (index !== -1) {
+      eventoContratual.tipo = this.tiposEventosContratuais[index];
     }
-    public findInvalidControls() {
-        const invalid = [];
-        const controls = this.myForm.controls;
-        for (const name in controls) {
-            if (controls[name].invalid) {
-                invalid.push({nome: name, error: [controls[name].errors]});
-            }
+    eventoContratual.assunto = this.myForm.get('assunto').value;
+    eventoContratual.prorrogacao = this.myForm.get('prorrogacao').value;
+    eventoContratual.dataInicioVigencia = this.myForm.get('inicioVigencia').value;
+    eventoContratual.dataFimVigencia = this.myForm.get('fimVigencia').value;
+    eventoContratual.dataAssinatura = this.myForm.get('assinatura').value;
+
+    this.getFormArrayItems().forEach(control => {
+        const funcao: Cargo = this.contrato.funcoes.find(item => item.nome === control.value);
+        if (funcao) {
+          /*if (control.parent.get('remuneracao').value === ) {
+
+          }*/
         }
-        return invalid;
+    });
+  }
+
+  public findInvalidControls() {
+    const invalid = [];
+    const controls = this.myForm.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        invalid.push({nome: name, error: [controls[name].errors]});
+      }
     }
+    return invalid;
+  }
 }
