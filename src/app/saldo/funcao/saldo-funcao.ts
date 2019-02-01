@@ -1,4 +1,4 @@
-export class SaldoTotal {
+export class SaldoFuncao {
 
   funcao: String;
   valorFeriasRetido: number;

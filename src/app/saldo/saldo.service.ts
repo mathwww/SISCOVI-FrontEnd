@@ -2,7 +2,7 @@ import {EventEmitter, Injectable, Output} from '@angular/core';
 import {Http} from '@angular/http';
 import {ConfigService} from '../_shared/config.service';
 import {Observable} from 'rxjs/Observable';
-import {SaldoTotal} from './total/saldo-total';
+import {SaldoFuncao} from './funcao/saldo-funcao';
 
 
 @Injectable()
@@ -15,8 +15,8 @@ export class SaldoService {
     const ano = Number(a[2]);
     return new Date(ano, mes, dia);
   }
-  getSaldoTotal(codigoContrato: number) {
-    const url = this.config.myApi + '/saldo/getSaldoTotal/' + codigoContrato + '/' + this.config.user.id;
+  getSaldoFuncao(codigoContrato: number) {
+    const url = this.config.myApi + '/saldo/getSaldoFuncao/' + codigoContrato + '/' + this.config.user.id;
     return this.http.get(url).map(res => res.json());
   }
   getSaldoIndividual(codigoContrato: number) {
