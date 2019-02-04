@@ -1,6 +1,7 @@
 import {HistoricoGestor} from '../historico/historico-gestor';
 import {Cargo} from '../cargos/cargo';
 import {Percentual} from '../percentuais/percentual';
+import {EventoContratual} from './ajustes-contratuais/evento-contratual';
 
 export class Contrato {
   public cnpj: string;
@@ -19,7 +20,7 @@ export class Contrato {
   public numeroProcessoSTJ: string;
   public loginAtualizacao: string;
   public dataAtualizacao: Date;
-
+  public eventoContratual: EventoContratual;
 
   constructor(nomeDaEmpresa: string, cnpj: string, codigo: number, numeroDoContrato: string, anoDoContrato: number, dataInicio: Date, dataFim: Date, objeto: string,
               seAtivo: string, historicoGestao: HistoricoGestor[], funcoes: Cargo[]) {
