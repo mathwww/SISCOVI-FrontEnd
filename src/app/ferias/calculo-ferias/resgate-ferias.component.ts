@@ -143,7 +143,7 @@ export class ResgateFeriasComponent implements OnInit {
       let dia: number;
       let mes: number;
       let ano: number;
-      console.log(parcelaSelecionada)
+
       dia = Number(control.parent.get('fimFerias').value.split('/')[0]);
       mes = Number(control.parent.get('fimFerias').value.split('/')[1]) - 1;
       ano = Number(control.parent.get('fimFerias').value.split('/')[2]);
@@ -154,7 +154,7 @@ export class ResgateFeriasComponent implements OnInit {
       const inicioUsufruto: Date = new Date(ano, mes, dia);
       const diff = fimUsufruto.getTime() - inicioUsufruto.getTime();
       diasDeFerias = Math.round(diff / (1000 * 3600 * 24)) + 1;
-      console.log(diasDeFerias);
+
       if (diasDeFerias + diasVendidos > saldo) {
         mensagem.push('A quantidade de dias de férias mais os dias vendido não pode ser superior ao saldo total.');
         error = true;
@@ -269,7 +269,6 @@ export class ResgateFeriasComponent implements OnInit {
         error = true;
       }
 
-      console.log(error);
       return (mensagem.length > 0) ? {'mensagem': [mensagem]} : null;
     }
 
