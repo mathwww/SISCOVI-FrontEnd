@@ -10,7 +10,6 @@ import {SaldoService} from '../saldo.service';
     templateUrl: './saldo-funcao.component.html',
     styleUrls: ['../saldo.component.scss']
 })
-
 export class SaldoFuncaoComponent {
     @Input() codigoContrato: number;
     contratos: Contrato[];
