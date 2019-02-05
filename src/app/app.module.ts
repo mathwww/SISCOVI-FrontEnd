@@ -94,9 +94,9 @@ import {RescisaoPendenteComponent} from './rescisao/rescisoes-pendentes/rescisao
 import {CadastrarTerceirizadoComponent} from './funcionarios/cadastrar-terceirizado/cadastrar-terceirizado.component';
 import {CadastrarGestorContratoComponent} from './historico/cadastrar-gestor/cadastrar-gestor-contrato.component';
 import {GerenciarCargosTerceirizadosComponent} from './cargos/gerenciar-cargos-terceirizados/gerenciar-cargos-terceirizados.component';
-import {SaldoTotalComponent} from './saldo/total/saldo-total.component';
 import {SaldoService} from './saldo/saldo.service';
 import {SaldoIndividualComponent} from './saldo/individual/saldo-individual-component';
+import {SaldoFuncaoComponent} from './saldo/funcao/saldo-funcao.component';
 
 @NgModule({
   declarations: [
@@ -170,7 +170,7 @@ import {SaldoIndividualComponent} from './saldo/individual/saldo-individual-comp
     CadastrarTerceirizadoComponent,
     CadastrarGestorContratoComponent,
     GerenciarCargosTerceirizadosComponent,
-    SaldoTotalComponent,
+    SaldoFuncaoComponent,
     SaldoIndividualComponent,
   ],
   imports: [
