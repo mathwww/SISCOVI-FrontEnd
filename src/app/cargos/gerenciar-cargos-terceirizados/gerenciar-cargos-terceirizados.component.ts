@@ -438,7 +438,6 @@ export class GerenciarCargosTerceirizadosComponent implements OnInit {
         control.parent.get('ativo').disable();
         control.parent.get('nomeTerceirizado').reset();
         control.parent.get('ativo').reset();
-        console.log(control.parent)
         if (cpf.length === 11) {
             this.funcServ.verificaTerceirizadoContrato(cpf, this.codigo).subscribe(res => {
                     const terceirizado: Funcionario = res;

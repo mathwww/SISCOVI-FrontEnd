@@ -137,9 +137,7 @@
                                                 [materializeSelectOptions]="funcoes"
                                                 formControlName="funcao" required>
                                             <option disabled>Selecione uma Função para o Terceirizado</option>
-                                            <option *ngFor="let funcao of funcoes" [value]="funcao.codigo">
-                                                {{funcao.nome}}
-                                            </option>
+                                            <option *ngFor="let funcao of funcoes" [value]="funcao.codigo">{{funcao.nome}}</option>
                                         </select>
                                         <label for="funcoes_contrato">Funções do Contrato<span
                                                 class="mensagem-erro">*</span></label>
@@ -212,8 +210,7 @@
                                                 [materializeSelectOptions]="funcoes">
                                             <option disabled>Selecione um Terceirizado</option>
                                             <option *ngFor="let funcao of funcoes" [value]="funcao.codigo"
-                                                    [selected]="funcao.nome == lista.funcao.nome">{{funcao.nome}}
-                                            </option>
+                                                    [selected]="funcao.nome == lista.funcao.nome">{{funcao.nome}}</option>
                                         </select>
                                         <label for="funcoes_alteracao">Selecione uma nova função <span
                                                 class="mensagem-erro">*</span></label>
